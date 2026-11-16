@@ -1,1 +1,442 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="data:," />
+    <title>作品展示页 · 秋冬造型图集</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
+    <style>
+      button, [role="button"], select, summary, input:not([type="checkbox"], [type="radio"]) { min-height: 2rem; }
 
+      :root {
+        color-scheme: light dark;
+        --ink: #33241a;
+        --ink-soft: #5d4634;
+        --ink-faint: #8a6f57;
+        --panel: rgba(255, 251, 244, 0.82);
+        --panel-solid: #fffaf1;
+        --line: rgba(94, 62, 34, 0.18);
+        --accent: #9a5b23;
+        --accent-ink: #7c4515;
+        --chip-bg: rgba(255, 250, 241, 0.75);
+        --shadow: 0 18px 40px rgba(84, 48, 18, 0.16);
+        --bg-1: #f8e9d2;
+        --bg-2: #f3d3ba;
+        --bg-3: #eed9bd;
+        --bg-4: #f7dfc9;
+        --bg-5: #efd3ae;
+        --glow-a: rgba(255, 196, 110, 0.5);
+        --glow-b: rgba(232, 144, 96, 0.38);
+        --glow-c: rgba(255, 226, 168, 0.45);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --ink: #f3e7d7;
+          --ink-soft: #ddc8ae;
+          --ink-faint: #b39a7d;
+          --panel: rgba(43, 30, 20, 0.85);
+          --panel-solid: #2e2015;
+          --line: rgba(240, 205, 160, 0.22);
+          --accent: #e0a458;
+          --accent-ink: #f0bd76;
+          --chip-bg: rgba(43, 30, 20, 0.8);
+          --shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+          --bg-1: #2b1c11;
+          --bg-2: #3a2312;
+          --bg-3: #241811;
+          --bg-4: #402a16;
+          --bg-5: #31200f;
+          --glow-a: rgba(214, 138, 52, 0.28);
+          --glow-b: rgba(160, 82, 40, 0.24);
+          --glow-c: rgba(226, 170, 84, 0.2);
+        }
+      }
+
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+        color: var(--ink);
+        line-height: 1.65;
+        overflow-x: hidden;
+      }
+
+      /* ---------- 动态背景：暖色渐变缓慢流动 + 光影 ---------- */
+      .bg-flow {
+        position: fixed; inset: 0; z-index: -3;
+        background: linear-gradient(115deg, var(--bg-1), var(--bg-2), var(--bg-3), var(--bg-4), var(--bg-5), var(--bg-2));
+        background-size: 320% 320%;
+        animation: flowShift 36s ease-in-out infinite alternate;
+      }
+      @keyframes flowShift {
+        0%   { background-position: 0% 20%; }
+        50%  { background-position: 60% 80%; }
+        100% { background-position: 100% 30%; }
+      }
+      .bg-glow { position: fixed; inset: 0; z-index: -2; overflow: hidden; pointer-events: none; }
+      .bg-glow span {
+        position: absolute; border-radius: 50%;
+        filter: blur(70px); will-change: transform, opacity;
+      }
+      .bg-glow .g1 {
+        width: 55vmax; height: 55vmax; left: -14vmax; top: -16vmax;
+        background: radial-gradient(circle, var(--glow-a), transparent 65%);
+        animation: drift1 44s ease-in-out infinite alternate;
+      }
+      .bg-glow .g2 {
+        width: 46vmax; height: 46vmax; right: -12vmax; top: 24vh;
+        background: radial-gradient(circle, var(--glow-b), transparent 65%);
+        animation: drift2 52s ease-in-out infinite alternate;
+      }
+      .bg-glow .g3 {
+        width: 40vmax; height: 40vmax; left: 26vw; bottom: -20vmax;
+        background: radial-gradient(circle, var(--glow-c), transparent 65%);
+        animation: drift1 60s ease-in-out infinite alternate-reverse;
+      }
+      @keyframes drift1 {
+        from { transform: translate(0, 0) scale(1); opacity: .85; }
+        to   { transform: translate(9vw, 6vh) scale(1.14); opacity: 1; }
+      }
+      @keyframes drift2 {
+        from { transform: translate(0, 0) scale(1.08); opacity: 1; }
+        to   { transform: translate(-8vw, 9vh) scale(.94); opacity: .8; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .bg-flow, .bg-glow span { animation: none; }
+        html { scroll-behavior: auto; }
+      }
+
+      .wrap { max-width: 1180px; margin: 0 auto; padding: 0 20px 72px; }
+
+      /* ---------- 头部 ---------- */
+      header.hero {
+        display: grid; grid-template-columns: 1.05fr .95fr; gap: 40px;
+        align-items: center; padding: 56px 0 40px;
+      }
+      .hero-kicker {
+        font-size: 13px; letter-spacing: .32em; font-weight: 700;
+        color: var(--accent-ink); margin: 0 0 14px;
+      }
+      h1 {
+        font-family: "Noto Serif SC", "Songti SC", serif;
+        font-size: clamp(34px, 5.4vw, 54px); line-height: 1.18; font-weight: 900;
+        margin: 0 0 18px;
+      }
+      .hero-lede { font-size: 16.5px; color: var(--ink-soft); margin: 0 0 26px; max-width: 34em; }
+      .hero-stats { display: flex; flex-wrap: wrap; gap: 10px 28px; margin: 0 0 30px; }
+      .hero-stats div { min-width: 86px; }
+      .hero-stats b {
+        display: block; font-family: "Noto Serif SC", serif;
+        font-size: 26px; line-height: 1.1; color: var(--ink);
+      }
+      .hero-stats span { font-size: 13px; color: var(--ink-faint); }
+      .hero-cta {
+        display: inline-flex; align-items: center; gap: 8px;
+        min-height: 46px; padding: 10px 22px; border-radius: 999px;
+        background: var(--ink); color: var(--panel-solid); text-decoration: none;
+        font-weight: 700; font-size: 15px;
+      }
+      @media (prefers-color-scheme: dark) { .hero-cta { color: #241708; background: var(--accent); } }
+      .hero-cta:active { transform: scale(.98); }
+      .hero-photo { margin: 0; }
+      .hero-photo img {
+        width: 100%; aspect-ratio: 4 / 4.6; object-fit: cover; object-position: top;
+        border-radius: 18px; box-shadow: var(--shadow); display: block;
+      }
+      .hero-photo figcaption { font-size: 13px; color: var(--ink-faint); margin-top: 10px; text-align: right; }
+
+      /* ---------- 筛选 ---------- */
+      .filters {
+        position: sticky; top: 0; z-index: 20;
+        display: flex; gap: 10px; flex-wrap: wrap;
+        padding: 14px 0 12px;
+      }
+      .chip {
+        min-height: 40px; padding: 8px 18px; border-radius: 999px;
+        border: 1px solid var(--line); background: var(--chip-bg);
+        color: var(--ink-soft); font: inherit; font-size: 14.5px; font-weight: 500;
+        cursor: pointer; backdrop-filter: blur(6px);
+      }
+      .chip[aria-pressed="true"] {
+        background: var(--ink); color: var(--panel-solid); border-color: transparent; font-weight: 700;
+      }
+      @media (prefers-color-scheme: dark) { .chip[aria-pressed="true"] { background: var(--accent); color: #241708; } }
+
+      /* ---------- 图集 ---------- */
+      section.block { margin-top: 34px; }
+      .block-head { display: flex; align-items: baseline; gap: 14px; margin: 0 0 6px; }
+      h2 {
+        font-family: "Noto Serif SC", "Songti SC", serif;
+        font-size: clamp(24px, 3.4vw, 32px); font-weight: 700; margin: 0;
+      }
+      .block-head .count { font-size: 13.5px; color: var(--ink-faint); }
+      .block-sub { color: var(--ink-soft); font-size: 15px; margin: 0 0 22px; max-width: 44em; }
+
+      .grid {
+        display: grid; gap: 20px;
+        grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      }
+      .card {
+        margin: 0; background: var(--panel); border: 1px solid var(--line);
+        border-radius: 14px; overflow: hidden; box-shadow: 0 8px 22px rgba(84, 48, 18, 0.08);
+      }
+      .card button.thumb {
+        display: block; width: 100%; padding: 0; border: 0; background: none; cursor: zoom-in;
+      }
+      .card img {
+        width: 100%; aspect-ratio: 3 / 4; object-fit: cover; object-position: top;
+        display: block;
+      }
+      .card figcaption { padding: 12px 14px 14px; }
+      .card .t { font-weight: 700; font-size: 15px; line-height: 1.4; }
+      .card .m { font-size: 13px; color: var(--ink-faint); margin-top: 3px; }
+      .tag {
+        display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .06em;
+        color: var(--accent-ink); border: 1px solid var(--line); border-radius: 999px;
+        padding: 1px 9px; margin-bottom: 7px; background: var(--chip-bg);
+      }
+      .card.is-hidden { display: none; }
+      .empty-note { display: none; color: var(--ink-faint); padding: 18px 0; }
+      .empty-note.show { display: block; }
+
+      .grid.derived { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+
+      footer {
+        margin-top: 64px; padding-top: 22px; border-top: 1px solid var(--line);
+        display: flex; flex-wrap: wrap; gap: 8px 20px; justify-content: space-between;
+        font-size: 13.5px; color: var(--ink-faint);
+      }
+      footer b { color: var(--ink-soft); font-family: "Noto Serif SC", serif; }
+
+      /* ---------- 灯箱 ---------- */
+      .lightbox {
+        position: fixed; inset: 0; z-index: 60; display: none;
+        background: rgba(20, 12, 6, 0.92);
+        align-items: center; justify-content: center; flex-direction: column;
+        padding: 18px;
+      }
+      .lightbox.open { display: flex; }
+      .lightbox figure { margin: 0; max-width: min(92vw, 560px); text-align: center; }
+      .lightbox img {
+        max-width: 100%; max-height: 76vh; object-fit: contain;
+        border-radius: 10px; box-shadow: 0 24px 60px rgba(0,0,0,.5);
+      }
+      .lightbox figcaption { color: #f3e7d7; margin-top: 14px; font-size: 15px; }
+      .lightbox figcaption .sub { color: #c9ae8d; font-size: 13px; display: block; margin-top: 2px; }
+      .lb-btn {
+        position: absolute; width: 48px; height: 48px; border-radius: 50%;
+        border: 1px solid rgba(243, 231, 215, .35); background: rgba(43, 30, 20, .65);
+        color: #f3e7d7; font-size: 20px; cursor: pointer; line-height: 1;
+        display: flex; align-items: center; justify-content: center;
+      }
+      .lb-close { top: 16px; right: 16px; }
+      .lb-prev { left: 12px; top: 50%; transform: translateY(-50%); }
+      .lb-next { right: 12px; top: 50%; transform: translateY(-50%); }
+      .lb-btn:active { transform: scale(.95); }
+      .lb-prev:active, .lb-next:active { transform: translateY(-50%) scale(.95); }
+
+      @media (max-width: 760px) {
+        header.hero { grid-template-columns: 1fr; gap: 26px; padding-top: 38px; }
+        .hero-photo img { aspect-ratio: 4 / 4.2; }
+        .grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+        .grid.derived { grid-template-columns: 1fr; }
+        .card figcaption { padding: 10px 11px 12px; }
+        .card .t { font-size: 14px; }
+        .lb-prev { left: 6px; } .lb-next { right: 6px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg-flow" aria-hidden="true"></div>
+    <div class="bg-glow" aria-hidden="true"><span class="g1"></span><span class="g2"></span><span class="g3"></span></div>
+
+    <div class="wrap">
+      <header class="hero">
+        <div>
+          <p class="hero-kicker">FUYU · 个人作品展示</p>
+          <h1>秋冬衣橱<br />造型图集</h1>
+          <p class="hero-lede">
+            一组以经典学院风与老钱风为底的秋冬造型：费尔岛针织、菱格开衫、麂皮夹克与白色阔腿裤反复组合，
+            从影棚白底走到雪山、马场、湖畔与城市街头。下面收录 20 张原图，页尾另有 3 张沿用同系列单品延展的衍生创作。
+          </p>
+          <div class="hero-stats">
+            <div><b>23</b><span>张作品</span></div>
+            <div><b>4</b><span>个系列</span></div>
+            <div><b>9</b><span>处拍摄场景</span></div>
+          </div>
+          <a class="hero-cta" href="#gallery">开始浏览 ↓</a>
+        </div>
+        <figure class="hero-photo">
+          <img src="assets/img-01-d13970.jpg" alt="模特穿橄榄色麂皮夹克与白色马裤站在马场木栏旁，身旁是一匹棕色马" />
+          <figcaption>主打造型 · 马场骑士风</figcaption>
+        </figure>
+      </header>
+
+      <nav class="filters" id="gallery" aria-label="按系列筛选">
+        <button class="chip" data-filter="all" aria-pressed="true">全部</button>
+        <button class="chip" data-filter="studio" aria-pressed="false">影棚白底</button>
+        <button class="chip" data-filter="scene" aria-pressed="false">场景实拍</button>
+        <button class="chip" data-filter="duo" aria-pressed="false">情侣双人</button>
+      </nav>
+
+      <section class="block" aria-label="原图图集">
+        <div class="block-head"><h2>原图精选</h2><span class="count" id="gridCount"></span></div>
+        <p class="block-sub">点任意一张图可以放大查看，放大后可用左右按钮或键盘方向键翻看。</p>
+        <div class="grid" id="mainGrid"></div>
+        <p class="empty-note" id="emptyNote">这个系列暂时没有图片。</p>
+      </section>
+
+      <section class="block" aria-label="衍生创作">
+        <div class="block-head"><h2>衍生创作</h2><span class="count">3 张 · 新生成</span></div>
+        <p class="block-sub">
+          沿用原图集的模特气质与核心单品——白色阔腿裤、针织、驼色大衣与深棕皮具——把造型延展到三个原图里没有的场景：秋日林荫道、海港小镇与雪夜木屋村。
+        </p>
+        <div class="grid derived" id="derivedGrid"></div>
+      </section>
+
+      <footer>
+        <span><b>fuyu.loc.cc</b> · 个人作品展示页</span>
+        <span>秋冬造型图集 · 2026 年 11 月整理</span>
+      </footer>
+    </div>
+
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="图片放大查看">
+      <button class="lb-btn lb-close" id="lbClose" aria-label="关闭">✕</button>
+      <button class="lb-btn lb-prev" id="lbPrev" aria-label="上一张">‹</button>
+      <figure>
+        <img id="lbImg" alt="" />
+        <figcaption><span id="lbTitle"></span><span class="sub" id="lbSub"></span></figcaption>
+      </figure>
+      <button class="lb-btn lb-next" id="lbNext" aria-label="下一张">›</button>
+    </div>
+
+    <script>
+      var LOOKS = [
+        { src: "assets/img-02-9fe1f6.jpg", t: "雪山滑雪服 · 明黄", cat: "scene", catName: "场景实拍", m: "黄色滑雪外套 × 黑色雪裤，雪山松林间休整", alt: "模特穿明黄色滑雪外套坐在雪地岩石上，头戴滑雪镜，背景是雪山与松树" },
+        { src: "assets/img-03-3b29db.jpg", t: "城堡前的皮草背心", cat: "scene", catName: "场景实拍", m: "棕色针织 × 皮草背心 × 米白阔腿裤，古堡露台", alt: "模特穿棕色皮草背心与米白阔腿裤站在古堡石栏旁，手提深棕皮包" },
+        { src: "assets/img-01-d13970.jpg", t: "马场骑士风", cat: "scene", catName: "场景实拍", m: "橄榄麂皮夹克 × 白马裤 × 及膝骑士靴", alt: "模特穿橄榄色麂皮夹克与白色马裤站在马场木栏旁，身旁是一匹棕色马" },
+        { src: "assets/img-04-9f252a.jpg", t: "湖畔露台 · 麂皮夹克", cat: "scene", catName: "场景实拍", m: "同件麂皮夹克换到湖边石栏，配提花 Polo 针织", alt: "模特穿橄榄色麂皮夹克坐在湖畔石栏上，远处是湖面与山峦" },
+        { src: "assets/img-05-5dbffd.jpg", t: "菱格针织 · 雪山露台", cat: "scene", catName: "场景实拍", m: "藏青红白菱格开衫 × 白色阔腿裤，山景民宿前", alt: "模特穿藏青菱格针织开衫与白色阔腿裤站在雪山湖畔的石砌露台上" },
+        { src: "assets/img-06-ace96a.jpg", t: "菱格针织 · 城市街景", cat: "scene", catName: "场景实拍", m: "同一件菱格开衫走上城市石板路", alt: "模特穿藏青菱格针织开衫与白色阔腿裤走在古典建筑前的石板路上" },
+        { src: "assets/img-07-437036.jpg", t: "米白粗花呢 · 巴黎街角", cat: "scene", catName: "场景实拍", m: "全白造型：粗花呢短外套 × 垂感阔腿裤 × 小号手提包", alt: "模特穿米白色粗花呢短外套与同色阔腿裤靠在巴黎风格建筑的石墙边" },
+        { src: "assets/img-08-931599.jpg", t: "牛仔背心 · 西部公路", cat: "scene", catName: "场景实拍", m: "牛仔背心叠穿提花毛衣，复古加油站与皮卡前", alt: "模特穿牛仔背心与牛仔裤靠在一辆复古皮卡旁，背景是美式公路加油站" },
+        { src: "assets/img-09-fc7e66.jpg", t: "费尔岛针织背心", cat: "studio", catName: "影棚白底", m: "提花背心 × 白色高领 × 卡其阔腿裤", alt: "模特穿棕色费尔岛提花针织背心与卡其色阔腿裤站在白色影棚背景前" },
+        { src: "assets/img-10-148b7c.jpg", t: "海军条纹拉链针织", cat: "studio", catName: "影棚白底", m: "藏青条纹开衫内搭浅蓝衬衫 × 白色阔腿裤", alt: "模特穿藏青白条纹拉链针织衫与白色阔腿裤站在白色影棚背景前" },
+        { src: "assets/img-11-c7a07b.jpg", t: "灰蓝费尔岛开衫", cat: "studio", catName: "影棚白底", m: "灰色提花开衫 × 白色阔腿裤 × 深棕手提包", alt: "模特穿灰蓝色费尔岛提花开衫与白色阔腿裤站在白色影棚背景前，手提深棕色包" },
+        { src: "assets/img-12-8ad69e.jpg", t: "藏青夹克 × 芥黄针织", cat: "studio", catName: "影棚白底", m: "灯芯绒领夹克敞穿，黄色针织打底", alt: "模特穿藏青色夹克内搭芥黄色针织衫与白色阔腿裤站在白色影棚背景前" },
+        { src: "assets/img-13-afa015.jpg", t: "芥黄绞花开衫 · 半敞", cat: "studio", catName: "影棚白底", m: "绞花针织开衫半敞，内搭白色衬衫", alt: "模特穿芥黄色绞花针织开衫与白色阔腿裤站在白色影棚背景前" },
+        { src: "assets/img-14-f32833.jpg", t: "芥黄绞花开衫 · 高领", cat: "studio", catName: "影棚白底", m: "同件开衫扣合，换白色高领打底", alt: "模特穿芥黄色绞花针织开衫内搭白色高领与白色阔腿裤站在白色影棚背景前" },
+        { src: "assets/img-15-b7d56b.jpg", t: "橄榄麂皮夹克 × 骑士靴", cat: "studio", catName: "影棚白底", m: "马场造型的影棚版：白裤塞进及膝长靴", alt: "模特穿橄榄色麂皮夹克与白色马裤、深棕骑士靴站在白色影棚背景前" },
+        { src: "assets/img-16-1701cd.jpg", t: "菱格针织 · 白底全身", cat: "studio", catName: "影棚白底", m: "菱格开衫的影棚定妆照，无配饰版", alt: "模特穿藏青菱格针织开衫与白色阔腿裤站在白色影棚背景前" },
+        { src: "assets/img-17-899b05.jpg", t: "菱格针织 · 手提包版", cat: "studio", catName: "影棚白底", m: "同造型加上深棕手提包，乐福鞋收尾", alt: "模特穿藏青菱格针织开衫与白色阔腿裤站在白色影棚背景前，手提深棕色包" },
+        { src: "assets/img-18-b49d42.jpg", t: "双人 · 奶油与焦糖", cat: "duo", catName: "情侣双人", m: "女款奶油色短外套 × 男款焦糖麂皮夹克，同色系并行", alt: "一对男女模特并肩站立，女方穿奶油色短外套与白色阔腿裤，男方穿棕色麂皮夹克与米色长裤" },
+        { src: "assets/img-19-a85fad.jpg", t: "双人 · 蓝羽绒背心", cat: "duo", catName: "情侣双人", m: "女款蓝色羽绒背心叠穿芥黄针织 × 男款麂皮夹克配牛仔裤", alt: "一对男女模特并肩站立，女方穿蓝色羽绒背心与白色阔腿裤，男方穿焦糖色麂皮夹克与牛仔裤" },
+        { src: "assets/img-20-981041.jpg", t: "双人 · 同系列另一姿势", cat: "duo", catName: "情侣双人", m: "与上一张同套造型，换站位与朝向再拍一张", alt: "一对男女模特并肩站立，女方穿蓝色羽绒背心与白色阔腿裤，男方穿焦糖色麂皮夹克与牛仔裤，姿势略有不同" }
+      ];
+
+      var DERIVED = [
+        { src: "assets/img-21-c67092.webp", t: "衍生 · 秋日风衣", catName: "衍生创作", m: "驼色风衣 × 酒红高领 × 白色阔腿裤，金色林荫道", alt: "模特穿驼色风衣与酒红色高领毛衣、白色阔腿裤走在铺满落叶的秋日街道上" },
+        { src: "assets/img-22-307477.webp", t: "衍生 · 海港西装", catName: "衍生创作", m: "藏青金扣西装 × 条纹针织 × 草编托特包，地中海海港", alt: "模特穿藏青色西装与条纹针织衫、白色阔腿裤走在海港码头边，手提草编托特包" },
+        { src: "assets/img-23-3ef5a2.webp", t: "衍生 · 雪夜长大衣", catName: "衍生创作", m: "费尔岛毛衣 × 驼色长大衣 × 羊绒围巾，木屋村黄昏", alt: "模特穿驼色长大衣与费尔岛提花毛衣站在雪夜的山间木屋村街道上，手捧热饮" }
+      ];
+
+      function makeCard(item, list, idx) {
+        var fig = document.createElement("figure");
+        fig.className = "card";
+        if (item.cat) fig.setAttribute("data-cat", item.cat);
+        var btn = document.createElement("button");
+        btn.className = "thumb";
+        btn.type = "button";
+        btn.setAttribute("aria-label", "放大查看：" + item.t);
+        var img = document.createElement("img");
+        img.src = item.src; img.alt = item.alt; img.decoding = "async";
+        btn.appendChild(img);
+        btn.addEventListener("click", function () { openLightbox(list, idx); });
+        var cap = document.createElement("figcaption");
+        var tag = document.createElement("span");
+        tag.className = "tag"; tag.textContent = item.catName;
+        var t = document.createElement("div");
+        t.className = "t"; t.textContent = item.t;
+        var m = document.createElement("div");
+        m.className = "m"; m.textContent = item.m;
+        cap.appendChild(tag); cap.appendChild(t); cap.appendChild(m);
+        fig.appendChild(btn); fig.appendChild(cap);
+        return fig;
+      }
+
+      var mainGrid = document.getElementById("mainGrid");
+      LOOKS.forEach(function (item, i) { mainGrid.appendChild(makeCard(item, LOOKS, i)); });
+      var derivedGrid = document.getElementById("derivedGrid");
+      DERIVED.forEach(function (item, i) { derivedGrid.appendChild(makeCard(item, DERIVED, i)); });
+
+      /* 筛选 */
+      var chips = Array.prototype.slice.call(document.querySelectorAll(".chip"));
+      var gridCount = document.getElementById("gridCount");
+      var emptyNote = document.getElementById("emptyNote");
+      function updateCount() {
+        var visible = mainGrid.querySelectorAll(".card:not(.is-hidden)").length;
+        gridCount.textContent = "共 " + visible + " 张";
+        emptyNote.classList.toggle("show", visible === 0);
+      }
+      chips.forEach(function (chip) {
+        chip.addEventListener("click", function () {
+          chips.forEach(function (c) { c.setAttribute("aria-pressed", "false"); });
+          chip.setAttribute("aria-pressed", "true");
+          var f = chip.getAttribute("data-filter");
+          Array.prototype.forEach.call(mainGrid.children, function (card) {
+            var show = f === "all" || card.getAttribute("data-cat") === f;
+            card.classList.toggle("is-hidden", !show);
+          });
+          updateCount();
+        });
+      });
+      updateCount();
+
+      /* 灯箱 */
+      var lightbox = document.getElementById("lightbox");
+      var lbImg = document.getElementById("lbImg");
+      var lbTitle = document.getElementById("lbTitle");
+      var lbSub = document.getElementById("lbSub");
+      var currentList = [], currentIdx = 0, lastFocus = null;
+
+      function renderLb() {
+        var item = currentList[currentIdx];
+        lbImg.src = item.src; lbImg.alt = item.alt;
+        lbTitle.textContent = item.t;
+        lbSub.textContent = item.catName + " · " + (currentIdx + 1) + " / " + currentList.length + " · " + item.m;
+      }
+      function openLightbox(list, idx) {
+        currentList = list; currentIdx = idx;
+        lastFocus = document.activeElement;
+        renderLb();
+        lightbox.classList.add("open");
+        document.body.style.overflow = "hidden";
+        document.getElementById("lbClose").focus();
+      }
+      function closeLightbox() {
+        lightbox.classList.remove("open");
+        document.body.style.overflow = "";
+        if (lastFocus) lastFocus.focus();
+      }
+      function step(d) {
+        currentIdx = (currentIdx + d + currentList.length) % currentList.length;
+        renderLb();
+      }
+      document.getElementById("lbClose").addEventListener("click", closeLightbox);
+      document.getElementById("lbPrev").addEventListener("click", function () { step(-1); });
+      document.getElementById("lbNext").addEventListener("click", function () { step(1); });
+      lightbox.addEventListener("click", function (e) { if (e.target === lightbox) closeLightbox(); });
+      document.addEventListener("keydown", function (e) {
+        if (!lightbox.classList.contains("open")) return;
+        if (e.key === "Escape") closeLightbox();
+        if (e.key === "ArrowLeft") step(-1);
+        if (e.key === "ArrowRight") step(1);
+      });
+    </script>
+  </body>
+</html>
