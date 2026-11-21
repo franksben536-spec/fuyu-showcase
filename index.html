@@ -177,8 +177,17 @@
       .block-head .count { font-size: 13.5px; color: var(--ink-faint); }
       .block-sub { color: var(--ink-soft); font-size: 15px; margin: 0 0 22px; max-width: 44em; }
 
+      .group { margin-top: 36px; }
+      .group:first-of-type { margin-top: 4px; }
+      .group-head { display: flex; align-items: baseline; gap: 14px; margin: 0 0 6px; }
+      .group-title {
+        font-family: "Noto Serif SC", "Songti SC", serif;
+        font-size: 26px; font-weight: 700; margin: 0;
+      }
+      .group-head .count { font-size: 13.5px; color: var(--ink-faint); }
+      .group.is-hidden { display: none; }
+
       .sub-block { margin-top: 30px; }
-      .sub-block:first-of-type { margin-top: 4px; }
       .block-head.sub { margin: 0 0 14px; }
       .sub-block h3 {
         font-family: "Noto Serif SC", "Songti SC", serif;
@@ -275,8 +284,8 @@
           </p>
           <div class="hero-stats">
             <div><b>31</b><span>张作品</span></div>
-            <div><b>4</b><span>个系列</span></div>
-            <div><b>9</b><span>处拍摄场景</span></div>
+            <div><b>6</b><span>个系列</span></div>
+            <div><b>2</b><span>种形式</span></div>
           </div>
           <a class="hero-cta" href="#gallery">开始浏览 ↓</a>
         </div>
@@ -288,25 +297,47 @@
 
       <nav class="filters" id="gallery" aria-label="按系列筛选">
         <button class="chip" data-filter="all" aria-pressed="true">全部</button>
-        <button class="chip" data-filter="studio" aria-pressed="false">影棚白底</button>
-        <button class="chip" data-filter="scene" aria-pressed="false">场景实拍</button>
+        <button class="chip" data-filter="feature" aria-pressed="false">大片</button>
+        <button class="chip" data-filter="studio" aria-pressed="false">棚拍</button>
+        <button class="chip" data-filter="city" aria-pressed="false">城市系列</button>
+        <button class="chip" data-filter="outdoor" aria-pressed="false">户外系列</button>
+        <button class="chip" data-filter="xiaoxiang" aria-pressed="false">小香风</button>
+        <button class="chip" data-filter="retro" aria-pressed="false">美式复古</button>
         <button class="chip" data-filter="duo" aria-pressed="false">情侣双人</button>
       </nav>
 
       <section class="block" aria-label="原图图集">
         <div class="block-head"><h2>原图精选</h2><span class="count" id="gridCount"></span></div>
-        <p class="block-sub">点任意一张图可以放大查看，放大后可用左右按钮或键盘方向键翻看。</p>
-        <div class="sub-block" data-cat-block="scene">
-          <div class="block-head sub"><h3>场景实拍</h3><span class="count" id="countScene"></span></div>
-          <div class="grid" id="gridScene"></div>
+        <p class="block-sub">先按大片与棚拍分开，大片再按城市、户外、小香风、美式复古、情侣双人等系列分。点任意一张图可以放大查看，放大后可用左右按钮或键盘方向键翻看。</p>
+        <div class="group" data-group="feature">
+          <div class="group-head"><h3 class="group-title">大片</h3><span class="count" id="countFeature"></span></div>
+          <div class="sub-block" data-cat-block="city" data-group="feature">
+            <div class="block-head sub"><h3>城市系列</h3><span class="count" id="countCity"></span></div>
+            <div class="grid" id="gridCity"></div>
+          </div>
+          <div class="sub-block" data-cat-block="outdoor" data-group="feature">
+            <div class="block-head sub"><h3>户外系列</h3><span class="count" id="countOutdoor"></span></div>
+            <div class="grid" id="gridOutdoor"></div>
+          </div>
+          <div class="sub-block" data-cat-block="xiaoxiang" data-group="feature">
+            <div class="block-head sub"><h3>小香风</h3><span class="count" id="countXiaoxiang"></span></div>
+            <div class="grid" id="gridXiaoxiang"></div>
+          </div>
+          <div class="sub-block" data-cat-block="retro" data-group="feature">
+            <div class="block-head sub"><h3>美式复古</h3><span class="count" id="countRetro"></span></div>
+            <div class="grid" id="gridRetro"></div>
+          </div>
+          <div class="sub-block" data-cat-block="duo" data-group="feature">
+            <div class="block-head sub"><h3>情侣双人</h3><span class="count" id="countDuo"></span></div>
+            <div class="grid" id="gridDuo"></div>
+          </div>
         </div>
-        <div class="sub-block" data-cat-block="studio">
-          <div class="block-head sub"><h3>影棚白底</h3><span class="count" id="countStudio"></span></div>
-          <div class="grid" id="gridStudio"></div>
-        </div>
-        <div class="sub-block" data-cat-block="duo">
-          <div class="block-head sub"><h3>情侣双人</h3><span class="count" id="countDuo"></span></div>
-          <div class="grid" id="gridDuo"></div>
+        <div class="group" data-group="studio">
+          <div class="group-head"><h3 class="group-title">棚拍</h3><span class="count" id="countStudioGroup"></span></div>
+          <div class="sub-block" data-cat-block="studio" data-group="studio">
+            <div class="block-head sub"><h3>影棚白底</h3><span class="count" id="countStudio"></span></div>
+            <div class="grid" id="gridStudio"></div>
+          </div>
         </div>
         <p class="empty-note" id="emptyNote">这个系列暂时没有图片。</p>
       </section>
@@ -337,25 +368,25 @@
 
     <script>
       var LOOKS = [
-        { src: "https://drive.google.com/thumbnail?id=13e7HbSHUo4T3EH3cqCPBRmV6EKkG7ImO&sz=w1600", t: "雪山滑雪服 · 明黄", cat: "scene", catName: "场景实拍", m: "黄色滑雪外套 × 黑色雪裤，雪山松林间休整", alt: "模特穿明黄色滑雪外套坐在雪地岩石上，头戴滑雪镜，背景是雪山与松树" },
-        { src: "https://drive.google.com/thumbnail?id=1bmE8kjFTkQsfYN2CsudT7QmROFfRYITa&sz=w1600", t: "城堡前的皮草背心", cat: "scene", catName: "场景实拍", m: "棕色针织 × 皮草背心 × 米白阔腿裤，古堡露台", alt: "模特穿棕色皮草背心与米白阔腿裤站在古堡石栏旁，手提深棕皮包" },
-        { src: "https://drive.google.com/thumbnail?id=1pGZalbPyiu-yX5QRQHzJ6xY9IfP325nY&sz=w1600", t: "马场骑士风", cat: "scene", catName: "场景实拍", m: "橄榄麂皮夹克 × 白马裤 × 及膝骑士靴", alt: "模特穿橄榄色麂皮夹克与白色马裤站在马场木栏旁，身旁是一匹棕色马" },
-        { src: "https://drive.google.com/thumbnail?id=1_djw3KnsdH2ulqX7x71n8yS1QdDiGNn3&sz=w1600", t: "湖畔露台 · 麂皮夹克", cat: "scene", catName: "场景实拍", m: "同件麂皮夹克换到湖边石栏，配提花 Polo 针织", alt: "模特穿橄榄色麂皮夹克坐在湖畔石栏上，远处是湖面与山峦" },
-        { src: "https://drive.google.com/thumbnail?id=1Nj7TZ96qIFKj-76uLndSmh94EPZnmAEC&sz=w1600", t: "菱格针织 · 雪山露台", cat: "scene", catName: "场景实拍", m: "藏青红白菱格开衫 × 白色阔腿裤，山景民宿前", alt: "模特穿藏青菱格针织开衫与白色阔腿裤站在雪山湖畔的石砌露台上" },
-        { src: "https://drive.google.com/thumbnail?id=17yfADsuoSX9nLRHbyFRrYxC_YA1RXSFk&sz=w1600", t: "菱格针织 · 城市街景", cat: "scene", catName: "场景实拍", m: "同一件菱格开衫走上城市石板路", alt: "模特穿藏青菱格针织开衫与白色阔腿裤走在古典建筑前的石板路上" },
-        { src: "https://drive.google.com/thumbnail?id=1uS9T1I0kQqGd0oAcqKRVl9nokfTOgpfO&sz=w1600", t: "米白粗花呢 · 巴黎街角", cat: "scene", catName: "场景实拍", m: "全白造型：粗花呢短外套 × 垂感阔腿裤 × 小号手提包", alt: "模特穿米白色粗花呢短外套与同色阔腿裤靠在巴黎风格建筑的石墙边" },
-        { src: "https://drive.google.com/thumbnail?id=1d5a3IAhUDUKEB3UqzpCtHK76E1nzthCs&sz=w1600", t: "牛仔背心 · 西部公路", cat: "scene", catName: "场景实拍", m: "牛仔背心叠穿提花毛衣，复古加油站与皮卡前", alt: "模特穿牛仔背心与牛仔裤靠在一辆复古皮卡旁，背景是美式公路加油站" },
-        { src: "https://drive.google.com/thumbnail?id=1hJ38JQU5E-uMF7IglYwKj9KIEP6wXnIY&sz=w1600", t: "男士立领马甲 · ¥299", cat: "scene", catName: "场景实拍", m: "橄榄绿立领马甲 × 米色绞花针织 × 卡其长裤，山谷草甸", alt: "男模特穿橄榄绿色立领马甲内搭米色绞花针织毛衣与卡其色长裤，靠在山谷草甸间的岩石上" },
-        { src: "https://drive.google.com/thumbnail?id=1LweOSX7_HH8hH7V3chIBmsf1M2fZgvWh&sz=w1600", t: "男士格纹衬衫外套 · ¥319", cat: "scene", catName: "场景实拍", m: "棕色格纹衬衫外套 × 深棕高领 × 卡其灯芯绒裤，山谷草甸", alt: "男模特穿棕色格纹衬衫外套内搭深棕色高领毛衣与卡其色灯芯绒裤，靠在山谷草甸间的岩石上" },
-        { src: "https://drive.google.com/thumbnail?id=1OA2OKqzrhmybwCZUIp_xzaFVrRSiOfHh&sz=w1600", t: "女款毛绒外套 · ¥679", cat: "scene", catName: "场景实拍", m: "驼色毛绒外套 × 奶油高领 × 米白阔腿裤，山谷草甸", alt: "女模特穿驼色毛绒外套内搭奶油色高领毛衣与米白色阔腿裤，坐在山谷草甸间的岩石上" },
-        { src: "https://drive.google.com/thumbnail?id=1dbzeSodFmScoPmUAbZfqXBSj4QJscYBG&sz=w1600", t: "女款民族风夹克外套 · ¥799", cat: "scene", catName: "场景实拍", m: "焦糖民族风夹克 × 米白针织 × 卡其阔腿裤，湖畔藤椅", alt: "女模特穿焦糖色民族风夹克外套与米白色针织衫、卡其色阔腿裤，坐在湖畔的藤椅上" },
-        { src: "https://drive.google.com/thumbnail?id=1qevU-zkVmbDW3K4dQGxHmVeJEtmy2i8D&sz=w1600", t: "女款排骨羽绒服 · 浅灰 ¥479", cat: "scene", catName: "场景实拍", m: "浅灰排骨羽绒服 × 奶油高领 × 卡其阔腿裤，雪山湖畔", alt: "女模特穿浅灰色排骨羽绒服内搭奶油色高领毛衣与卡其色阔腿裤，站在雪山湖畔的草甸上" },
-        { src: "https://drive.google.com/thumbnail?id=1AR0ZWcftqUTjWn84744WlyN8tO8ZvEB4&sz=w1600", t: "女款棉服 · ¥479", cat: "scene", catName: "场景实拍", m: "米白连帽棉服 × 奶油高领 × 米白阔腿裤，草甸木船", alt: "女模特穿米白色连帽棉服内搭奶油色高领毛衣与米白色阔腿裤，站在草甸上，身旁是一艘木船" },
-        { src: "https://drive.google.com/thumbnail?id=1y9qqVOUdZf582wOxrDYun4VrU_UJDbxp&sz=w1600", t: "男士（巴恩风）羽绒服 · ¥559", cat: "scene", catName: "场景实拍", m: "米白巴恩风羽绒服 × 浅蓝衬衫 × 米白长裤，复古老爷车旁", alt: "男模特穿米白色巴恩风羽绒服内搭浅蓝衬衫与米白色长裤，戴墨镜靠在复古老爷车旁" },
-        { src: "https://drive.google.com/thumbnail?id=17q9Xgz3eYk5dYArLFrxFfUePsLaNm8ti&sz=w1600", t: "女款羊毛绒马甲 · 木船 ¥379", cat: "scene", catName: "场景实拍", m: "奶油羊毛绒马甲 × 米白高领针织 × 卡其阔腿裤，草甸木船", alt: "女模特穿奶油色羊毛绒马甲内搭米白色高领针织衫与卡其色阔腿裤，坐在草甸上的木船里" },
-        { src: "https://drive.google.com/thumbnail?id=1mjqOfVVa-AyBt7-6cHZ-E6mBu0_R0vLB&sz=w1600", t: "女款棉服 · 近景 ¥479", cat: "scene", catName: "场景实拍", m: "同款米白连帽棉服换近景，草甸木船", alt: "女模特穿米白色连帽棉服内搭奶油色高领毛衣，近景，背景是草甸与木船" },
-        { src: "https://drive.google.com/thumbnail?id=1gMoW9tDGeH9CPZRoml9cIhURbSqWvmOI&sz=w1600", t: "鹅绒羽绒服 · ¥799", cat: "scene", catName: "场景实拍", m: "橄榄绿民族风鹅绒羽绒服 × 米白针织 × 卡其阔腿裤，湖畔藤椅", alt: "女模特穿橄榄绿色民族风鹅绒羽绒服与米白色针织衫、卡其色阔腿裤，坐在湖畔的藤椅上" },
-        { src: "https://drive.google.com/thumbnail?id=1k_VgihQhaZA_OkFMRiNGYtrtTOhgiisZ&sz=w1600", t: "女款羊毛绒马甲 · 藤椅 ¥379", cat: "scene", catName: "场景实拍", m: "奶油羊毛绒马甲 × 米白高领针织 × 卡其阔腿裤，湖畔藤椅", alt: "女模特穿奶油色羊毛绒马甲内搭米白色高领针织衫与卡其色阔腿裤，坐在湖畔的藤椅上" },
+        { src: "https://drive.google.com/thumbnail?id=13e7HbSHUo4T3EH3cqCPBRmV6EKkG7ImO&sz=w1600", t: "雪山滑雪服 · 明黄", cat: "outdoor", catName: "户外系列", m: "黄色滑雪外套 × 黑色雪裤，雪山松林间休整", alt: "模特穿明黄色滑雪外套坐在雪地岩石上，头戴滑雪镜，背景是雪山与松树" },
+        { src: "https://drive.google.com/thumbnail?id=1bmE8kjFTkQsfYN2CsudT7QmROFfRYITa&sz=w1600", t: "城堡前的皮草背心", cat: "city", catName: "城市系列", m: "棕色针织 × 皮草背心 × 米白阔腿裤，古堡露台", alt: "模特穿棕色皮草背心与米白阔腿裤站在古堡石栏旁，手提深棕皮包" },
+        { src: "https://drive.google.com/thumbnail?id=1pGZalbPyiu-yX5QRQHzJ6xY9IfP325nY&sz=w1600", t: "马场骑士风", cat: "outdoor", catName: "户外系列", m: "橄榄麂皮夹克 × 白马裤 × 及膝骑士靴", alt: "模特穿橄榄色麂皮夹克与白色马裤站在马场木栏旁，身旁是一匹棕色马" },
+        { src: "https://drive.google.com/thumbnail?id=1_djw3KnsdH2ulqX7x71n8yS1QdDiGNn3&sz=w1600", t: "湖畔露台 · 麂皮夹克", cat: "outdoor", catName: "户外系列", m: "同件麂皮夹克换到湖边石栏，配提花 Polo 针织", alt: "模特穿橄榄色麂皮夹克坐在湖畔石栏上，远处是湖面与山峦" },
+        { src: "https://drive.google.com/thumbnail?id=1Nj7TZ96qIFKj-76uLndSmh94EPZnmAEC&sz=w1600", t: "菱格针织 · 雪山露台", cat: "outdoor", catName: "户外系列", m: "藏青红白菱格开衫 × 白色阔腿裤，山景民宿前", alt: "模特穿藏青菱格针织开衫与白色阔腿裤站在雪山湖畔的石砌露台上" },
+        { src: "https://drive.google.com/thumbnail?id=17yfADsuoSX9nLRHbyFRrYxC_YA1RXSFk&sz=w1600", t: "菱格针织 · 城市街景", cat: "city", catName: "城市系列", m: "同一件菱格开衫走上城市石板路", alt: "模特穿藏青菱格针织开衫与白色阔腿裤走在古典建筑前的石板路上" },
+        { src: "https://drive.google.com/thumbnail?id=1uS9T1I0kQqGd0oAcqKRVl9nokfTOgpfO&sz=w1600", t: "米白粗花呢 · 巴黎街角", cat: "xiaoxiang", catName: "小香风", m: "全白造型：粗花呢短外套 × 垂感阔腿裤 × 小号手提包", alt: "模特穿米白色粗花呢短外套与同色阔腿裤靠在巴黎风格建筑的石墙边" },
+        { src: "https://drive.google.com/thumbnail?id=1d5a3IAhUDUKEB3UqzpCtHK76E1nzthCs&sz=w1600", t: "牛仔背心 · 西部公路", cat: "retro", catName: "美式复古", m: "牛仔背心叠穿提花毛衣，复古加油站与皮卡前", alt: "模特穿牛仔背心与牛仔裤靠在一辆复古皮卡旁，背景是美式公路加油站" },
+        { src: "https://drive.google.com/thumbnail?id=1hJ38JQU5E-uMF7IglYwKj9KIEP6wXnIY&sz=w1600", t: "男士立领马甲 · ¥299", cat: "outdoor", catName: "户外系列", m: "橄榄绿立领马甲 × 米色绞花针织 × 卡其长裤，山谷草甸", alt: "男模特穿橄榄绿色立领马甲内搭米色绞花针织毛衣与卡其色长裤，靠在山谷草甸间的岩石上" },
+        { src: "https://drive.google.com/thumbnail?id=1LweOSX7_HH8hH7V3chIBmsf1M2fZgvWh&sz=w1600", t: "男士格纹衬衫外套 · ¥319", cat: "outdoor", catName: "户外系列", m: "棕色格纹衬衫外套 × 深棕高领 × 卡其灯芯绒裤，山谷草甸", alt: "男模特穿棕色格纹衬衫外套内搭深棕色高领毛衣与卡其色灯芯绒裤，靠在山谷草甸间的岩石上" },
+        { src: "https://drive.google.com/thumbnail?id=1OA2OKqzrhmybwCZUIp_xzaFVrRSiOfHh&sz=w1600", t: "女款毛绒外套 · ¥679", cat: "outdoor", catName: "户外系列", m: "驼色毛绒外套 × 奶油高领 × 米白阔腿裤，山谷草甸", alt: "女模特穿驼色毛绒外套内搭奶油色高领毛衣与米白色阔腿裤，坐在山谷草甸间的岩石上" },
+        { src: "https://drive.google.com/thumbnail?id=1dbzeSodFmScoPmUAbZfqXBSj4QJscYBG&sz=w1600", t: "女款民族风夹克外套 · ¥799", cat: "outdoor", catName: "户外系列", m: "焦糖民族风夹克 × 米白针织 × 卡其阔腿裤，湖畔藤椅", alt: "女模特穿焦糖色民族风夹克外套与米白色针织衫、卡其色阔腿裤，坐在湖畔的藤椅上" },
+        { src: "https://drive.google.com/thumbnail?id=1qevU-zkVmbDW3K4dQGxHmVeJEtmy2i8D&sz=w1600", t: "女款排骨羽绒服 · 浅灰 ¥479", cat: "outdoor", catName: "户外系列", m: "浅灰排骨羽绒服 × 奶油高领 × 卡其阔腿裤，雪山湖畔", alt: "女模特穿浅灰色排骨羽绒服内搭奶油色高领毛衣与卡其色阔腿裤，站在雪山湖畔的草甸上" },
+        { src: "https://drive.google.com/thumbnail?id=1AR0ZWcftqUTjWn84744WlyN8tO8ZvEB4&sz=w1600", t: "女款棉服 · ¥479", cat: "outdoor", catName: "户外系列", m: "米白连帽棉服 × 奶油高领 × 米白阔腿裤，草甸木船", alt: "女模特穿米白色连帽棉服内搭奶油色高领毛衣与米白色阔腿裤，站在草甸上，身旁是一艘木船" },
+        { src: "https://drive.google.com/thumbnail?id=1y9qqVOUdZf582wOxrDYun4VrU_UJDbxp&sz=w1600", t: "男士（巴恩风）羽绒服 · ¥559", cat: "retro", catName: "美式复古", m: "米白巴恩风羽绒服 × 浅蓝衬衫 × 米白长裤，复古老爷车旁", alt: "男模特穿米白色巴恩风羽绒服内搭浅蓝衬衫与米白色长裤，戴墨镜靠在复古老爷车旁" },
+        { src: "https://drive.google.com/thumbnail?id=17q9Xgz3eYk5dYArLFrxFfUePsLaNm8ti&sz=w1600", t: "女款羊毛绒马甲 · 木船 ¥379", cat: "outdoor", catName: "户外系列", m: "奶油羊毛绒马甲 × 米白高领针织 × 卡其阔腿裤，草甸木船", alt: "女模特穿奶油色羊毛绒马甲内搭米白色高领针织衫与卡其色阔腿裤，坐在草甸上的木船里" },
+        { src: "https://drive.google.com/thumbnail?id=1mjqOfVVa-AyBt7-6cHZ-E6mBu0_R0vLB&sz=w1600", t: "女款棉服 · 近景 ¥479", cat: "outdoor", catName: "户外系列", m: "同款米白连帽棉服换近景，草甸木船", alt: "女模特穿米白色连帽棉服内搭奶油色高领毛衣，近景，背景是草甸与木船" },
+        { src: "https://drive.google.com/thumbnail?id=1gMoW9tDGeH9CPZRoml9cIhURbSqWvmOI&sz=w1600", t: "鹅绒羽绒服 · ¥799", cat: "outdoor", catName: "户外系列", m: "橄榄绿民族风鹅绒羽绒服 × 米白针织 × 卡其阔腿裤，湖畔藤椅", alt: "女模特穿橄榄绿色民族风鹅绒羽绒服与米白色针织衫、卡其色阔腿裤，坐在湖畔的藤椅上" },
+        { src: "https://drive.google.com/thumbnail?id=1k_VgihQhaZA_OkFMRiNGYtrtTOhgiisZ&sz=w1600", t: "女款羊毛绒马甲 · 藤椅 ¥379", cat: "outdoor", catName: "户外系列", m: "奶油羊毛绒马甲 × 米白高领针织 × 卡其阔腿裤，湖畔藤椅", alt: "女模特穿奶油色羊毛绒马甲内搭米白色高领针织衫与卡其色阔腿裤，坐在湖畔的藤椅上" },
         { src: "https://drive.google.com/thumbnail?id=13EEz6sMbYoFNIyZK6ur38Nj9udji2NI0&sz=w1600", t: "费尔岛针织背心", cat: "studio", catName: "影棚白底", m: "提花背心 × 白色高领 × 卡其阔腿裤", alt: "模特穿棕色费尔岛提花针织背心与卡其色阔腿裤站在白色影棚背景前" },
         { src: "https://drive.google.com/thumbnail?id=1v8re7alp53jtK955ZEGATl-lvbGVDHIw&sz=w1600", t: "海军条纹拉链针织", cat: "studio", catName: "影棚白底", m: "藏青条纹开衫内搭浅蓝衬衫 × 白色阔腿裤", alt: "模特穿藏青白条纹拉链针织衫与白色阔腿裤站在白色影棚背景前" },
         { src: "https://drive.google.com/thumbnail?id=1c1lAGrGzI-hGZ9YAjPuI7AwnqFK4ZAzN&sz=w1600", t: "灰蓝费尔岛开衫", cat: "studio", catName: "影棚白底", m: "灰色提花开衫 × 白色阔腿裤 × 深棕手提包", alt: "模特穿灰蓝色费尔岛提花开衫与白色阔腿裤站在白色影棚背景前，手提深棕色包" },
@@ -405,17 +436,25 @@
       }
 
       var grids = {
-        scene: document.getElementById("gridScene"),
-        studio: document.getElementById("gridStudio"),
-        duo: document.getElementById("gridDuo")
+        city: document.getElementById("gridCity"),
+        outdoor: document.getElementById("gridOutdoor"),
+        xiaoxiang: document.getElementById("gridXiaoxiang"),
+        retro: document.getElementById("gridRetro"),
+        duo: document.getElementById("gridDuo"),
+        studio: document.getElementById("gridStudio")
       };
       LOOKS.forEach(function (item, i) { grids[item.cat].appendChild(makeCard(item, LOOKS, i)); });
       function countCat(cat) {
         return LOOKS.filter(function (x) { return x.cat === cat; }).length;
       }
-      document.getElementById("countScene").textContent = "共 " + countCat("scene") + " 张";
-      document.getElementById("countStudio").textContent = "共 " + countCat("studio") + " 张";
+      document.getElementById("countCity").textContent = "共 " + countCat("city") + " 张";
+      document.getElementById("countOutdoor").textContent = "共 " + countCat("outdoor") + " 张";
+      document.getElementById("countXiaoxiang").textContent = "共 " + countCat("xiaoxiang") + " 张";
+      document.getElementById("countRetro").textContent = "共 " + countCat("retro") + " 张";
       document.getElementById("countDuo").textContent = "共 " + countCat("duo") + " 张";
+      document.getElementById("countStudio").textContent = "共 " + countCat("studio") + " 张";
+      document.getElementById("countFeature").textContent = "共 " + (countCat("city") + countCat("outdoor") + countCat("xiaoxiang") + countCat("retro") + countCat("duo")) + " 张";
+      document.getElementById("countStudioGroup").textContent = "共 " + countCat("studio") + " 张";
       var derivedGrid = document.getElementById("derivedGrid");
       DERIVED.forEach(function (item, i) { derivedGrid.appendChild(makeCard(item, DERIVED, i)); });
 
@@ -424,6 +463,7 @@
       var gridCount = document.getElementById("gridCount");
       var emptyNote = document.getElementById("emptyNote");
       var subBlocks = Array.prototype.slice.call(document.querySelectorAll(".sub-block"));
+      var groups = Array.prototype.slice.call(document.querySelectorAll(".group"));
       function updateCount() {
         var visible = 0;
         subBlocks.forEach(function (block) {
@@ -438,8 +478,12 @@
           chip.setAttribute("aria-pressed", "true");
           var f = chip.getAttribute("data-filter");
           subBlocks.forEach(function (block) {
-            var show = f === "all" || block.getAttribute("data-cat-block") === f;
+            var show = f === "all" || block.getAttribute("data-cat-block") === f || block.getAttribute("data-group") === f;
             block.classList.toggle("is-hidden", !show);
+          });
+          groups.forEach(function (g) {
+            var anyVisible = Array.prototype.slice.call(g.querySelectorAll(".sub-block")).some(function (b) { return !b.classList.contains("is-hidden"); });
+            g.classList.toggle("is-hidden", !anyVisible);
           });
           updateCount();
         });
