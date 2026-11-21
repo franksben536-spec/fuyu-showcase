@@ -45,39 +45,18 @@
 
       /* ---------- 头部 ---------- */
       header.hero {
-        display: grid; grid-template-columns: 1fr 1fr; gap: 56px;
-        align-items: center; padding: 68px 0 52px;
-      }
-      .hero-kicker {
-        font-size: 12px; letter-spacing: .3em; font-weight: 700;
-        color: var(--accent); margin: 0 0 18px; text-transform: uppercase;
+        display: grid; grid-template-columns: 1fr 1fr; gap: 64px;
+        align-items: center; padding: 56px 0 48px;
       }
       h1 {
-        font-size: clamp(36px, 5vw, 56px); line-height: 1.16; font-weight: 500;
-        letter-spacing: -.02em; margin: 0 0 20px;
+        font-size: clamp(30px, 4vw, 44px); line-height: 1.2; font-weight: 500;
+        letter-spacing: -.02em; margin: 0;
       }
-      .hero-lede { font-size: 16px; color: var(--ink-soft); margin: 0 0 30px; max-width: 36em; line-height: 1.85; }
-      .hero-stats { display: flex; flex-wrap: wrap; margin: 0 0 32px; }
-      .hero-stats div { padding: 0 28px; border-left: 1px solid var(--line); }
-      .hero-stats div:first-child { padding-left: 0; border-left: 0; }
-      .hero-stats b {
-        display: block; font-size: 30px; line-height: 1.1; font-weight: 500; letter-spacing: -.01em;
-      }
-      .hero-stats span { font-size: 12px; color: var(--ink-faint); letter-spacing: .12em; }
-      .hero-cta {
-        display: inline-flex; align-items: center; gap: 8px;
-        min-height: 46px; padding: 11px 24px; border-radius: 999px;
-        background: var(--ink); color: var(--bg); text-decoration: none;
-        font-weight: 700; font-size: 14.5px;
-      }
-      .hero-cta:active { transform: scale(.98); }
       .hero-photo { margin: 0; }
       .hero-photo img {
         width: 100%; aspect-ratio: 4 / 4.6; object-fit: cover; object-position: top;
-        border-radius: var(--radius); border: 1px solid var(--line);
-        box-shadow: var(--shadow); display: block;
+        border-radius: var(--radius); display: block;
       }
-      .hero-photo figcaption { font-size: 12.5px; color: var(--ink-faint); margin-top: 12px; text-align: right; letter-spacing: .04em; }
 
       /* ---------- 筛选：简洁文字标签 ---------- */
       .filters {
@@ -90,7 +69,7 @@
       }
       .chip {
         min-height: 36px; padding: 6px 2px; border: 0; background: none;
-        color: var(--ink-faint); font: inherit; font-size: 14.5px; font-weight: 500;
+        color: var(--ink-faint); font: inherit; font-size: 14px; font-weight: 500;
         cursor: pointer; box-shadow: inset 0 -2px 0 transparent;
       }
       .chip:hover { color: var(--ink-soft); }
@@ -99,28 +78,25 @@
       }
 
       /* ---------- 图集 ---------- */
-      section.block { margin-top: 60px; }
-      .block-head { display: flex; align-items: baseline; gap: 12px; margin: 0 0 8px; }
-      h2 { font-size: 22px; font-weight: 700; letter-spacing: -.01em; margin: 0; }
-      .block-head .count { font-size: 13px; color: var(--ink-faint); }
-      .block-sub { color: var(--ink-soft); font-size: 14.5px; margin: 0 0 28px; max-width: 46em; line-height: 1.8; }
+      section.block { margin-top: 88px; }
+      .block-head { display: flex; align-items: baseline; gap: 12px; margin: 0 0 28px; }
+      h2 { font-size: 20px; font-weight: 600; letter-spacing: -.01em; margin: 0; }
 
-      .group { margin-top: 44px; }
+      .group { margin-top: 56px; }
       .group:first-of-type { margin-top: 4px; }
-      .group-head { display: flex; align-items: baseline; gap: 12px; margin: 0 0 8px; }
-      .group-title { font-size: 20px; font-weight: 700; letter-spacing: -.01em; margin: 0; }
-      .group-head .count { font-size: 13px; color: var(--ink-faint); }
+      .group-head { display: flex; align-items: baseline; gap: 12px; margin: 0 0 24px; }
+      .group-title { font-size: 18px; font-weight: 600; letter-spacing: -.01em; margin: 0; }
       .group.is-hidden { display: none; }
 
-      .sub-block { margin-top: 32px; }
-      .block-head.sub { margin: 0 0 16px; }
-      .sub-block h3 { font-size: 17px; font-weight: 700; letter-spacing: -.01em; margin: 0; }
+      .sub-block { margin-top: 40px; }
+      .block-head.sub { margin: 0 0 20px; }
+      .sub-block h3 { font-size: 15px; font-weight: 600; letter-spacing: -.01em; margin: 0; }
       .sub-block.is-hidden { display: none; }
 
       /* 作品卡片：图在上、文字在下，落在页面底色上，无卡片底、无阴影 */
       .grid {
-        display: grid; gap: 30px 24px;
-        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        display: grid; gap: 56px 28px;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       }
       .card { margin: 0; background: none; border: 0; }
       .card button.thumb {
@@ -132,37 +108,33 @@
         display: block; transition: transform .45s ease;
       }
       .card button.thumb:hover img { transform: scale(1.02); }
-      .card figcaption { padding: 14px 2px 0; }
-      .card .t { font-weight: 600; font-size: 15px; line-height: 1.5; letter-spacing: -.005em; }
-      .card .m { font-size: 13px; color: var(--ink-faint); margin-top: 4px; line-height: 1.6; }
-      .tag {
-        display: block; font-size: 11px; font-weight: 700; letter-spacing: .14em;
-        text-transform: uppercase; color: var(--accent); margin-bottom: 6px;
-      }
+      .card figcaption { padding: 12px 2px 0; }
+      .card .t { font-weight: 600; font-size: 14px; line-height: 1.5; letter-spacing: -.005em; }
+      .card .m { font-size: 12px; color: var(--ink-faint); margin-top: 3px; line-height: 1.6; }
       .card.is-hidden { display: none; }
       .empty-note { display: none; color: var(--ink-faint); padding: 18px 0; }
       .empty-note.show { display: block; }
 
-      .grid.derived { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+      .grid.derived { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
 
       /* ---------- 作品网格：一个作品一张封面卡 ---------- */
       .works-grid {
-        display: grid; gap: 30px 24px;
+        display: grid; gap: 56px 28px;
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       }
       .work-card { margin: 0; background: none; border: 0; }
       .work-card button.thumb {
         display: block; width: 100%; padding: 0; border: 0; background: none; cursor: pointer;
-        border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow);
+        border-radius: var(--radius); overflow: hidden;
       }
       .work-card img {
         width: 100%; aspect-ratio: 16 / 9; object-fit: cover;
         display: block; transition: transform .45s ease;
       }
       .work-card button.thumb:hover img { transform: scale(1.02); }
-      .work-card figcaption { padding: 14px 2px 0; }
-      .work-card .t { font-weight: 600; font-size: 14.5px; line-height: 1.5; }
-      .work-card .m { font-size: 12.5px; color: var(--ink-faint); margin-top: 4px; letter-spacing: .04em; }
+      .work-card figcaption { padding: 12px 2px 0; }
+      .work-card .t { font-weight: 600; font-size: 14px; line-height: 1.5; }
+      .work-card .m { font-size: 12px; color: var(--ink-faint); margin-top: 3px; letter-spacing: .04em; }
 
       /* ---------- 作品完整页（全屏、浅色） ---------- */
       .work-viewer {
@@ -175,7 +147,6 @@
         padding: 20px 28px 0; max-width: 1280px; width: 100%; margin: 0 auto;
       }
       .wv-top .t { font-weight: 700; font-size: 17px; letter-spacing: -.01em; flex: 1; min-width: 0; }
-      .wv-top .m { font-size: 13px; color: var(--ink-faint); white-space: nowrap; }
       .wv-close {
         flex: none; width: 40px; height: 40px; border-radius: 50%;
         border: 1px solid var(--line-strong); background: none;
@@ -198,11 +169,9 @@
       .wv-count { font-size: 14px; color: var(--ink-faint); min-width: 76px; text-align: center; letter-spacing: .04em; }
 
       footer {
-        margin-top: 84px; padding-top: 24px; border-top: 1px solid var(--line);
-        display: flex; flex-wrap: wrap; gap: 8px 20px; justify-content: space-between;
-        font-size: 13px; color: var(--ink-faint);
+        margin-top: 100px; padding-top: 24px; border-top: 1px solid var(--line);
+        font-size: 12px; color: var(--ink-faint);
       }
-      footer b { color: var(--ink-soft); }
 
       /* ---------- 灯箱 ---------- */
       .lightbox {
@@ -235,7 +204,6 @@
         .wrap { padding: 0 18px 72px; }
         header.hero { grid-template-columns: 1fr; gap: 28px; padding-top: 44px; }
         .hero-photo img { aspect-ratio: 4 / 4.2; }
-        .hero-stats div { padding: 0 18px; }
         .grid { grid-template-columns: repeat(2, 1fr); gap: 22px 14px; }
         .grid.derived { grid-template-columns: 1fr; }
         .works-grid { grid-template-columns: 1fr; gap: 24px; }
@@ -252,23 +220,10 @@
     <div class="wrap">
       <header class="hero">
         <div>
-          <p class="hero-kicker">FUYU · 个人作品展示</p>
           <h1>秋冬衣橱<br />造型图集</h1>
-          <p class="hero-lede">
-            一组以经典学院风与老钱风为底的秋冬造型：费尔岛针织、菱格开衫、麂皮夹克与白色阔腿裤反复组合，
-            从影棚白底走到雪山、马场、湖畔与城市街头。下面收录 31 张原图，另有 PLO·CART 2026AW 秋季陈列指引整本 36 页，页尾还有 7 张沿用同系列单品延展的衍生创作。
-          </p>
-          <div class="hero-stats">
-            <div><b>31</b><span>张作品</span></div>
-            <div><b>6</b><span>个系列</span></div>
-            <div><b>2</b><span>种形式</span></div>
-            <div><b>36</b><span>页陈列指引</span></div>
-          </div>
-          <a class="hero-cta" href="#gallery">开始浏览 ↓</a>
         </div>
         <figure class="hero-photo">
           <img src="images/img-01-d13970.jpg" alt="模特穿橄榄色麂皮夹克与白色马裤站在马场木栏旁，身旁是一匹棕色马" />
-          <figcaption>主打造型 · 马场骑士风</figcaption>
         </figure>
       </header>
 
@@ -284,35 +239,34 @@
       </nav>
 
       <section class="block" aria-label="原图图集">
-        <div class="block-head"><h2>原图精选</h2><span class="count" id="gridCount"></span></div>
-        <p class="block-sub">先按大片与棚拍分开，大片再按城市、户外、小香风、美式复古、情侣双人等系列分。点任意一张图可以放大查看，放大后可用左右按钮或键盘方向键翻看。</p>
+        <div class="block-head"><h2>原图精选</h2></div>
         <div class="group" data-group="feature">
-          <div class="group-head"><h3 class="group-title">大片</h3><span class="count" id="countFeature"></span></div>
+          <div class="group-head"><h3 class="group-title">大片</h3></div>
           <div class="sub-block" data-cat-block="city" data-group="feature">
-            <div class="block-head sub"><h3>城市系列</h3><span class="count" id="countCity"></span></div>
+            <div class="block-head sub"><h3>城市系列</h3></div>
             <div class="grid" id="gridCity"></div>
           </div>
           <div class="sub-block" data-cat-block="outdoor" data-group="feature">
-            <div class="block-head sub"><h3>户外系列</h3><span class="count" id="countOutdoor"></span></div>
+            <div class="block-head sub"><h3>户外系列</h3></div>
             <div class="grid" id="gridOutdoor"></div>
           </div>
           <div class="sub-block" data-cat-block="xiaoxiang" data-group="feature">
-            <div class="block-head sub"><h3>小香风</h3><span class="count" id="countXiaoxiang"></span></div>
+            <div class="block-head sub"><h3>小香风</h3></div>
             <div class="grid" id="gridXiaoxiang"></div>
           </div>
           <div class="sub-block" data-cat-block="retro" data-group="feature">
-            <div class="block-head sub"><h3>美式复古</h3><span class="count" id="countRetro"></span></div>
+            <div class="block-head sub"><h3>美式复古</h3></div>
             <div class="grid" id="gridRetro"></div>
           </div>
           <div class="sub-block" data-cat-block="duo" data-group="feature">
-            <div class="block-head sub"><h3>情侣双人</h3><span class="count" id="countDuo"></span></div>
+            <div class="block-head sub"><h3>情侣双人</h3></div>
             <div class="grid" id="gridDuo"></div>
           </div>
         </div>
         <div class="group" data-group="studio">
-          <div class="group-head"><h3 class="group-title">棚拍</h3><span class="count" id="countStudioGroup"></span></div>
+          <div class="group-head"><h3 class="group-title">棚拍</h3></div>
           <div class="sub-block" data-cat-block="studio" data-group="studio">
-            <div class="block-head sub"><h3>影棚白底</h3><span class="count" id="countStudio"></span></div>
+            <div class="block-head sub"><h3>影棚白底</h3></div>
             <div class="grid" id="gridStudio"></div>
           </div>
         </div>
@@ -320,23 +274,16 @@
       </section>
 
       <section class="block" aria-label="作品">
-        <div class="block-head"><h2>作品</h2><span class="count" id="worksCount"></span></div>
-        <p class="block-sub">作品按模块排布：一个作品一张封面卡，点任意一个模块进入完整作品页，可翻页、滑动浏览全部内容。目前收录 PLO·CART 2026AW 秋季陈列指引整本 36 页。</p>
+        <div class="block-head"><h2>作品</h2></div>
         <div class="works-grid" id="worksGrid"></div>
       </section>
 
       <section class="block" aria-label="衍生创作">
-        <div class="block-head"><h2>衍生创作</h2><span class="count">7 张 · 新生成</span></div>
-        <p class="block-sub">
-          沿用原图集的模特气质与核心单品——白色阔腿裤、针织、驼色大衣与深棕皮具——把造型延展到三个原图里没有的场景：秋日林荫道、海港小镇与雪夜木屋村。
-        </p>
+        <div class="block-head"><h2>衍生创作</h2></div>
         <div class="grid derived" id="derivedGrid"></div>
       </section>
 
-      <footer>
-        <span><b>fuyu.loc.cc</b> · 个人作品展示页</span>
-        <span>秋冬造型图集 · 2026 年 11 月整理</span>
-      </footer>
+      <footer>fuyu.loc.cc</footer>
     </div>
 
     <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="图片放大查看">
@@ -352,7 +299,6 @@
     <div class="work-viewer" id="workViewer" role="dialog" aria-modal="true" aria-label="作品完整查看">
       <div class="wv-top">
         <div class="t" id="wvTitle"></div>
-        <span class="m" id="wvSub"></span>
         <button class="wv-close" id="wvClose" aria-label="关闭">✕</button>
       </div>
       <div class="wv-main"><img id="wvImg" alt="" /></div>
@@ -365,47 +311,47 @@
 
     <script>
       var LOOKS = [
-        { src: "images/img-02-9fe1f6.jpg", t: "雪山滑雪服 · 明黄", cat: "outdoor", catName: "户外系列", m: "黄色滑雪外套 × 黑色雪裤，雪山松林间休整", alt: "模特穿明黄色滑雪外套坐在雪地岩石上，头戴滑雪镜，背景是雪山与松树" },
-        { src: "images/img-03-3b29db.jpg", t: "城堡前的皮草背心", cat: "city", catName: "城市系列", m: "棕色针织 × 皮草背心 × 米白阔腿裤，古堡露台", alt: "模特穿棕色皮草背心与米白阔腿裤站在古堡石栏旁，手提深棕皮包" },
-        { src: "images/img-01-d13970.jpg", t: "马场骑士风", cat: "outdoor", catName: "户外系列", m: "橄榄麂皮夹克 × 白马裤 × 及膝骑士靴", alt: "模特穿橄榄色麂皮夹克与白色马裤站在马场木栏旁，身旁是一匹棕色马" },
-        { src: "images/img-04-9f252a.jpg", t: "湖畔露台 · 麂皮夹克", cat: "outdoor", catName: "户外系列", m: "同件麂皮夹克换到湖边石栏，配提花 Polo 针织", alt: "模特穿橄榄色麂皮夹克坐在湖畔石栏上，远处是湖面与山峦" },
-        { src: "images/img-05-5dbffd.jpg", t: "菱格针织 · 雪山露台", cat: "outdoor", catName: "户外系列", m: "藏青红白菱格开衫 × 白色阔腿裤，山景民宿前", alt: "模特穿藏青菱格针织开衫与白色阔腿裤站在雪山湖畔的石砌露台上" },
-        { src: "images/img-06-ace96a.jpg", t: "菱格针织 · 城市街景", cat: "city", catName: "城市系列", m: "同一件菱格开衫走上城市石板路", alt: "模特穿藏青菱格针织开衫与白色阔腿裤走在古典建筑前的石板路上" },
-        { src: "images/img-07-437036.jpg", t: "米白粗花呢 · 巴黎街角", cat: "xiaoxiang", catName: "小香风", m: "全白造型：粗花呢短外套 × 垂感阔腿裤 × 小号手提包", alt: "模特穿米白色粗花呢短外套与同色阔腿裤靠在巴黎风格建筑的石墙边" },
-        { src: "images/img-08-931599.jpg", t: "牛仔背心 · 西部公路", cat: "retro", catName: "美式复古", m: "牛仔背心叠穿提花毛衣，复古加油站与皮卡前", alt: "模特穿牛仔背心与牛仔裤靠在一辆复古皮卡旁，背景是美式公路加油站" },
-        { src: "images/img-28-mens-vest-299.jpg", t: "男士立领马甲 · ¥299", cat: "outdoor", catName: "户外系列", m: "橄榄绿立领马甲 × 米色绞花针织 × 卡其长裤，山谷草甸", alt: "男模特穿橄榄绿色立领马甲内搭米色绞花针织毛衣与卡其色长裤，靠在山谷草甸间的岩石上" },
-        { src: "images/img-29-mens-plaid-319.jpg", t: "男士格纹衬衫外套 · ¥319", cat: "outdoor", catName: "户外系列", m: "棕色格纹衬衫外套 × 深棕高领 × 卡其灯芯绒裤，山谷草甸", alt: "男模特穿棕色格纹衬衫外套内搭深棕色高领毛衣与卡其色灯芯绒裤，靠在山谷草甸间的岩石上" },
-        { src: "images/img-30-womens-fur-679.jpg", t: "女款毛绒外套 · ¥679", cat: "outdoor", catName: "户外系列", m: "驼色毛绒外套 × 奶油高领 × 米白阔腿裤，山谷草甸", alt: "女模特穿驼色毛绒外套内搭奶油色高领毛衣与米白色阔腿裤，坐在山谷草甸间的岩石上" },
-        { src: "images/img-31-womens-ethnic-799.jpg", t: "女款民族风夹克外套 · ¥799", cat: "outdoor", catName: "户外系列", m: "焦糖民族风夹克 × 米白针织 × 卡其阔腿裤，湖畔藤椅", alt: "女模特穿焦糖色民族风夹克外套与米白色针织衫、卡其色阔腿裤，坐在湖畔的藤椅上" },
-        { src: "images/img-34-womens-puffer-479-light.jpg", t: "女款排骨羽绒服 · 浅灰 ¥479", cat: "outdoor", catName: "户外系列", m: "浅灰排骨羽绒服 × 奶油高领 × 卡其阔腿裤，雪山湖畔", alt: "女模特穿浅灰色排骨羽绒服内搭奶油色高领毛衣与卡其色阔腿裤，站在雪山湖畔的草甸上" },
-        { src: "images/img-36-womens-cotton-479-a.jpg", t: "女款棉服 · ¥479", cat: "outdoor", catName: "户外系列", m: "米白连帽棉服 × 奶油高领 × 米白阔腿裤，草甸木船", alt: "女模特穿米白色连帽棉服内搭奶油色高领毛衣与米白色阔腿裤，站在草甸上，身旁是一艘木船" },
-        { src: "images/img-37-mens-barn-down-559.jpg", t: "男士（巴恩风）羽绒服 · ¥559", cat: "retro", catName: "美式复古", m: "米白巴恩风羽绒服 × 浅蓝衬衫 × 米白长裤，复古老爷车旁", alt: "男模特穿米白色巴恩风羽绒服内搭浅蓝衬衫与米白色长裤，戴墨镜靠在复古老爷车旁" },
-        { src: "images/img-38-womens-fleece-vest-379-c.jpg", t: "女款羊毛绒马甲 · 木船 ¥379", cat: "outdoor", catName: "户外系列", m: "奶油羊毛绒马甲 × 米白高领针织 × 卡其阔腿裤，草甸木船", alt: "女模特穿奶油色羊毛绒马甲内搭米白色高领针织衫与卡其色阔腿裤，坐在草甸上的木船里" },
-        { src: "images/img-39-womens-cotton-479-b.jpg", t: "女款棉服 · 近景 ¥479", cat: "outdoor", catName: "户外系列", m: "同款米白连帽棉服换近景，草甸木船", alt: "女模特穿米白色连帽棉服内搭奶油色高领毛衣，近景，背景是草甸与木船" },
-        { src: "images/img-40-womens-goose-down-799.jpg", t: "鹅绒羽绒服 · ¥799", cat: "outdoor", catName: "户外系列", m: "橄榄绿民族风鹅绒羽绒服 × 米白针织 × 卡其阔腿裤，湖畔藤椅", alt: "女模特穿橄榄绿色民族风鹅绒羽绒服与米白色针织衫、卡其色阔腿裤，坐在湖畔的藤椅上" },
-        { src: "images/img-41-womens-fleece-vest-379-d.jpg", t: "女款羊毛绒马甲 · 藤椅 ¥379", cat: "outdoor", catName: "户外系列", m: "奶油羊毛绒马甲 × 米白高领针织 × 卡其阔腿裤，湖畔藤椅", alt: "女模特穿奶油色羊毛绒马甲内搭米白色高领针织衫与卡其色阔腿裤，坐在湖畔的藤椅上" },
-        { src: "images/img-09-fc7e66.jpg", t: "费尔岛针织背心", cat: "studio", catName: "影棚白底", m: "提花背心 × 白色高领 × 卡其阔腿裤", alt: "模特穿棕色费尔岛提花针织背心与卡其色阔腿裤站在白色影棚背景前" },
-        { src: "images/img-10-148b7c.jpg", t: "海军条纹拉链针织", cat: "studio", catName: "影棚白底", m: "藏青条纹开衫内搭浅蓝衬衫 × 白色阔腿裤", alt: "模特穿藏青白条纹拉链针织衫与白色阔腿裤站在白色影棚背景前" },
-        { src: "images/img-11-c7a07b.jpg", t: "灰蓝费尔岛开衫", cat: "studio", catName: "影棚白底", m: "灰色提花开衫 × 白色阔腿裤 × 深棕手提包", alt: "模特穿灰蓝色费尔岛提花开衫与白色阔腿裤站在白色影棚背景前，手提深棕色包" },
-        { src: "images/img-12-8ad69e.jpg", t: "藏青夹克 × 芥黄针织", cat: "studio", catName: "影棚白底", m: "灯芯绒领夹克敞穿，黄色针织打底", alt: "模特穿藏青色夹克内搭芥黄色针织衫与白色阔腿裤站在白色影棚背景前" },
-        { src: "images/img-13-afa015.jpg", t: "芥黄绞花开衫 · 半敞", cat: "studio", catName: "影棚白底", m: "绞花针织开衫半敞，内搭白色衬衫", alt: "模特穿芥黄色绞花针织开衫与白色阔腿裤站在白色影棚背景前" },
-        { src: "images/img-14-f32833.jpg", t: "芥黄绞花开衫 · 高领", cat: "studio", catName: "影棚白底", m: "同件开衫扣合，换白色高领打底", alt: "模特穿芥黄色绞花针织开衫内搭白色高领与白色阔腿裤站在白色影棚背景前" },
-        { src: "images/img-15-b7d56b.jpg", t: "橄榄麂皮夹克 × 骑士靴", cat: "studio", catName: "影棚白底", m: "马场造型的影棚版：白裤塞进及膝长靴", alt: "模特穿橄榄色麂皮夹克与白色马裤、深棕骑士靴站在白色影棚背景前" },
-        { src: "images/img-16-1701cd.jpg", t: "菱格针织 · 白底全身", cat: "studio", catName: "影棚白底", m: "菱格开衫的影棚定妆照，无配饰版", alt: "模特穿藏青菱格针织开衫与白色阔腿裤站在白色影棚背景前" },
-        { src: "images/img-17-899b05.jpg", t: "菱格针织 · 手提包版", cat: "studio", catName: "影棚白底", m: "同造型加上深棕手提包，乐福鞋收尾", alt: "模特穿藏青菱格针织开衫与白色阔腿裤站在白色影棚背景前，手提深棕色包" },
-        { src: "images/img-18-b49d42.jpg", t: "双人 · 奶油与焦糖", cat: "duo", catName: "情侣双人", m: "女款奶油色短外套 × 男款焦糖麂皮夹克，同色系并行", alt: "一对男女模特并肩站立，女方穿奶油色短外套与白色阔腿裤，男方穿棕色麂皮夹克与米色长裤" },
-        { src: "images/img-19-a85fad.jpg", t: "双人 · 蓝羽绒背心", cat: "duo", catName: "情侣双人", m: "女款蓝色羽绒背心叠穿芥黄针织 × 男款麂皮夹克配牛仔裤", alt: "一对男女模特并肩站立，女方穿蓝色羽绒背心与白色阔腿裤，男方穿焦糖色麂皮夹克与牛仔裤" },
-        { src: "images/img-20-981041.jpg", t: "双人 · 同系列另一姿势", cat: "duo", catName: "情侣双人", m: "与上一张同套造型，换站位与朝向再拍一张", alt: "一对男女模特并肩站立，女方穿蓝色羽绒背心与白色阔腿裤，男方穿焦糖色麂皮夹克与牛仔裤，姿势略有不同" }
+        { src: "images/img-02-9fe1f6.jpg", t: "雪山滑雪服 · 明黄", cat: "outdoor", catName: "户外系列", alt: "模特穿明黄色滑雪外套坐在雪地岩石上，头戴滑雪镜，背景是雪山与松树" },
+        { src: "images/img-03-3b29db.jpg", t: "城堡前的皮草背心", cat: "city", catName: "城市系列", alt: "模特穿棕色皮草背心与米白阔腿裤站在古堡石栏旁，手提深棕皮包" },
+        { src: "images/img-01-d13970.jpg", t: "马场骑士风", cat: "outdoor", catName: "户外系列", alt: "模特穿橄榄色麂皮夹克与白色马裤站在马场木栏旁，身旁是一匹棕色马" },
+        { src: "images/img-04-9f252a.jpg", t: "湖畔露台 · 麂皮夹克", cat: "outdoor", catName: "户外系列", alt: "模特穿橄榄色麂皮夹克坐在湖畔石栏上，远处是湖面与山峦" },
+        { src: "images/img-05-5dbffd.jpg", t: "菱格针织 · 雪山露台", cat: "outdoor", catName: "户外系列", alt: "模特穿藏青菱格针织开衫与白色阔腿裤站在雪山湖畔的石砌露台上" },
+        { src: "images/img-06-ace96a.jpg", t: "菱格针织 · 城市街景", cat: "city", catName: "城市系列", alt: "模特穿藏青菱格针织开衫与白色阔腿裤走在古典建筑前的石板路上" },
+        { src: "images/img-07-437036.jpg", t: "米白粗花呢 · 巴黎街角", cat: "xiaoxiang", catName: "小香风", alt: "模特穿米白色粗花呢短外套与同色阔腿裤靠在巴黎风格建筑的石墙边" },
+        { src: "images/img-08-931599.jpg", t: "牛仔背心 · 西部公路", cat: "retro", catName: "美式复古", alt: "模特穿牛仔背心与牛仔裤靠在一辆复古皮卡旁，背景是美式公路加油站" },
+        { src: "images/img-28-mens-vest-299.jpg", t: "男士立领马甲 · ¥299", cat: "outdoor", catName: "户外系列", alt: "男模特穿橄榄绿色立领马甲内搭米色绞花针织毛衣与卡其色长裤，靠在山谷草甸间的岩石上" },
+        { src: "images/img-29-mens-plaid-319.jpg", t: "男士格纹衬衫外套 · ¥319", cat: "outdoor", catName: "户外系列", alt: "男模特穿棕色格纹衬衫外套内搭深棕色高领毛衣与卡其色灯芯绒裤，靠在山谷草甸间的岩石上" },
+        { src: "images/img-30-womens-fur-679.jpg", t: "女款毛绒外套 · ¥679", cat: "outdoor", catName: "户外系列", alt: "女模特穿驼色毛绒外套内搭奶油色高领毛衣与米白色阔腿裤，坐在山谷草甸间的岩石上" },
+        { src: "images/img-31-womens-ethnic-799.jpg", t: "女款民族风夹克外套 · ¥799", cat: "outdoor", catName: "户外系列", alt: "女模特穿焦糖色民族风夹克外套与米白色针织衫、卡其色阔腿裤，坐在湖畔的藤椅上" },
+        { src: "images/img-34-womens-puffer-479-light.jpg", t: "女款排骨羽绒服 · 浅灰 ¥479", cat: "outdoor", catName: "户外系列", alt: "女模特穿浅灰色排骨羽绒服内搭奶油色高领毛衣与卡其色阔腿裤，站在雪山湖畔的草甸上" },
+        { src: "images/img-36-womens-cotton-479-a.jpg", t: "女款棉服 · ¥479", cat: "outdoor", catName: "户外系列", alt: "女模特穿米白色连帽棉服内搭奶油色高领毛衣与米白色阔腿裤，站在草甸上，身旁是一艘木船" },
+        { src: "images/img-37-mens-barn-down-559.jpg", t: "男士（巴恩风）羽绒服 · ¥559", cat: "retro", catName: "美式复古", alt: "男模特穿米白色巴恩风羽绒服内搭浅蓝衬衫与米白色长裤，戴墨镜靠在复古老爷车旁" },
+        { src: "images/img-38-womens-fleece-vest-379-c.jpg", t: "女款羊毛绒马甲 · 木船 ¥379", cat: "outdoor", catName: "户外系列", alt: "女模特穿奶油色羊毛绒马甲内搭米白色高领针织衫与卡其色阔腿裤，坐在草甸上的木船里" },
+        { src: "images/img-39-womens-cotton-479-b.jpg", t: "女款棉服 · 近景 ¥479", cat: "outdoor", catName: "户外系列", alt: "女模特穿米白色连帽棉服内搭奶油色高领毛衣，近景，背景是草甸与木船" },
+        { src: "images/img-40-womens-goose-down-799.jpg", t: "鹅绒羽绒服 · ¥799", cat: "outdoor", catName: "户外系列", alt: "女模特穿橄榄绿色民族风鹅绒羽绒服与米白色针织衫、卡其色阔腿裤，坐在湖畔的藤椅上" },
+        { src: "images/img-41-womens-fleece-vest-379-d.jpg", t: "女款羊毛绒马甲 · 藤椅 ¥379", cat: "outdoor", catName: "户外系列", alt: "女模特穿奶油色羊毛绒马甲内搭米白色高领针织衫与卡其色阔腿裤，坐在湖畔的藤椅上" },
+        { src: "images/img-09-fc7e66.jpg", t: "费尔岛针织背心", cat: "studio", catName: "影棚白底", alt: "模特穿棕色费尔岛提花针织背心与卡其色阔腿裤站在白色影棚背景前" },
+        { src: "images/img-10-148b7c.jpg", t: "海军条纹拉链针织", cat: "studio", catName: "影棚白底", alt: "模特穿藏青白条纹拉链针织衫与白色阔腿裤站在白色影棚背景前" },
+        { src: "images/img-11-c7a07b.jpg", t: "灰蓝费尔岛开衫", cat: "studio", catName: "影棚白底", alt: "模特穿灰蓝色费尔岛提花开衫与白色阔腿裤站在白色影棚背景前，手提深棕色包" },
+        { src: "images/img-12-8ad69e.jpg", t: "藏青夹克 × 芥黄针织", cat: "studio", catName: "影棚白底", alt: "模特穿藏青色夹克内搭芥黄色针织衫与白色阔腿裤站在白色影棚背景前" },
+        { src: "images/img-13-afa015.jpg", t: "芥黄绞花开衫 · 半敞", cat: "studio", catName: "影棚白底", alt: "模特穿芥黄色绞花针织开衫与白色阔腿裤站在白色影棚背景前" },
+        { src: "images/img-14-f32833.jpg", t: "芥黄绞花开衫 · 高领", cat: "studio", catName: "影棚白底", alt: "模特穿芥黄色绞花针织开衫内搭白色高领与白色阔腿裤站在白色影棚背景前" },
+        { src: "images/img-15-b7d56b.jpg", t: "橄榄麂皮夹克 × 骑士靴", cat: "studio", catName: "影棚白底", alt: "模特穿橄榄色麂皮夹克与白色马裤、深棕骑士靴站在白色影棚背景前" },
+        { src: "images/img-16-1701cd.jpg", t: "菱格针织 · 白底全身", cat: "studio", catName: "影棚白底", alt: "模特穿藏青菱格针织开衫与白色阔腿裤站在白色影棚背景前" },
+        { src: "images/img-17-899b05.jpg", t: "菱格针织 · 手提包版", cat: "studio", catName: "影棚白底", alt: "模特穿藏青菱格针织开衫与白色阔腿裤站在白色影棚背景前，手提深棕色包" },
+        { src: "images/img-18-b49d42.jpg", t: "双人 · 奶油与焦糖", cat: "duo", catName: "情侣双人", alt: "一对男女模特并肩站立，女方穿奶油色短外套与白色阔腿裤，男方穿棕色麂皮夹克与米色长裤" },
+        { src: "images/img-19-a85fad.jpg", t: "双人 · 蓝羽绒背心", cat: "duo", catName: "情侣双人", alt: "一对男女模特并肩站立，女方穿蓝色羽绒背心与白色阔腿裤，男方穿焦糖色麂皮夹克与牛仔裤" },
+        { src: "images/img-20-981041.jpg", t: "双人 · 同系列另一姿势", cat: "duo", catName: "情侣双人", alt: "一对男女模特并肩站立，女方穿蓝色羽绒背心与白色阔腿裤，男方穿焦糖色麂皮夹克与牛仔裤，姿势略有不同" }
       ];
 
       var DERIVED = [
-        { src: "images/img-21-c67092.webp", t: "衍生 · 秋日风衣", catName: "衍生创作", m: "驼色风衣 × 酒红高领 × 白色阔腿裤，金色林荫道", alt: "模特穿驼色风衣与酒红色高领毛衣、白色阔腿裤走在铺满落叶的秋日街道上" },
-        { src: "images/img-22-307477.webp", t: "衍生 · 海港西装", catName: "衍生创作", m: "藏青金扣西装 × 条纹针织 × 草编托特包，地中海海港", alt: "模特穿藏青色西装与条纹针织衫、白色阔腿裤走在海港码头边，手提草编托特包" },
-        { src: "images/img-23-3ef5a2.webp", t: "衍生 · 雪夜长大衣", catName: "衍生创作", m: "费尔岛毛衣 × 驼色长大衣 × 羊绒围巾，木屋村黄昏", alt: "模特穿驼色长大衣与费尔岛提花毛衣站在雪夜的山间木屋村街道上，手捧热饮" },
-        { src: "images/img-24-brown-fairisle-autumn.webp", t: "衍生 · 秋日林间费尔岛", catName: "衍生创作", m: "棕色费尔岛背心 × 奶油高领 × 卡其阔腿裤，落叶林间", alt: "模特穿棕色费尔岛提花针织背心与奶油色高领毛衣、卡其色阔腿裤站在秋日落叶的林间小径上" },
-        { src: "images/img-25-denim-yellow-street.webp", t: "衍生 · 黄昏街头牛仔", catName: "衍生创作", m: "牛仔夹克 × 芥黄绞花针织 × 白色阔腿裤，城市黄昏", alt: "模特穿深蓝色牛仔夹克内搭芥黄色绞花针织衫与白色阔腿裤，戴墨镜站在黄昏的城市街头" },
-        { src: "images/img-26-grey-fairisle-cafe.webp", t: "衍生 · 咖啡馆费尔岛", catName: "衍生创作", m: "灰蓝费尔岛开衫 × 浅蓝衬衫 × 白色阔腿裤，街角咖啡馆", alt: "模特穿灰蓝色费尔岛提花开衫内搭浅蓝衬衫与白色阔腿裤，戴墨镜站在咖啡馆窗边" },
-        { src: "images/img-27-navy-striped-seaside.webp", t: "衍生 · 海边条纹针织", catName: "衍生创作", m: "藏青条纹拉链针织 × 浅蓝衬衫 × 白色阔腿裤，海滨栈道", alt: "模特穿藏青白条纹拉链针织衫内搭浅蓝衬衫与白色阔腿裤，戴墨镜站在海边的木栈道上" }
+        { src: "images/img-21-c67092.webp", t: "衍生 · 秋日风衣", catName: "衍生创作", alt: "模特穿驼色风衣与酒红色高领毛衣、白色阔腿裤走在铺满落叶的秋日街道上" },
+        { src: "images/img-22-307477.webp", t: "衍生 · 海港西装", catName: "衍生创作", alt: "模特穿藏青色西装与条纹针织衫、白色阔腿裤走在海港码头边，手提草编托特包" },
+        { src: "images/img-23-3ef5a2.webp", t: "衍生 · 雪夜长大衣", catName: "衍生创作", alt: "模特穿驼色长大衣与费尔岛提花毛衣站在雪夜的山间木屋村街道上，手捧热饮" },
+        { src: "images/img-24-brown-fairisle-autumn.webp", t: "衍生 · 秋日林间费尔岛", catName: "衍生创作", alt: "模特穿棕色费尔岛提花针织背心与奶油色高领毛衣、卡其色阔腿裤站在秋日落叶的林间小径上" },
+        { src: "images/img-25-denim-yellow-street.webp", t: "衍生 · 黄昏街头牛仔", catName: "衍生创作", alt: "模特穿深蓝色牛仔夹克内搭芥黄色绞花针织衫与白色阔腿裤，戴墨镜站在黄昏的城市街头" },
+        { src: "images/img-26-grey-fairisle-cafe.webp", t: "衍生 · 咖啡馆费尔岛", catName: "衍生创作", alt: "模特穿灰蓝色费尔岛提花开衫内搭浅蓝衬衫与白色阔腿裤，戴墨镜站在咖啡馆窗边" },
+        { src: "images/img-27-navy-striped-seaside.webp", t: "衍生 · 海边条纹针织", catName: "衍生创作", alt: "模特穿藏青白条纹拉链针织衫内搭浅蓝衬衫与白色阔腿裤，戴墨镜站在海边的木栈道上" }
       ];
 
       function makeCard(item, list, idx) {
@@ -421,13 +367,14 @@
         btn.appendChild(img);
         btn.addEventListener("click", function () { openLightbox(list, idx); });
         var cap = document.createElement("figcaption");
-        var tag = document.createElement("span");
-        tag.className = "tag"; tag.textContent = item.catName;
         var t = document.createElement("div");
         t.className = "t"; t.textContent = item.t;
-        var m = document.createElement("div");
-        m.className = "m"; m.textContent = item.m;
-        cap.appendChild(tag); cap.appendChild(t); cap.appendChild(m);
+        cap.appendChild(t);
+        if (item.cat) {
+          var m = document.createElement("div");
+          m.className = "m"; m.textContent = item.catName;
+          cap.appendChild(m);
+        }
         fig.appendChild(btn); fig.appendChild(cap);
         return fig;
       }
@@ -441,23 +388,11 @@
         studio: document.getElementById("gridStudio")
       };
       LOOKS.forEach(function (item, i) { grids[item.cat].appendChild(makeCard(item, LOOKS, i)); });
-      function countCat(cat) {
-        return LOOKS.filter(function (x) { return x.cat === cat; }).length;
-      }
-      document.getElementById("countCity").textContent = "共 " + countCat("city") + " 张";
-      document.getElementById("countOutdoor").textContent = "共 " + countCat("outdoor") + " 张";
-      document.getElementById("countXiaoxiang").textContent = "共 " + countCat("xiaoxiang") + " 张";
-      document.getElementById("countRetro").textContent = "共 " + countCat("retro") + " 张";
-      document.getElementById("countDuo").textContent = "共 " + countCat("duo") + " 张";
-      document.getElementById("countStudio").textContent = "共 " + countCat("studio") + " 张";
-      document.getElementById("countFeature").textContent = "共 " + (countCat("city") + countCat("outdoor") + countCat("xiaoxiang") + countCat("retro") + countCat("duo")) + " 张";
-      document.getElementById("countStudioGroup").textContent = "共 " + countCat("studio") + " 张";
       var derivedGrid = document.getElementById("derivedGrid");
       DERIVED.forEach(function (item, i) { derivedGrid.appendChild(makeCard(item, DERIVED, i)); });
 
       /* 筛选 */
       var chips = Array.prototype.slice.call(document.querySelectorAll(".chip"));
-      var gridCount = document.getElementById("gridCount");
       var emptyNote = document.getElementById("emptyNote");
       var subBlocks = Array.prototype.slice.call(document.querySelectorAll(".sub-block"));
       var groups = Array.prototype.slice.call(document.querySelectorAll(".group"));
@@ -466,7 +401,6 @@
         subBlocks.forEach(function (block) {
           if (!block.classList.contains("is-hidden")) visible += block.querySelectorAll(".card").length;
         });
-        gridCount.textContent = "共 " + visible + " 张";
         emptyNote.classList.toggle("show", visible === 0);
       }
       chips.forEach(function (chip) {
@@ -498,7 +432,7 @@
         var item = currentList[currentIdx];
         lbImg.src = item.src; lbImg.alt = item.alt;
         lbTitle.textContent = item.t;
-        lbSub.textContent = (item.catName ? item.catName + " · " : "") + (currentIdx + 1) + " / " + currentList.length + " · " + item.m;
+        lbSub.textContent = (item.catName ? item.catName + " · " : "") + (currentIdx + 1) + " / " + currentList.length;
       }
       function openLightbox(list, idx) {
         currentList = list; currentIdx = idx;
@@ -530,54 +464,52 @@
 
       /* PLO·CART 2026AW · 模块分布 + 完整作品页 */
       var PLO = [
-        { src: "images/plo-aw-01.jpg", t: "封面 · 2026AW 秋季陈列指引（秋二波）", m: "第 1 页 / 共 36 页" },
-        { src: "images/plo-aw-02.jpg", t: "辅料说明 · 陈列物料说明", m: "第 2 页 / 共 36 页" },
-        { src: "images/plo-aw-03.jpg", t: "形象广告物料使用说明", m: "第 3 页 / 共 36 页" },
-        { src: "images/plo-aw-04.jpg", t: "陈列物料使用说明", m: "第 4 页 / 共 36 页" },
-        { src: "images/plo-aw-05.jpg", t: "产品系列介绍 · 男装", m: "第 5 页 / 共 36 页" },
-        { src: "images/plo-aw-06.jpg", t: "MEN", m: "第 6 页 / 共 36 页" },
-        { src: "images/plo-aw-07.jpg", t: "货品陈列说明", m: "第 7 页 / 共 36 页" },
-        { src: "images/plo-aw-08.jpg", t: "男装趋势", m: "第 8 页 / 共 36 页" },
-        { src: "images/plo-aw-09.jpg", t: "男装系列产品介绍 · 商务休闲", m: "第 9 页 / 共 36 页" },
-        { src: "images/plo-aw-10.jpg", t: "展桌 · 美式休闲", m: "第 10 页 / 共 36 页" },
-        { src: "images/plo-aw-11.jpg", t: "展桌 · 美式休闲（案例）", m: "第 11 页 / 共 36 页" },
-        { src: "images/plo-aw-12.jpg", t: "美式休闲 · 男装复古系列", m: "第 12 页 / 共 36 页" },
-        { src: "images/plo-aw-13.jpg", t: "美式休闲 · 男装复古系列", m: "第 13 页 / 共 36 页" },
-        { src: "images/plo-aw-14.jpg", t: "美式休闲 · 羽绒服集中展", m: "第 14 页 / 共 36 页" },
-        { src: "images/plo-aw-15.jpg", t: "美式休闲 · 男装", m: "第 15 页 / 共 36 页" },
-        { src: "images/plo-aw-16.jpg", t: "美式休闲 · 男装复古", m: "第 16 页 / 共 36 页" },
-        { src: "images/plo-aw-17.jpg", t: "柜体组合 · 两仓柜体", m: "第 17 页 / 共 36 页" },
-        { src: "images/plo-aw-18.jpg", t: "柜体组合 · 三仓柜体", m: "第 18 页 / 共 36 页" },
-        { src: "images/plo-aw-19.jpg", t: "WOMEN", m: "第 19 页 / 共 36 页" },
-        { src: "images/plo-aw-20.jpg", t: "女装趋势", m: "第 20 页 / 共 36 页" },
-        { src: "images/plo-aw-21.jpg", t: "女装系列介绍 · 都市生活", m: "第 21 页 / 共 36 页" },
-        { src: "images/plo-aw-22.jpg", t: "都市生活系列 · 女装", m: "第 22 页 / 共 36 页" },
-        { src: "images/plo-aw-23.jpg", t: "都市生活系列 · 女装", m: "第 23 页 / 共 36 页" },
-        { src: "images/plo-aw-24.jpg", t: "美式休闲 · 女装费尔岛风", m: "第 24 页 / 共 36 页" },
-        { src: "images/plo-aw-25.jpg", t: "美式休闲 · 女装复古学院风", m: "第 25 页 / 共 36 页" },
-        { src: "images/plo-aw-26.jpg", t: "都市生活系列 · 女装", m: "第 26 页 / 共 36 页" },
-        { src: "images/plo-aw-27.jpg", t: "柜体组合 · 两仓柜体", m: "第 27 页 / 共 36 页" },
-        { src: "images/plo-aw-28.jpg", t: "柜体组合 · 三仓柜体", m: "第 28 页 / 共 36 页" },
-        { src: "images/plo-aw-29.jpg", t: "模特搭配筛选", m: "第 29 页 / 共 36 页" },
-        { src: "images/plo-aw-30.jpg", t: "模特搭配参考", m: "第 30 页 / 共 36 页" },
-        { src: "images/plo-aw-31.jpg", t: "模特搭配参考", m: "第 31 页 / 共 36 页" },
-        { src: "images/plo-aw-32.jpg", t: "模特搭配参考", m: "第 32 页 / 共 36 页" },
-        { src: "images/plo-aw-33.jpg", t: "模特搭配参考", m: "第 33 页 / 共 36 页" },
-        { src: "images/plo-aw-34.jpg", t: "模特搭配参考", m: "第 34 页 / 共 36 页" },
-        { src: "images/plo-aw-35.jpg", t: "模特搭配参考", m: "第 35 页 / 共 36 页" },
-        { src: "images/plo-aw-36.jpg", t: "感谢观看", m: "第 36 页 / 共 36 页" }
+        { src: "images/plo-aw-01.jpg", t: "封面 · 2026AW 秋季陈列指引（秋二波）" },
+        { src: "images/plo-aw-02.jpg", t: "辅料说明 · 陈列物料说明" },
+        { src: "images/plo-aw-03.jpg", t: "形象广告物料使用说明" },
+        { src: "images/plo-aw-04.jpg", t: "陈列物料使用说明" },
+        { src: "images/plo-aw-05.jpg", t: "产品系列介绍 · 男装" },
+        { src: "images/plo-aw-06.jpg", t: "MEN" },
+        { src: "images/plo-aw-07.jpg", t: "货品陈列说明" },
+        { src: "images/plo-aw-08.jpg", t: "男装趋势" },
+        { src: "images/plo-aw-09.jpg", t: "男装系列产品介绍 · 商务休闲" },
+        { src: "images/plo-aw-10.jpg", t: "展桌 · 美式休闲" },
+        { src: "images/plo-aw-11.jpg", t: "展桌 · 美式休闲（案例）" },
+        { src: "images/plo-aw-12.jpg", t: "美式休闲 · 男装复古系列" },
+        { src: "images/plo-aw-13.jpg", t: "美式休闲 · 男装复古系列" },
+        { src: "images/plo-aw-14.jpg", t: "美式休闲 · 羽绒服集中展" },
+        { src: "images/plo-aw-15.jpg", t: "美式休闲 · 男装" },
+        { src: "images/plo-aw-16.jpg", t: "美式休闲 · 男装复古" },
+        { src: "images/plo-aw-17.jpg", t: "柜体组合 · 两仓柜体" },
+        { src: "images/plo-aw-18.jpg", t: "柜体组合 · 三仓柜体" },
+        { src: "images/plo-aw-19.jpg", t: "WOMEN" },
+        { src: "images/plo-aw-20.jpg", t: "女装趋势" },
+        { src: "images/plo-aw-21.jpg", t: "女装系列介绍 · 都市生活" },
+        { src: "images/plo-aw-22.jpg", t: "都市生活系列 · 女装" },
+        { src: "images/plo-aw-23.jpg", t: "都市生活系列 · 女装" },
+        { src: "images/plo-aw-24.jpg", t: "美式休闲 · 女装费尔岛风" },
+        { src: "images/plo-aw-25.jpg", t: "美式休闲 · 女装复古学院风" },
+        { src: "images/plo-aw-26.jpg", t: "都市生活系列 · 女装" },
+        { src: "images/plo-aw-27.jpg", t: "柜体组合 · 两仓柜体" },
+        { src: "images/plo-aw-28.jpg", t: "柜体组合 · 三仓柜体" },
+        { src: "images/plo-aw-29.jpg", t: "模特搭配筛选" },
+        { src: "images/plo-aw-30.jpg", t: "模特搭配参考" },
+        { src: "images/plo-aw-31.jpg", t: "模特搭配参考" },
+        { src: "images/plo-aw-32.jpg", t: "模特搭配参考" },
+        { src: "images/plo-aw-33.jpg", t: "模特搭配参考" },
+        { src: "images/plo-aw-34.jpg", t: "模特搭配参考" },
+        { src: "images/plo-aw-35.jpg", t: "模特搭配参考" },
+        { src: "images/plo-aw-36.jpg", t: "感谢观看" }
       ];
       /* 作品网格：一个作品一张封面卡，点进去是完整的作品页。
          加新作品时往 WORKS 里加一条（封面、标题、说明、页面数组）即可。 */
       var WORKS = [
-        { cover: "images/plo-aw-01.jpg", title: "PLO·CART 2026AW · 秋季陈列指引", meta: "36 页 · 陈列指引", pages: PLO }
+        { cover: "images/plo-aw-01.jpg", title: "PLO·CART 2026AW · 秋季陈列指引", meta: "36 页", pages: PLO }
       ];
       var worksGrid = document.getElementById("worksGrid");
-      document.getElementById("worksCount").textContent = "共 " + WORKS.length + " 个作品";
       var workViewer = document.getElementById("workViewer");
       var wvImg = document.getElementById("wvImg");
       var wvTitle = document.getElementById("wvTitle");
-      var wvSub = document.getElementById("wvSub");
       var wvCount = document.getElementById("wvCount");
       var workIdx = 0, workPageIdx = 0, workLastFocus = null;
       function workPages() { return WORKS[workIdx].pages; }
@@ -607,7 +539,6 @@
         var item = pages[workPageIdx];
         wvImg.src = item.src; wvImg.alt = item.t;
         wvTitle.textContent = item.t;
-        wvSub.textContent = item.m;
         wvCount.textContent = (workPageIdx + 1) + " / " + pages.length;
       }
       function openWorkViewer(wi, pi) {
