@@ -224,6 +224,52 @@
 
       .grid.derived { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
 
+      /* ---------- PLO·CART 2026AW · 3D 立体叠放 + 光晕 ---------- */
+      .plo-stage {
+        position: relative;
+        perspective: 1500px;
+        height: calc(min(680px, 86vw) * 9 / 16 + 100px);
+        margin: 6px 0 4px;
+      }
+      .plo-halo {
+        position: absolute; left: 50%; top: 50%;
+        width: min(780px, 96vw); aspect-ratio: 16 / 9;
+        transform: translate(-50%, -50%);
+        background: radial-gradient(ellipse at center, rgba(255, 196, 110, 0.65), rgba(232, 144, 96, 0.32) 45%, rgba(255, 226, 168, 0.12) 65%, transparent 72%);
+        filter: blur(28px);
+        pointer-events: none;
+      }
+      .plo-slide {
+        position: absolute; left: 50%; top: 50%;
+        width: min(680px, 86vw); aspect-ratio: 16 / 9;
+        transform: translate(-50%, -50%);
+        border-radius: 12px; overflow: hidden; background: #fff;
+        box-shadow: 0 18px 44px rgba(84, 48, 18, 0.28);
+        cursor: pointer;
+        transition: transform .55s cubic-bezier(.22, .9, .3, 1), opacity .55s ease, filter .55s ease, box-shadow .55s ease;
+        transform-style: preserve-3d;
+        backface-visibility: hidden;
+      }
+      .plo-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .plo-slide.is-active {
+        box-shadow: 0 30px 70px rgba(84, 48, 18, 0.4), 0 0 90px rgba(255, 180, 90, 0.5);
+        cursor: zoom-in;
+      }
+      .plo-caption { text-align: center; margin: 4px 0 0; }
+      .plo-caption .t { font-weight: 700; font-size: 16px; }
+      .plo-caption .m { font-size: 13px; color: var(--ink-faint); margin-top: 2px; }
+      .plo-controls { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 16px; }
+      .plo-btn {
+        min-width: 48px; min-height: 44px; padding: 8px 18px; border-radius: 999px;
+        border: 1px solid var(--line); background: var(--chip-bg);
+        color: var(--ink-soft); font: inherit; font-size: 15px; font-weight: 700; cursor: pointer;
+      }
+      .plo-btn:active { transform: scale(.97); }
+      .plo-count { font-size: 14px; color: var(--ink-faint); min-width: 64px; text-align: center; }
+      @media (prefers-color-scheme: dark) {
+        .plo-slide.is-active { box-shadow: 0 30px 70px rgba(0, 0, 0, 0.55), 0 0 90px rgba(224, 164, 88, 0.4); }
+      }
+
       footer {
         margin-top: 64px; padding-top: 22px; border-top: 1px solid var(--line);
         display: flex; flex-wrap: wrap; gap: 8px 20px; justify-content: space-between;
@@ -280,12 +326,13 @@
           <h1>秋冬衣橱<br />造型图集</h1>
           <p class="hero-lede">
             一组以经典学院风与老钱风为底的秋冬造型：费尔岛针织、菱格开衫、麂皮夹克与白色阔腿裤反复组合，
-            从影棚白底走到雪山、马场、湖畔与城市街头。下面收录 31 张原图，页尾另有 7 张沿用同系列单品延展的衍生创作。
+            从影棚白底走到雪山、马场、湖畔与城市街头。下面收录 31 张原图，另有 PLO·CART 2026AW 秋季陈列指引整本 36 页，页尾还有 7 张沿用同系列单品延展的衍生创作。
           </p>
           <div class="hero-stats">
             <div><b>31</b><span>张作品</span></div>
             <div><b>6</b><span>个系列</span></div>
             <div><b>2</b><span>种形式</span></div>
+            <div><b>36</b><span>页陈列指引</span></div>
           </div>
           <a class="hero-cta" href="#gallery">开始浏览 ↓</a>
         </div>
@@ -340,6 +387,20 @@
           </div>
         </div>
         <p class="empty-note" id="emptyNote">这个系列暂时没有图片。</p>
+      </section>
+
+      <section class="block" aria-label="PLO·CART 2026AW 陈列指引">
+        <div class="block-head"><h2>PLO·CART 2026AW · 秋季陈列指引</h2><span class="count">36 页</span></div>
+        <p class="block-sub">秋二波陈列指引整本：男装、女装系列介绍，展桌与柜体组合，模特搭配参考。图片前后叠放成立体效果，点左右两边的图切换，点中间的图放大看。</p>
+        <div class="plo-stage" id="ploStage">
+          <div class="plo-halo" id="ploHalo" aria-hidden="true"></div>
+        </div>
+        <div class="plo-caption"><div class="t" id="ploTitle"></div><div class="m" id="ploSub"></div></div>
+        <div class="plo-controls">
+          <button class="plo-btn" id="ploPrev" type="button" aria-label="上一页">‹ 上一页</button>
+          <span class="plo-count" id="ploCount"></span>
+          <button class="plo-btn" id="ploNext" type="button" aria-label="下一页">下一页 ›</button>
+        </div>
       </section>
 
       <section class="block" aria-label="衍生创作">
@@ -501,7 +562,7 @@
         var item = currentList[currentIdx];
         lbImg.src = item.src; lbImg.alt = item.alt;
         lbTitle.textContent = item.t;
-        lbSub.textContent = item.catName + " · " + (currentIdx + 1) + " / " + currentList.length + " · " + item.m;
+        lbSub.textContent = (item.catName ? item.catName + " · " : "") + (currentIdx + 1) + " / " + currentList.length + " · " + item.m;
       }
       function openLightbox(list, idx) {
         currentList = list; currentIdx = idx;
@@ -530,6 +591,104 @@
         if (e.key === "ArrowLeft") step(-1);
         if (e.key === "ArrowRight") step(1);
       });
+
+      /* PLO·CART 2026AW · 3D 立体叠放 */
+      var PLO = [
+        { src: "https://drive.google.com/thumbnail?id=1vBxW3mVJ0u2d-kXb65MotZ-P3ayzQiXJ&sz=w1600", t: "封面 · 2026AW 秋季陈列指引（秋二波）", m: "第 1 页 / 共 36 页" },
+        { src: "https://drive.google.com/thumbnail?id=17JuPOHe1w4Rrr4GJgf1JNcY-nmRMoZIF&sz=w1600", t: "辅料说明 · 陈列物料说明", m: "第 2 页 / 共 36 页" },
+        { src: "https://drive.google.com/thumbnail?id=1WDTQ3NjdvwlvvVnkw3_ZnmC6FqKguffE&sz=w1600", t: "形象广告物料使用说明", m: "第 3 页 / 共 36 页" },
+        { src: "https://drive.google.com/thumbnail?id=1vHWQmrUR1BGxZiA_AH9hocsyBNpvHibb&sz=w1600", t: "陈列物料使用说明", m: "第 4 页 / 共 36 页" },
+        { src: "https://drive.google.com/thumbnail?id=1zMToNHMcJOI3RWqAmlGxz-4R7saTkS5P&sz=w1600", t: "产品系列介绍 · 男装", m: "第 5 页 / 共 36 页" },
+        { src: "https://drive.google.com/thumbnail?id=1gg18N9TPpIrJrDzC1DppYJmarvbwAEvJ&sz=w1600", t: "MEN", m: "第 6 页 / 共 36 页" },
+        { src: "https://drive.google.com/thumbnail?id=1IirpJ-ooE2Pd1WPBGbKLuikgme5sy8bD&sz=w1600", t: "货品陈列说明", m: "第 7 页 / 共 36 页" },
+        { src: "https://drive.google.com/thumbnail?id=1lYMIgBsKNTwsONXqpxZYFz9JMHD9S3RD&sz=w1600", t: "男装趋势", m: "第 8 页 / 共 36 页" },
+        { src: "https://drive.google.com/thumbnail?id=1I-jy9kAwQ-JJxxQruOThWcYqvbyvcu_H&sz=w1600", t: "男装系列产品介绍 · 商务休闲", m: "第 9 页 / 共 36 页" },
+        { src: "https://drive.google.com/thumbnail?id=1Ue48CR2uWU4cZiAnmSCE7MnGvFnV5WYi&sz=w1600", t: "展桌 · 美式休闲", m: "第 10 页 / 共 36 页" },
+        { src: "https://drive.google.com/thumbnail?id=1hEMq0KqXtBJR5wgyc1k5aJH_rFDUd4-a&sz=w1600", t: "展桌 · 美式休闲（案例）", m: "第 11 页 / 共 36 页" },
+        { src: "https://drive.google.com/thumbnail?id=1q_1BDt0ZWf1Yjqpo3MpbbTYFNpBVhLSq&sz=w1600", t: "美式休闲 · 男装复古系列", m: "第 12 页 / 共 36 页" },
+        { src: "https://drive.google.com/thumbnail?id=1jGmaVj8PKzsPNoj29qkg-oT5qMgyeZTF&sz=w1600", t: "美式休闲 · 男装复古系列", m: "第 13 页 / 共 36 页" },
+        { src: "https://drive.google.com/thumbnail?id=1Ns10HfRnPP6H4riyuDQ-MD5IqawxfGGN&sz=w1600", t: "美式休闲 · 羽绒服集中展", m: "第 14 页 / 共 36 页" },
+        { src: "https://drive.google.com/thumbnail?id=1aQTjFvVQbWzbps2X8cMgNVRvEeUAiCmN&sz=w1600", t: "美式休闲 · 男装", m: "第 15 页 / 共 36 页" },
+        { src: "https://drive.google.com/thumbnail?id=1g4b4gVs552BCQZAXxoot9PMFnis66Mus&sz=w1600", t: "美式休闲 · 男装复古", m: "第 16 页 / 共 36 页" },
+        { src: "https://drive.google.com/thumbnail?id=1rcSjfj9BgUCB_4haY0FfyMF61EumpZ5l&sz=w1600", t: "柜体组合 · 两仓柜体", m: "第 17 页 / 共 36 页" },
+        { src: "https://drive.google.com/thumbnail?id=1Q8kFi46VYzrfE7UnTlRfJA5ld19jVoPG&sz=w1600", t: "柜体组合 · 三仓柜体", m: "第 18 页 / 共 36 页" },
+        { src: "https://drive.google.com/thumbnail?id=1cdpp-VH7PDqZRaSOei64WOgmUx9bIEnQ&sz=w1600", t: "WOMEN", m: "第 19 页 / 共 36 页" },
+        { src: "https://drive.google.com/thumbnail?id=1aJbDRlKPWuBuRTT2iNVAmEs3EAPo0dR5&sz=w1600", t: "女装趋势", m: "第 20 页 / 共 36 页" },
+        { src: "https://drive.google.com/thumbnail?id=1aYmzBGFgzsxOyYbEH_QcLLyxart34Ois&sz=w1600", t: "女装系列介绍 · 都市生活", m: "第 21 页 / 共 36 页" },
+        { src: "https://drive.google.com/thumbnail?id=1UOe22NRCCHFMKOndEP6CKeYdpJ2Nm4wt&sz=w1600", t: "都市生活系列 · 女装", m: "第 22 页 / 共 36 页" },
+        { src: "https://drive.google.com/thumbnail?id=1MloBl0VX_46p3x9h3PEFMfNUG1rj-mA0&sz=w1600", t: "都市生活系列 · 女装", m: "第 23 页 / 共 36 页" },
+        { src: "https://drive.google.com/thumbnail?id=1CnGZIjoBMNh_82jcRu4ReX_T-TQ0qhVN&sz=w1600", t: "美式休闲 · 女装费尔岛风", m: "第 24 页 / 共 36 页" },
+        { src: "https://drive.google.com/thumbnail?id=1N39Q9tiByN5Tk3qkvYcgQDXirjsoxtWj&sz=w1600", t: "美式休闲 · 女装复古学院风", m: "第 25 页 / 共 36 页" },
+        { src: "https://drive.google.com/thumbnail?id=1wg8UZ-sY84VPm0RdH8jtnKhzKfIpIoig&sz=w1600", t: "都市生活系列 · 女装", m: "第 26 页 / 共 36 页" },
+        { src: "https://drive.google.com/thumbnail?id=1hmcAIyLfly3QfBPS0Gs0Ebtz51k243mx&sz=w1600", t: "柜体组合 · 两仓柜体", m: "第 27 页 / 共 36 页" },
+        { src: "https://drive.google.com/thumbnail?id=1b5kjg-I6OBG0-oquz4GOo9d3O4maaMKC&sz=w1600", t: "柜体组合 · 三仓柜体", m: "第 28 页 / 共 36 页" },
+        { src: "https://drive.google.com/thumbnail?id=1n_s7dSu8Ng1UyUGrZl64UHKsie7vmlaM&sz=w1600", t: "模特搭配筛选", m: "第 29 页 / 共 36 页" },
+        { src: "https://drive.google.com/thumbnail?id=1TzdcovKVrM8aXC6x8ANAB0Q1Nmt41Mn4&sz=w1600", t: "模特搭配参考", m: "第 30 页 / 共 36 页" },
+        { src: "https://drive.google.com/thumbnail?id=1lsFVa4nPybvq5_mpUnYyq5DpJ-qF4BUJ&sz=w1600", t: "模特搭配参考", m: "第 31 页 / 共 36 页" },
+        { src: "https://drive.google.com/thumbnail?id=1Y4e31WgA_Vuwz255HGREnHg2I2lbKLk3&sz=w1600", t: "模特搭配参考", m: "第 32 页 / 共 36 页" },
+        { src: "https://drive.google.com/thumbnail?id=1EXmM_P-Za-h4XV4MVUM7dvhuCViOYhAF&sz=w1600", t: "模特搭配参考", m: "第 33 页 / 共 36 页" },
+        { src: "https://drive.google.com/thumbnail?id=1xjZ0lWf-0XpHIkTQSs_d4vq7DeyJF_1z&sz=w1600", t: "模特搭配参考", m: "第 34 页 / 共 36 页" },
+        { src: "https://drive.google.com/thumbnail?id=1fZvttX5VSDHAiL7n4VpJNr2G2M-Z9yLw&sz=w1600", t: "模特搭配参考", m: "第 35 页 / 共 36 页" },
+        { src: "https://drive.google.com/thumbnail?id=15PGxixgIxxM03SxpzPMSELNHE0s57ynM&sz=w1600", t: "感谢观看", m: "第 36 页 / 共 36 页" }
+      ];
+      var ploStage = document.getElementById("ploStage");
+      var ploTitle = document.getElementById("ploTitle");
+      var ploSub = document.getElementById("ploSub");
+      var ploCount = document.getElementById("ploCount");
+      var ploIdx = 0;
+      var ploSlides = PLO.map(function (item, i) {
+        var d = document.createElement("div");
+        d.className = "plo-slide";
+        var img = document.createElement("img");
+        img.src = item.src; img.alt = item.t; img.decoding = "async";
+        img.loading = i < 5 ? "eager" : "lazy";
+        d.appendChild(img);
+        d.addEventListener("click", function () {
+          if (i === ploIdx) { openLightbox(PLO, i); }
+          else { ploGo(i); }
+        });
+        ploStage.appendChild(d);
+        return d;
+      });
+      function ploLayout() {
+        var n = PLO.length;
+        ploSlides.forEach(function (slide, i) {
+          var off = i - ploIdx;
+          if (off > n / 2) off -= n;
+          if (off < -n / 2) off += n;
+          var a = Math.abs(off);
+          var x = off * 52;
+          var z = -a * 240;
+          var ry = off * -24;
+          var s = 1 - a * 0.14;
+          var o = a === 0 ? 1 : a === 1 ? 0.85 : a === 2 ? 0.6 : a === 3 ? 0.35 : 0;
+          slide.style.transform = "translate(-50%, -50%) translateX(" + x + "%) translateZ(" + z + "px) rotateY(" + ry + "deg) scale(" + s + ")";
+          slide.style.opacity = o;
+          slide.style.zIndex = 100 - a;
+          slide.style.filter = a >= 2 ? "blur(" + (a - 1) + "px)" : "none";
+          slide.style.pointerEvents = a > 3 ? "none" : "auto";
+          slide.classList.toggle("is-active", a === 0);
+        });
+        var cur = PLO[ploIdx];
+        ploTitle.textContent = cur.t;
+        ploSub.textContent = cur.m;
+        ploCount.textContent = (ploIdx + 1) + " / " + n;
+      }
+      function ploGo(i) {
+        ploIdx = (i + PLO.length) % PLO.length;
+        ploLayout();
+      }
+      document.getElementById("ploPrev").addEventListener("click", function () { ploGo(ploIdx - 1); });
+      document.getElementById("ploNext").addEventListener("click", function () { ploGo(ploIdx + 1); });
+      var ploTouchX = null;
+      ploStage.addEventListener("touchstart", function (e) { ploTouchX = e.touches[0].clientX; }, { passive: true });
+      ploStage.addEventListener("touchend", function (e) {
+        if (ploTouchX === null) return;
+        var dx = e.changedTouches[0].clientX - ploTouchX;
+        if (Math.abs(dx) > 40) ploGo(ploIdx + (dx < 0 ? 1 : -1));
+        ploTouchX = null;
+      }, { passive: true });
+      ploLayout();
     </script>
   </body>
 </html>
