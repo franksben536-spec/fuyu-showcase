@@ -145,57 +145,57 @@
 
       .grid.derived { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
 
-      /* ---------- PLO·CART 2026AW · 模块分布 ---------- */
-      .plo-grid {
+      /* ---------- 作品网格：一个作品一张封面卡 ---------- */
+      .works-grid {
         display: grid; gap: 30px 24px;
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       }
-      .plo-card { margin: 0; background: none; border: 0; }
-      .plo-card button.thumb {
+      .work-card { margin: 0; background: none; border: 0; }
+      .work-card button.thumb {
         display: block; width: 100%; padding: 0; border: 0; background: none; cursor: pointer;
         border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow);
       }
-      .plo-card img {
+      .work-card img {
         width: 100%; aspect-ratio: 16 / 9; object-fit: cover;
         display: block; transition: transform .45s ease;
       }
-      .plo-card button.thumb:hover img { transform: scale(1.02); }
-      .plo-card figcaption { padding: 14px 2px 0; }
-      .plo-card .t { font-weight: 600; font-size: 14.5px; line-height: 1.5; }
-      .plo-card .m { font-size: 12.5px; color: var(--ink-faint); margin-top: 4px; letter-spacing: .04em; }
+      .work-card button.thumb:hover img { transform: scale(1.02); }
+      .work-card figcaption { padding: 14px 2px 0; }
+      .work-card .t { font-weight: 600; font-size: 14.5px; line-height: 1.5; }
+      .work-card .m { font-size: 12.5px; color: var(--ink-faint); margin-top: 4px; letter-spacing: .04em; }
 
-      /* ---------- PLO 完整作品页（全屏、浅色） ---------- */
-      .plo-viewer {
+      /* ---------- 作品完整页（全屏、浅色） ---------- */
+      .work-viewer {
         position: fixed; inset: 0; z-index: 70; display: none;
         background: var(--bg); flex-direction: column;
       }
-      .plo-viewer.open { display: flex; }
-      .pv-top {
+      .work-viewer.open { display: flex; }
+      .wv-top {
         display: flex; align-items: baseline; gap: 16px;
         padding: 20px 28px 0; max-width: 1280px; width: 100%; margin: 0 auto;
       }
-      .pv-top .t { font-weight: 700; font-size: 17px; letter-spacing: -.01em; flex: 1; min-width: 0; }
-      .pv-top .m { font-size: 13px; color: var(--ink-faint); white-space: nowrap; }
-      .pv-close {
+      .wv-top .t { font-weight: 700; font-size: 17px; letter-spacing: -.01em; flex: 1; min-width: 0; }
+      .wv-top .m { font-size: 13px; color: var(--ink-faint); white-space: nowrap; }
+      .wv-close {
         flex: none; width: 40px; height: 40px; border-radius: 50%;
         border: 1px solid var(--line-strong); background: none;
         color: var(--ink-soft); font-size: 17px; cursor: pointer;
         display: flex; align-items: center; justify-content: center;
       }
-      .pv-main { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; padding: 20px 28px; }
-      .pv-main img {
+      .wv-main { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; padding: 20px 28px; }
+      .wv-main img {
         max-width: min(1120px, 100%); max-height: 100%; object-fit: contain;
         border-radius: var(--radius); border: 1px solid var(--line); background: #fff;
         box-shadow: 0 24px 64px rgba(23, 21, 15, .14); display: block;
       }
-      .pv-bottom { display: flex; align-items: center; justify-content: center; gap: 18px; padding: 0 28px 26px; }
-      .pv-btn {
+      .wv-bottom { display: flex; align-items: center; justify-content: center; gap: 18px; padding: 0 28px 26px; }
+      .wv-btn {
         min-width: 52px; min-height: 44px; padding: 8px 20px; border-radius: 999px;
         border: 1px solid var(--line-strong); background: var(--surface);
         color: var(--ink); font: inherit; font-size: 14px; font-weight: 600; cursor: pointer;
       }
-      .pv-btn:active { transform: scale(.97); }
-      .pv-count { font-size: 14px; color: var(--ink-faint); min-width: 76px; text-align: center; letter-spacing: .04em; }
+      .wv-btn:active { transform: scale(.97); }
+      .wv-count { font-size: 14px; color: var(--ink-faint); min-width: 76px; text-align: center; letter-spacing: .04em; }
 
       footer {
         margin-top: 84px; padding-top: 24px; border-top: 1px solid var(--line);
@@ -238,13 +238,13 @@
         .hero-stats div { padding: 0 18px; }
         .grid { grid-template-columns: repeat(2, 1fr); gap: 22px 14px; }
         .grid.derived { grid-template-columns: 1fr; }
-        .plo-grid { grid-template-columns: 1fr; gap: 24px; }
-        .card figcaption, .plo-card figcaption { padding-top: 10px; }
+        .works-grid { grid-template-columns: 1fr; gap: 24px; }
+        .card figcaption, .work-card figcaption { padding-top: 10px; }
         .card .t { font-size: 14px; }
         .lb-prev { left: 6px; } .lb-next { right: 6px; }
-        .pv-top { padding: 16px 16px 0; }
-        .pv-main { padding: 14px 16px; }
-        .pv-bottom { padding-bottom: 20px; }
+        .wv-top { padding: 16px 16px 0; }
+        .wv-main { padding: 14px 16px; }
+        .wv-bottom { padding-bottom: 20px; }
       }
     </style>
   </head>
@@ -319,10 +319,10 @@
         <p class="empty-note" id="emptyNote">这个系列暂时没有图片。</p>
       </section>
 
-      <section class="block" aria-label="PLO·CART 2026AW 陈列指引">
-        <div class="block-head"><h2>PLO·CART 2026AW · 秋季陈列指引</h2><span class="count">36 页</span></div>
-        <p class="block-sub">秋二波陈列指引整本：男装、女装系列介绍，展桌与柜体组合，模特搭配参考。36 页按模块排布，点任意一个模块进入完整作品页，可上一页、下一页翻看。</p>
-        <div class="plo-grid" id="ploGrid"></div>
+      <section class="block" aria-label="作品">
+        <div class="block-head"><h2>作品</h2><span class="count" id="worksCount"></span></div>
+        <p class="block-sub">作品按模块排布：一个作品一张封面卡，点任意一个模块进入完整作品页，可翻页、滑动浏览全部内容。目前收录 PLO·CART 2026AW 秋季陈列指引整本 36 页。</p>
+        <div class="works-grid" id="worksGrid"></div>
       </section>
 
       <section class="block" aria-label="衍生创作">
@@ -349,17 +349,17 @@
       <button class="lb-btn lb-next" id="lbNext" aria-label="下一张">›</button>
     </div>
 
-    <div class="plo-viewer" id="ploViewer" role="dialog" aria-modal="true" aria-label="陈列指引完整查看">
-      <div class="pv-top">
-        <div class="t" id="pvTitle"></div>
-        <span class="m" id="pvSub"></span>
-        <button class="pv-close" id="pvClose" aria-label="关闭">✕</button>
+    <div class="work-viewer" id="workViewer" role="dialog" aria-modal="true" aria-label="作品完整查看">
+      <div class="wv-top">
+        <div class="t" id="wvTitle"></div>
+        <span class="m" id="wvSub"></span>
+        <button class="wv-close" id="wvClose" aria-label="关闭">✕</button>
       </div>
-      <div class="pv-main"><img id="pvImg" alt="" /></div>
-      <div class="pv-bottom">
-        <button class="pv-btn" id="pvPrev" type="button" aria-label="上一页">‹ 上一页</button>
-        <span class="pv-count" id="pvCount"></span>
-        <button class="pv-btn" id="pvNext" type="button" aria-label="下一页">下一页 ›</button>
+      <div class="wv-main"><img id="wvImg" alt="" /></div>
+      <div class="wv-bottom">
+        <button class="wv-btn" id="wvPrev" type="button" aria-label="上一页">‹ 上一页</button>
+        <span class="wv-count" id="wvCount"></span>
+        <button class="wv-btn" id="wvNext" type="button" aria-label="下一页">下一页 ›</button>
       </div>
     </div>
 
@@ -567,75 +567,84 @@
         { src: "images/plo-aw-35.jpg", t: "模特搭配参考", m: "第 35 页 / 共 36 页" },
         { src: "images/plo-aw-36.jpg", t: "感谢观看", m: "第 36 页 / 共 36 页" }
       ];
-      var ploGrid = document.getElementById("ploGrid");
-      var ploViewer = document.getElementById("ploViewer");
-      var pvImg = document.getElementById("pvImg");
-      var pvTitle = document.getElementById("pvTitle");
-      var pvSub = document.getElementById("pvSub");
-      var pvCount = document.getElementById("pvCount");
-      var ploViewIdx = 0, ploLastFocus = null;
-      PLO.forEach(function (item, i) {
+      /* 作品网格：一个作品一张封面卡，点进去是完整的作品页。
+         加新作品时往 WORKS 里加一条（封面、标题、说明、页面数组）即可。 */
+      var WORKS = [
+        { cover: "images/plo-aw-01.jpg", title: "PLO·CART 2026AW · 秋季陈列指引", meta: "36 页 · 陈列指引", pages: PLO }
+      ];
+      var worksGrid = document.getElementById("worksGrid");
+      document.getElementById("worksCount").textContent = "共 " + WORKS.length + " 个作品";
+      var workViewer = document.getElementById("workViewer");
+      var wvImg = document.getElementById("wvImg");
+      var wvTitle = document.getElementById("wvTitle");
+      var wvSub = document.getElementById("wvSub");
+      var wvCount = document.getElementById("wvCount");
+      var workIdx = 0, workPageIdx = 0, workLastFocus = null;
+      function workPages() { return WORKS[workIdx].pages; }
+      WORKS.forEach(function (work, wi) {
         var fig = document.createElement("figure");
-        fig.className = "plo-card";
+        fig.className = "work-card";
         var btn = document.createElement("button");
         btn.className = "thumb";
         btn.type = "button";
-        btn.setAttribute("aria-label", "打开完整作品：" + item.t);
+        btn.setAttribute("aria-label", "打开完整作品：" + work.title);
         var img = document.createElement("img");
-        img.src = item.src; img.alt = item.t; img.decoding = "async";
-        img.loading = i < 6 ? "eager" : "lazy";
+        img.src = work.cover; img.alt = work.title; img.decoding = "async";
+        img.loading = wi < 6 ? "eager" : "lazy";
         btn.appendChild(img);
-        btn.addEventListener("click", function () { openPloViewer(i); });
+        btn.addEventListener("click", function () { openWorkViewer(wi, 0); });
         var cap = document.createElement("figcaption");
         var t = document.createElement("div");
-        t.className = "t"; t.textContent = item.t;
+        t.className = "t"; t.textContent = work.title;
         var m = document.createElement("div");
-        m.className = "m"; m.textContent = item.m;
+        m.className = "m"; m.textContent = work.meta;
         cap.appendChild(t); cap.appendChild(m);
         fig.appendChild(btn); fig.appendChild(cap);
-        ploGrid.appendChild(fig);
+        worksGrid.appendChild(fig);
       });
-      function renderPv() {
-        var item = PLO[ploViewIdx];
-        pvImg.src = item.src; pvImg.alt = item.t;
-        pvTitle.textContent = item.t;
-        pvSub.textContent = item.m;
-        pvCount.textContent = (ploViewIdx + 1) + " / " + PLO.length;
+      function renderWv() {
+        var pages = workPages();
+        var item = pages[workPageIdx];
+        wvImg.src = item.src; wvImg.alt = item.t;
+        wvTitle.textContent = item.t;
+        wvSub.textContent = item.m;
+        wvCount.textContent = (workPageIdx + 1) + " / " + pages.length;
       }
-      function openPloViewer(i) {
-        ploViewIdx = i;
-        ploLastFocus = document.activeElement;
-        renderPv();
-        ploViewer.classList.add("open");
+      function openWorkViewer(wi, pi) {
+        workIdx = wi; workPageIdx = pi;
+        workLastFocus = document.activeElement;
+        renderWv();
+        workViewer.classList.add("open");
         document.body.style.overflow = "hidden";
-        document.getElementById("pvClose").focus();
+        document.getElementById("wvClose").focus();
       }
-      function closePloViewer() {
-        ploViewer.classList.remove("open");
+      function closeWorkViewer() {
+        workViewer.classList.remove("open");
         document.body.style.overflow = "";
-        if (ploLastFocus) ploLastFocus.focus();
+        if (workLastFocus) workLastFocus.focus();
       }
-      function ploStep(d) {
-        ploViewIdx = (ploViewIdx + d + PLO.length) % PLO.length;
-        renderPv();
+      function workStep(d) {
+        var pages = workPages();
+        workPageIdx = (workPageIdx + d + pages.length) % pages.length;
+        renderWv();
       }
-      document.getElementById("pvClose").addEventListener("click", closePloViewer);
-      document.getElementById("pvPrev").addEventListener("click", function () { ploStep(-1); });
-      document.getElementById("pvNext").addEventListener("click", function () { ploStep(1); });
-      ploViewer.addEventListener("click", function (e) { if (e.target === ploViewer) closePloViewer(); });
-      var pvTouchX = null;
-      ploViewer.addEventListener("touchstart", function (e) { pvTouchX = e.touches[0].clientX; }, { passive: true });
-      ploViewer.addEventListener("touchend", function (e) {
-        if (pvTouchX === null) return;
-        var dx = e.changedTouches[0].clientX - pvTouchX;
-        if (Math.abs(dx) > 40) ploStep(dx < 0 ? 1 : -1);
-        pvTouchX = null;
+      document.getElementById("wvClose").addEventListener("click", closeWorkViewer);
+      document.getElementById("wvPrev").addEventListener("click", function () { workStep(-1); });
+      document.getElementById("wvNext").addEventListener("click", function () { workStep(1); });
+      workViewer.addEventListener("click", function (e) { if (e.target === workViewer) closeWorkViewer(); });
+      var wvTouchX = null;
+      workViewer.addEventListener("touchstart", function (e) { wvTouchX = e.touches[0].clientX; }, { passive: true });
+      workViewer.addEventListener("touchend", function (e) {
+        if (wvTouchX === null) return;
+        var dx = e.changedTouches[0].clientX - wvTouchX;
+        if (Math.abs(dx) > 40) workStep(dx < 0 ? 1 : -1);
+        wvTouchX = null;
       }, { passive: true });
       document.addEventListener("keydown", function (e) {
-        if (!ploViewer.classList.contains("open")) return;
-        if (e.key === "Escape") closePloViewer();
-        if (e.key === "ArrowLeft") ploStep(-1);
-        if (e.key === "ArrowRight") ploStep(1);
+        if (!workViewer.classList.contains("open")) return;
+        if (e.key === "Escape") closeWorkViewer();
+        if (e.key === "ArrowLeft") workStep(-1);
+        if (e.key === "ArrowRight") workStep(1);
       });
     </script>
   </body>
