@@ -285,7 +285,7 @@
         border: 1px solid rgba(232, 200, 116, .4); background: rgba(5, 7, 15, .55);
         color: var(--gold-soft); font-size: 22px; line-height: 1; cursor: pointer;
         display: flex; align-items: center; justify-content: center;
-        backdrop-filter: blur(6px); z-index: 40;
+        backdrop-filter: blur(6px); z-index: 200;
       }
       .cf-btn:hover { background: rgba(212, 175, 55, .18); }
       .cf-btn:active { transform: translateY(-50%) scale(.94); }
@@ -532,12 +532,9 @@
           if (e.key === 'ArrowRight') { e.preventDefault(); stepBy(1); }
         });
 
-        stage.addEventListener('pointerdown', function (e) {
-          isDown = true; activePointer = e.pointerId; downX = e.clientX; downCenter = centerF; moved = 0;
-          try { stage.setPointerCapture(e.pointerId); } catch (err) {}
-          stage.classList.add('is-dragging');
-        });
-        stage.addEventListener('pointermove', function (e) {
+        /* 拖动改走 window 级监听，不用 setPointerCapture：pointer capture 会把后续 click 重定向到舞台，
+           导致点侧边图、点箭头都收不到目标，箭头看起来能点实际没反应。 */
+        function onMove(e) {
           if (!isDown || e.pointerId !== activePointer) return;
           var dx = e.clientX - downX;
           moved = Math.max(moved, Math.abs(dx));
@@ -545,17 +542,25 @@
           centerF = Math.max(-0.3, Math.min(items.length - 1 + 0.3, centerF));
           layout();
           updateCaption(false);
-        });
+        }
         var suppressClickUntil = 0;
         function endDrag() {
           if (!isDown) return;
           isDown = false;
           stage.classList.remove('is-dragging');
+          window.removeEventListener('pointermove', onMove);
+          window.removeEventListener('pointerup', endDrag);
+          window.removeEventListener('pointercancel', endDrag);
           if (moved > 8) suppressClickUntil = Date.now() + 300;
           goTo(Math.round(centerF));
         }
-        stage.addEventListener('pointerup', endDrag);
-        stage.addEventListener('pointercancel', endDrag);
+        stage.addEventListener('pointerdown', function (e) {
+          isDown = true; activePointer = e.pointerId; downX = e.clientX; downCenter = centerF; moved = 0;
+          stage.classList.add('is-dragging');
+          window.addEventListener('pointermove', onMove);
+          window.addEventListener('pointerup', endDrag);
+          window.addEventListener('pointercancel', endDrag);
+        });
 
         stage.addEventListener('click', function (e) {
           if (Date.now() < suppressClickUntil) return;
