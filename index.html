@@ -73,8 +73,7 @@
         position: sticky; top: 0; z-index: 20;
         display: flex; gap: 4px 26px; flex-wrap: wrap;
         padding: 16px 0 14px;
-        background: rgba(5, 7, 15, .78);
-        backdrop-filter: blur(8px);
+        background: rgba(5, 7, 15, .92);
         border-bottom: 1px solid var(--line);
       }
       .chip {
@@ -230,7 +229,7 @@
       .milkyway {
         position: absolute; inset: -25%;
         background: linear-gradient(115deg, transparent 28%, rgba(148, 168, 255, .06) 42%, rgba(196, 208, 255, .14) 50%, rgba(148, 168, 255, .06) 58%, transparent 72%);
-        filter: blur(28px);
+        filter: blur(16px);
         opacity: .8;
       }
       .wrap { position: relative; z-index: 1; }
@@ -270,7 +269,7 @@
         pointer-events: none; z-index: -1;
       }
       .cf-item.is-center .cf-halo { opacity: 1; animation: halo-breathe 4.5s ease-in-out infinite alternate; }
-      @keyframes halo-breathe { from { opacity: .8; transform: scale(.97); } to { opacity: 1; transform: scale(1.04); } }
+      @keyframes halo-breathe { from { opacity: .75; } to { opacity: 1; } }
       .cf-item.is-center .cf-img-wrap {
         border-color: rgba(232, 200, 116, .65);
         box-shadow: 0 0 26px rgba(232, 200, 116, .42), 0 0 110px rgba(212, 175, 55, .3), 0 30px 70px rgba(0, 0, 0, .6);
@@ -451,6 +450,7 @@
             var img = document.createElement('img');
             img.alt = item.alt || item.t; img.decoding = 'async'; img.draggable = false;
             img.dataset.src = item.src;
+            fig._img = img;
             wrap.appendChild(img);
             fig.appendChild(wrap);
             stage.appendChild(fig);
@@ -459,14 +459,17 @@
           center = items.length ? 0 : -1;
           centerF = center;
           lastCap = -1;
+          measureStep();
           layout();
           updateCaption(true);
         }
 
-        function step() {
+        /* 卡片间距只在创建/窗口变化时量一次：pointermove 里反复读 offsetWidth 会强制重排，是手机上翻图卡死的主因之一。 */
+        var stepVal = 180;
+        function measureStep() {
           var cw = cards.length ? cards[0].offsetWidth : 280;
           var land = root.classList.contains('cf--landscape');
-          return Math.max(120, Math.min(cw * (land ? 0.68 : 0.62), stage.clientWidth * 0.44));
+          stepVal = Math.max(120, Math.min(cw * (land ? 0.68 : 0.62), stage.clientWidth * 0.44));
         }
 
         /* 只加载焦点附近的图片：3D 变换下浏览器会把所有图都当可见、74 张全解码会把手机内置浏览器撑爆。
@@ -474,7 +477,7 @@
         function ensureSrcs() {
           var c = Math.round(centerF);
           cards.forEach(function (card, i) {
-            var img = card.querySelector('img');
+            var img = card._img;
             if (!img) return;
             if (Math.abs(i - c) <= 4) {
               if (!img.getAttribute('src')) img.src = img.dataset.src;
@@ -486,7 +489,7 @@
 
         function layout() {
           if (!cards.length) return;
-          var s = step();
+          var s = stepVal;
           cards.forEach(function (card, i) {
             var d = i - centerF;
             var ad = Math.abs(d);
@@ -498,11 +501,24 @@
             card.style.transform = 'translate(-50%,-50%) translateX(' + x.toFixed(1) + 'px) translateZ(' + z.toFixed(0) + 'px) rotateY(' + rot.toFixed(1) + 'deg) scale(' + sc.toFixed(3) + ')';
             card.style.opacity = op.toFixed(2);
             card.style.zIndex = String(100 - Math.round(ad * 10));
-            card.style.filter = 'brightness(' + (1 - Math.min(ad, 3) * 0.16).toFixed(2) + ')';
+            /* 远处的卡片直接不画：opacity 0 的图层仍会被合成，visibility hidden 才真正省掉绘制。 */
+            card.style.visibility = ad > 3.5 ? 'hidden' : 'visible';
             card.style.pointerEvents = ad > 3.5 ? 'none' : '';
             card.classList.toggle('is-center', Math.round(centerF) === i && Math.abs(d) < 0.5);
           });
           ensureSrcs();
+        }
+
+        /* 拖动时用 rAF 把多次 layout 合并成一次：pointermove 高频触发时直接读写样式会反复强制重排，手机上会卡死。 */
+        var layoutQueued = false;
+        function queueLayout() {
+          if (layoutQueued) return;
+          layoutQueued = true;
+          requestAnimationFrame(function () {
+            layoutQueued = false;
+            layout();
+            updateCaption(false);
+          });
         }
 
         function updateCaption(force) {
@@ -538,10 +554,9 @@
           if (!isDown || e.pointerId !== activePointer) return;
           var dx = e.clientX - downX;
           moved = Math.max(moved, Math.abs(dx));
-          centerF = downCenter - dx / step();
+          centerF = downCenter - dx / stepVal;
           centerF = Math.max(-0.3, Math.min(items.length - 1 + 0.3, centerF));
-          layout();
-          updateCaption(false);
+          queueLayout();
         }
         var suppressClickUntil = 0;
         function endDrag() {
@@ -575,7 +590,7 @@
         var rT = null;
         window.addEventListener('resize', function () {
           if (rT) clearTimeout(rT);
-          rT = setTimeout(function () { layout(); }, 120);
+          rT = setTimeout(function () { measureStep(); layout(); }, 120);
         });
 
         build();
@@ -740,8 +755,12 @@
             band.push({ x: bx, y: by, r: rnd(0.4, 1.6), a: rnd(0.04, 0.22) });
           }
         }
+        /* 星空每 80ms 才重画一帧：每帧都全屏重画会跟翻图抢主线程，手机上会卡。 */
+        var lastStarDraw = 0;
         function draw(now) {
           if (document.hidden) return;
+          if (!reduced && now - lastStarDraw < 80) { requestAnimationFrame(draw); return; }
+          lastStarDraw = now;
           ctx.clearRect(0, 0, W, H);
           var i, s;
           for (i = 0; i < band.length; i++) {
