@@ -732,35 +732,106 @@
         onCenterClick: function (list, idx) { openLightbox(list, idx); }
       });
 
-      /* ---------- 深色星空背景：星星 + 银河带 ---------- */
+      /* ---------- 深色星空背景：旋涡星系 + 星云 + 星星 ---------- */
       (function () {
         var canvas = document.getElementById('skyCanvas');
         if (!canvas) return;
         var ctx = canvas.getContext('2d');
-        var stars = [], band = [], W = 0, H = 0;
+        var stars = [], W = 0, H = 0, galaxy = null;
         var reduced = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false;
         function rnd(a, b) { return a + Math.random() * (b - a); }
+
+        /* 星系只画一次存到离屏画布：每帧只贴一张图 + 少量闪烁星，不会跟翻图抢主线程。 */
+        function buildGalaxy() {
+          var dpr = Math.min(window.devicePixelRatio || 1, 2);
+          galaxy = document.createElement('canvas');
+          galaxy.width = Math.round(W * dpr); galaxy.height = Math.round(H * dpr);
+          var g = galaxy.getContext('2d');
+          g.setTransform(dpr, 0, 0, dpr, 0, 0);
+          var R = Math.min(W, H);
+          /* 1) 星云：几团彩色星云雾 */
+          var clouds = [
+            { x: W * 0.16, y: H * 0.22, r: R * 0.42, c: '124,86,214' },
+            { x: W * 0.86, y: H * 0.68, r: R * 0.46, c: '58,110,220' },
+            { x: W * 0.78, y: H * 0.12, r: R * 0.34, c: '214,86,160' },
+            { x: W * 0.24, y: H * 0.82, r: R * 0.36, c: '44,170,168' }
+          ];
+          clouds.forEach(function (n) {
+            var grad = g.createRadialGradient(n.x, n.y, 0, n.x, n.y, n.r);
+            grad.addColorStop(0, 'rgba(' + n.c + ',0.20)');
+            grad.addColorStop(0.5, 'rgba(' + n.c + ',0.07)');
+            grad.addColorStop(1, 'rgba(' + n.c + ',0)');
+            g.fillStyle = grad;
+            g.fillRect(n.x - n.r, n.y - n.r, n.r * 2, n.r * 2);
+          });
+          /* 2) 旋涡星系：3 条旋臂 + 亮核，放在右上 */
+          var cx = W * 0.70, cy = H * 0.30;
+          var coreR = R * 0.16;
+          var core = g.createRadialGradient(cx, cy, 0, cx, cy, coreR);
+          core.addColorStop(0, 'rgba(255,238,196,0.9)');
+          core.addColorStop(0.35, 'rgba(255,208,150,0.32)');
+          core.addColorStop(1, 'rgba(255,208,150,0)');
+          g.fillStyle = core;
+          g.fillRect(cx - coreR, cy - coreR, coreR * 2, coreR * 2);
+          var armColors = ['255,255,255', '188,208,255', '255,220,170', '255,190,212'];
+          var maxR = R * 0.42;
+          var nArm = Math.round((W * H) / 1800);
+          for (var i = 0; i < nArm; i++) {
+            var arm = i % 3;
+            var t = Math.random();
+            var r = Math.pow(t, 0.65) * maxR;
+            var spread = (1 - t) * 0.85 + 0.12;
+            var ang = arm * (Math.PI * 2 / 3) + t * 4.4 + (Math.random() - 0.5) * spread;
+            var x = cx + Math.cos(ang) * r;
+            var y = cy + Math.sin(ang) * r * 0.60;
+            var a = (1 - t) * 0.85 + 0.15;
+            var c = armColors[(Math.random() * armColors.length) | 0];
+            g.fillStyle = 'rgba(' + c + ',' + a.toFixed(2) + ')';
+            g.beginPath(); g.arc(x, y, rnd(0.4, 1.7), 0, Math.PI * 2); g.fill();
+          }
+          /* 3) 几颗带光晕的亮星 */
+          for (var b = 0; b < 6; b++) {
+            var bx = rnd(W * 0.08, W * 0.92), by = rnd(H * 0.06, H * 0.94);
+            var br = rnd(14, 26);
+            var bg = g.createRadialGradient(bx, by, 0, bx, by, br);
+            bg.addColorStop(0, 'rgba(255,255,255,0.85)');
+            bg.addColorStop(0.25, 'rgba(210,225,255,0.28)');
+            bg.addColorStop(1, 'rgba(210,225,255,0)');
+            g.fillStyle = bg;
+            g.beginPath(); g.arc(bx, by, br, 0, Math.PI * 2); g.fill();
+            g.fillStyle = 'rgba(255,255,255,0.95)';
+            g.beginPath(); g.arc(bx, by, rnd(1.1, 1.8), 0, Math.PI * 2); g.fill();
+          }
+          /* 4) 满天底星 + 银河带（斜向密星带） */
+          var nField = Math.round((W * H) / 9000);
+          for (var f = 0; f < nField; f++) {
+            g.fillStyle = 'rgba(255,255,255,' + rnd(0.25, 0.9).toFixed(2) + ')';
+            g.beginPath(); g.arc(Math.random() * W, Math.random() * H, rnd(0.4, 1.3), 0, Math.PI * 2); g.fill();
+          }
+          var nBand = Math.round((W * H) / 3800);
+          for (var j = 0; j < nBand; j++) {
+            var tt = Math.random();
+            var bx2 = tt * W * 1.15 - W * 0.075;
+            var by2 = tt * H * 0.9 + H * 0.02 + (Math.random() + Math.random() + Math.random() - 1.5) * H * 0.16;
+            g.fillStyle = 'rgba(205,216,255,' + rnd(0.05, 0.26).toFixed(2) + ')';
+            g.beginPath(); g.arc(bx2, by2, rnd(0.4, 1.6), 0, Math.PI * 2); g.fill();
+          }
+        }
+
         function build() {
           var dpr = Math.min(window.devicePixelRatio || 1, 2);
           W = window.innerWidth; H = window.innerHeight;
           canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
           canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
           ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          buildGalaxy();
           stars = [];
-          var n = Math.round((W * H) / 6500);
+          var n = Math.round((W * H) / 14000);
           for (var i = 0; i < n; i++) {
-            stars.push({ x: Math.random() * W, y: Math.random() * H, r: rnd(0.4, 1.5), a: rnd(0.3, 1), tw: Math.random() < 0.18, sp: rnd(0.4, 1.4), ph: rnd(0, Math.PI * 2), gold: Math.random() < 0.08 });
-          }
-          band = [];
-          var bn = Math.round((W * H) / 4200);
-          for (var j = 0; j < bn; j++) {
-            var t = Math.random();
-            var bx = t * W * 1.15 - W * 0.075;
-            var by = t * H * 0.9 + H * 0.02 + (Math.random() + Math.random() + Math.random() - 1.5) * H * 0.16;
-            band.push({ x: bx, y: by, r: rnd(0.4, 1.6), a: rnd(0.04, 0.22) });
+            stars.push({ x: Math.random() * W, y: Math.random() * H, r: rnd(0.6, 1.8), a: rnd(0.4, 1), sp: rnd(0.4, 1.4), ph: rnd(0, Math.PI * 2), gold: Math.random() < 0.12 });
           }
         }
-        /* 星空每 80ms 才重画一帧：每帧都全屏重画会跟翻图抢主线程，手机上会卡。 */
+        /* 星空每 80ms 才重画一帧：只贴一张预渲染的星系图 + 少量闪烁星，不会跟翻图抢主线程。 */
         var lastStarDraw = 0;
         function draw(now) {
           if (document.hidden) return;
@@ -769,17 +840,12 @@
           if (!reduced && now - lastStarDraw < 80) { requestAnimationFrame(draw); return; }
           lastStarDraw = now;
           ctx.clearRect(0, 0, W, H);
+          if (galaxy) ctx.drawImage(galaxy, 0, 0, W, H);
           var i, s;
-          for (i = 0; i < band.length; i++) {
-            s = band[i];
-            ctx.globalAlpha = s.a;
-            ctx.fillStyle = '#cdd8ff';
-            ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2); ctx.fill();
-          }
           for (i = 0; i < stars.length; i++) {
             s = stars[i];
             var a = s.a;
-            if (s.tw && !reduced) a = s.a * (0.55 + 0.45 * Math.sin(now / 1000 * s.sp + s.ph));
+            if (!reduced) a = s.a * (0.55 + 0.45 * Math.sin(now / 1000 * s.sp + s.ph));
             ctx.globalAlpha = a;
             ctx.fillStyle = s.gold ? '#f2d488' : '#ffffff';
             ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2); ctx.fill();
