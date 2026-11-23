@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="color-scheme" content="light" />
+    <meta name="color-scheme" content="dark" />
     <link rel="icon" href="data:," />
     <title>作品展示页 · 秋冬造型图集</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -12,18 +12,23 @@
     <style>
       button, [role="button"], select, summary, input:not([type="checkbox"], [type="radio"]) { min-height: 2rem; }
 
-      /* ---------- Behance 式浅色作品页：米白底、墨色字、克制留白 ---------- */
+      /* ---------- 深色星空作品页：星空底、金色光晕、浅色字 ---------- */
       :root {
-        color-scheme: light;
-        --bg: #FBFAF7;
-        --surface: #FFFFFF;
-        --ink: #17150F;
-        --ink-soft: #57534A;
-        --ink-faint: #9C968B;
-        --line: #E9E6E0;
-        --line-strong: #D9D4C9;
-        --accent: #8C6D4B;
-        --shadow: 0 1px 2px rgba(23, 21, 15, .05), 0 10px 28px rgba(23, 21, 15, .07);
+        color-scheme: dark;
+        --bg: #05070f;
+        --bg-2: #0a1128;
+        --bg-3: #141b38;
+        --surface: rgba(255, 255, 255, .045);
+        --ink: #F2EFE6;
+        --ink-soft: #CFC9BC;
+        --ink-faint: #96907F;
+        --line: rgba(255, 255, 255, .12);
+        --line-strong: rgba(255, 255, 255, .24);
+        --accent: #D4AF37;
+        --gold: #D4AF37;
+        --gold-soft: #E8C874;
+        --gold-pale: #F5D67B;
+        --shadow: 0 1px 2px rgba(0, 0, 0, .35), 0 10px 28px rgba(0, 0, 0, .45);
         --radius: 6px;
       }
       * { box-sizing: border-box; }
@@ -32,7 +37,11 @@
         margin: 0;
         font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
         color: var(--ink);
-        background: var(--bg);
+        background:
+          radial-gradient(120% 90% at 78% -10%, rgba(64, 84, 160, .38), transparent 55%),
+          radial-gradient(90% 70% at 8% 108%, rgba(88, 60, 140, .28), transparent 60%),
+          linear-gradient(180deg, #04060f 0%, #070d20 42%, #0b1230 78%, #070a18 100%);
+        background-attachment: fixed;
         line-height: 1.7;
         letter-spacing: .01em;
         overflow-x: hidden;
@@ -56,6 +65,8 @@
       .hero-photo img {
         width: 100%; aspect-ratio: 4 / 4.6; object-fit: cover; object-position: top;
         border-radius: var(--radius); display: block;
+        border: 1px solid rgba(212, 175, 55, .35);
+        box-shadow: 0 0 32px rgba(212, 175, 55, .18), 0 24px 48px rgba(0, 0, 0, .5);
       }
 
       /* ---------- 筛选：简洁文字标签 ---------- */
@@ -63,7 +74,7 @@
         position: sticky; top: 0; z-index: 20;
         display: flex; gap: 4px 26px; flex-wrap: wrap;
         padding: 16px 0 14px;
-        background: rgba(251, 250, 247, .94);
+        background: rgba(5, 7, 15, .78);
         backdrop-filter: blur(8px);
         border-bottom: 1px solid var(--line);
       }
@@ -214,9 +225,94 @@
         .wv-main { padding: 14px 16px; }
         .wv-bottom { padding-bottom: 20px; }
       }
+      /* ---------- 星空 ---------- */
+      .sky { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+      .sky canvas { position: absolute; inset: 0; display: block; }
+      .milkyway {
+        position: absolute; left: 50%; top: 50%;
+        width: 170vmax; height: 42vmax;
+        transform: translate(-50%, -50%) rotate(-24deg);
+        background: linear-gradient(90deg, transparent 0%, rgba(148, 168, 255, .05) 22%, rgba(196, 208, 255, .13) 50%, rgba(148, 168, 255, .05) 78%, transparent 100%);
+        filter: blur(28px);
+        opacity: .8;
+      }
+      .wrap { position: relative; z-index: 1; }
+
+      /* ---------- 3D 封面流 ---------- */
+      .coverflow { position: relative; margin-top: 8px; outline: none; }
+      .coverflow.is-hidden { display: none; }
+      .cf-stage {
+        position: relative; height: 560px;
+        perspective: 1400px; perspective-origin: 50% 42%;
+        touch-action: pan-y; cursor: grab; user-select: none; -webkit-user-select: none;
+      }
+      .cf-stage.is-dragging { cursor: grabbing; }
+      .cf-stage.is-dragging .cf-item { transition: none !important; }
+      .cf-item {
+        position: absolute; left: 50%; top: 46%;
+        width: 300px; margin: 0;
+        transform-style: preserve-3d;
+        transition: transform .55s cubic-bezier(.22, .9, .28, 1), opacity .55s ease, filter .55s ease;
+        will-change: transform, opacity;
+      }
+      .cf-item .cf-img-wrap {
+        position: relative; border-radius: var(--radius); overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, .1);
+        background: #0d1322;
+        box-shadow: 0 18px 44px rgba(0, 0, 0, .55);
+      }
+      .cf--portrait .cf-img-wrap { aspect-ratio: 3 / 4; }
+      .cf--landscape .cf-item { width: 440px; }
+      .cf--landscape .cf-img-wrap { aspect-ratio: 4 / 3; }
+      .cf-item img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+      .cf--landscape .cf-item img { object-fit: contain; }
+      .cf-halo {
+        position: absolute; inset: -22%;
+        background: radial-gradient(ellipse at center, rgba(245, 214, 123, .5) 0%, rgba(212, 175, 55, .28) 42%, rgba(212, 175, 55, .08) 62%, transparent 72%);
+        filter: blur(22px);
+        opacity: 0; transition: opacity .6s ease;
+        pointer-events: none; z-index: -1;
+      }
+      .cf-item.is-center .cf-halo { opacity: 1; animation: halo-breathe 4.5s ease-in-out infinite alternate; }
+      @keyframes halo-breathe { from { opacity: .8; transform: scale(.97); } to { opacity: 1; transform: scale(1.04); } }
+      .cf-item.is-center .cf-img-wrap {
+        border-color: rgba(232, 200, 116, .65);
+        box-shadow: 0 0 26px rgba(232, 200, 116, .42), 0 0 110px rgba(212, 175, 55, .3), 0 30px 70px rgba(0, 0, 0, .6);
+      }
+      .cf-caption { text-align: center; padding: 22px 16px 0; min-height: 86px; }
+      .cf-title { font-weight: 600; font-size: 15px; letter-spacing: -.005em; color: var(--ink); }
+      .cf-meta { font-size: 12px; color: var(--ink-faint); margin-top: 4px; letter-spacing: .06em; }
+      .cf-count { font-size: 12px; color: var(--ink-faint); margin-top: 6px; letter-spacing: .18em; }
+      .cf-btn {
+        position: absolute; top: 46%; transform: translateY(-50%);
+        width: 46px; height: 46px; border-radius: 50%;
+        border: 1px solid rgba(232, 200, 116, .4); background: rgba(5, 7, 15, .55);
+        color: var(--gold-soft); font-size: 22px; line-height: 1; cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+        backdrop-filter: blur(6px); z-index: 40;
+      }
+      .cf-btn:hover { background: rgba(212, 175, 55, .18); }
+      .cf-btn:active { transform: translateY(-50%) scale(.94); }
+      .cf-prev { left: 6px; }
+      .cf-next { right: 6px; }
+      .coverflow:focus-visible { outline: 1px solid rgba(232, 200, 116, .5); outline-offset: 6px; border-radius: 8px; }
+
+      @media (max-width: 760px) {
+        .cf-stage { height: 420px; perspective: 1000px; }
+        .cf-item { width: min(62vw, 250px); top: 44%; }
+        .cf--landscape .cf-item { width: min(80vw, 330px); }
+        .cf-btn { width: 40px; height: 40px; font-size: 19px; }
+        .cf-prev { left: 0; } .cf-next { right: 0; }
+        .cf-caption { min-height: 80px; padding-top: 18px; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .cf-item { transition: none; }
+        .cf-item.is-center .cf-halo { animation: none; }
+      }
     </style>
   </head>
   <body>
+    <div class="sky" aria-hidden="true"><canvas id="skyCanvas"></canvas><div class="milkyway"></div></div>
     <div class="wrap">
       <header class="hero">
         <div>
@@ -240,47 +336,36 @@
 
       <section class="block" aria-label="原图图集">
         <div class="block-head"><h2>原图精选</h2></div>
-        <div class="group" data-group="feature">
-          <div class="group-head"><h3 class="group-title">大片</h3></div>
-          <div class="sub-block" data-cat-block="city" data-group="feature">
-            <div class="block-head sub"><h3>城市系列</h3></div>
-            <div class="grid" id="gridCity"></div>
+        <div class="coverflow cf--portrait" id="looksFlow" tabindex="0" role="region" aria-label="原图精选封面流">
+          <div class="cf-stage">
+            <button class="cf-btn cf-prev" type="button" aria-label="上一张">‹</button>
+            <button class="cf-btn cf-next" type="button" aria-label="下一张">›</button>
           </div>
-          <div class="sub-block" data-cat-block="outdoor" data-group="feature">
-            <div class="block-head sub"><h3>户外系列</h3></div>
-            <div class="grid" id="gridOutdoor"></div>
-          </div>
-          <div class="sub-block" data-cat-block="xiaoxiang" data-group="feature">
-            <div class="block-head sub"><h3>小香风</h3></div>
-            <div class="grid" id="gridXiaoxiang"></div>
-          </div>
-          <div class="sub-block" data-cat-block="retro" data-group="feature">
-            <div class="block-head sub"><h3>美式复古</h3></div>
-            <div class="grid" id="gridRetro"></div>
-          </div>
-          <div class="sub-block" data-cat-block="duo" data-group="feature">
-            <div class="block-head sub"><h3>情侣双人</h3></div>
-            <div class="grid" id="gridDuo"></div>
-          </div>
-        </div>
-        <div class="group" data-group="studio">
-          <div class="group-head"><h3 class="group-title">棚拍</h3></div>
-          <div class="sub-block" data-cat-block="studio" data-group="studio">
-            <div class="block-head sub"><h3>影棚白底</h3></div>
-            <div class="grid" id="gridStudio"></div>
-          </div>
+          <div class="cf-caption"><div class="cf-title"></div><div class="cf-meta"></div><div class="cf-count"></div></div>
         </div>
         <p class="empty-note" id="emptyNote">这个系列暂时没有图片。</p>
       </section>
 
       <section class="block" aria-label="作品">
         <div class="block-head"><h2>作品</h2></div>
-        <div class="works-grid" id="worksGrid"></div>
+        <div class="coverflow cf--landscape" id="ploFlow" tabindex="0" role="region" aria-label="PLO·CART 2026AW 秋季陈列指引封面流">
+          <div class="cf-stage">
+            <button class="cf-btn cf-prev" type="button" aria-label="上一页">‹</button>
+            <button class="cf-btn cf-next" type="button" aria-label="下一页">›</button>
+          </div>
+          <div class="cf-caption"><div class="cf-title"></div><div class="cf-meta"></div><div class="cf-count"></div></div>
+        </div>
       </section>
 
       <section class="block" aria-label="衍生创作">
         <div class="block-head"><h2>衍生创作</h2></div>
-        <div class="grid derived" id="derivedGrid"></div>
+        <div class="coverflow cf--portrait" id="derivedFlow" tabindex="0" role="region" aria-label="衍生创作封面流">
+          <div class="cf-stage">
+            <button class="cf-btn cf-prev" type="button" aria-label="上一张">‹</button>
+            <button class="cf-btn cf-next" type="button" aria-label="下一张">›</button>
+          </div>
+          <div class="cf-caption"><div class="cf-title"></div><div class="cf-meta"></div><div class="cf-count"></div></div>
+        </div>
       </section>
 
       <footer>fuyu.loc.cc</footer>
@@ -296,18 +381,6 @@
       <button class="lb-btn lb-next" id="lbNext" aria-label="下一张">›</button>
     </div>
 
-    <div class="work-viewer" id="workViewer" role="dialog" aria-modal="true" aria-label="作品完整查看">
-      <div class="wv-top">
-        <div class="t" id="wvTitle"></div>
-        <button class="wv-close" id="wvClose" aria-label="关闭">✕</button>
-      </div>
-      <div class="wv-main"><img id="wvImg" alt="" /></div>
-      <div class="wv-bottom">
-        <button class="wv-btn" id="wvPrev" type="button" aria-label="上一页">‹ 上一页</button>
-        <span class="wv-count" id="wvCount"></span>
-        <button class="wv-btn" id="wvNext" type="button" aria-label="下一页">下一页 ›</button>
-      </div>
-    </div>
 
     <script>
       var LOOKS = [
@@ -354,72 +427,180 @@
         { src: "images/img-27-navy-striped-seaside.webp", t: "衍生 · 海边条纹针织", catName: "衍生创作", alt: "模特穿藏青白条纹拉链针织衫内搭浅蓝衬衫与白色阔腿裤，戴墨镜站在海边的木栈道上" }
       ];
 
-      function makeCard(item, list, idx) {
-        var fig = document.createElement("figure");
-        fig.className = "card";
-        if (item.cat) fig.setAttribute("data-cat", item.cat);
-        var btn = document.createElement("button");
-        btn.className = "thumb";
-        btn.type = "button";
-        btn.setAttribute("aria-label", "放大查看：" + item.t);
-        var img = document.createElement("img");
-        img.src = item.src; img.alt = item.alt; img.decoding = "async";
-        btn.appendChild(img);
-        btn.addEventListener("click", function () { openLightbox(list, idx); });
-        var cap = document.createElement("figcaption");
-        var t = document.createElement("div");
-        t.className = "t"; t.textContent = item.t;
-        cap.appendChild(t);
-        if (item.cat) {
-          var m = document.createElement("div");
-          m.className = "m"; m.textContent = item.catName;
-          cap.appendChild(m);
+      /* ---------- 3D 封面流（Cover Flow） ---------- */
+      function createCoverFlow(root, options) {
+        var stage = root.querySelector('.cf-stage');
+        var titleEl = root.querySelector('.cf-title');
+        var metaEl = root.querySelector('.cf-meta');
+        var countEl = root.querySelector('.cf-count');
+        var prevBtn = root.querySelector('.cf-prev');
+        var nextBtn = root.querySelector('.cf-next');
+        var items = options.items.slice();
+        var center = 0, centerF = 0, lastCap = -1;
+        var cards = [];
+        var downX = 0, downCenter = 0, moved = 0, activePointer = null, isDown = false;
+
+        function build() {
+          Array.prototype.slice.call(stage.querySelectorAll('.cf-item')).forEach(function (el) { el.remove(); });
+          cards = items.map(function (item, i) {
+            var fig = document.createElement('figure');
+            fig.className = 'cf-item';
+            fig.setAttribute('role', 'button');
+            fig.setAttribute('aria-label', item.t);
+            var halo = document.createElement('div');
+            halo.className = 'cf-halo';
+            fig.appendChild(halo);
+            var wrap = document.createElement('div');
+            wrap.className = 'cf-img-wrap';
+            var img = document.createElement('img');
+            img.src = item.src; img.alt = item.alt || item.t; img.decoding = 'async'; img.draggable = false;
+            img.loading = i < 3 ? 'eager' : 'lazy';
+            wrap.appendChild(img);
+            fig.appendChild(wrap);
+            stage.appendChild(fig);
+            return fig;
+          });
+          center = items.length ? 0 : -1;
+          centerF = center;
+          lastCap = -1;
+          layout();
+          updateCaption(true);
         }
-        fig.appendChild(btn); fig.appendChild(cap);
-        return fig;
+
+        function step() {
+          var cw = cards.length ? cards[0].offsetWidth : 280;
+          var land = root.classList.contains('cf--landscape');
+          return Math.max(120, Math.min(cw * (land ? 0.68 : 0.62), stage.clientWidth * 0.44));
+        }
+
+        function layout() {
+          if (!cards.length) return;
+          var s = step();
+          cards.forEach(function (card, i) {
+            var d = i - centerF;
+            var ad = Math.abs(d);
+            var x = d * s;
+            var z = -Math.min(ad, 4) * 130;
+            var rot = Math.max(-62, Math.min(62, d * -46));
+            var sc = Math.max(0.55, Math.pow(0.86, ad));
+            var op = ad > 3.5 ? 0 : Math.max(0.12, 1 - ad * 0.24);
+            card.style.transform = 'translate(-50%,-50%) translateX(' + x.toFixed(1) + 'px) translateZ(' + z.toFixed(0) + 'px) rotateY(' + rot.toFixed(1) + 'deg) scale(' + sc.toFixed(3) + ')';
+            card.style.opacity = op.toFixed(2);
+            card.style.zIndex = String(100 - Math.round(ad * 10));
+            card.style.filter = 'brightness(' + (1 - Math.min(ad, 3) * 0.16).toFixed(2) + ')';
+            card.style.pointerEvents = ad > 3.5 ? 'none' : '';
+            card.classList.toggle('is-center', Math.round(centerF) === i && Math.abs(d) < 0.5);
+          });
+        }
+
+        function updateCaption(force) {
+          var idx = Math.round(centerF);
+          if (!items.length || (idx === lastCap && !force)) return;
+          lastCap = idx;
+          var cap = options.caption(items[idx], idx, items.length);
+          titleEl.textContent = cap.title;
+          metaEl.textContent = cap.meta;
+          countEl.textContent = (idx + 1) + ' / ' + items.length;
+        }
+
+        function goTo(i) {
+          if (!items.length) return;
+          center = Math.max(0, Math.min(items.length - 1, i));
+          centerF = center;
+          layout();
+          updateCaption(true);
+        }
+        function stepBy(d) { goTo(center + d); }
+
+        prevBtn.addEventListener('click', function () { stepBy(-1); });
+        nextBtn.addEventListener('click', function () { stepBy(1); });
+
+        root.addEventListener('keydown', function (e) {
+          if (e.key === 'ArrowLeft') { e.preventDefault(); stepBy(-1); }
+          if (e.key === 'ArrowRight') { e.preventDefault(); stepBy(1); }
+        });
+
+        stage.addEventListener('pointerdown', function (e) {
+          isDown = true; activePointer = e.pointerId; downX = e.clientX; downCenter = centerF; moved = 0;
+          try { stage.setPointerCapture(e.pointerId); } catch (err) {}
+          stage.classList.add('is-dragging');
+        });
+        stage.addEventListener('pointermove', function (e) {
+          if (!isDown || e.pointerId !== activePointer) return;
+          var dx = e.clientX - downX;
+          moved = Math.max(moved, Math.abs(dx));
+          centerF = downCenter - dx / step();
+          centerF = Math.max(-0.3, Math.min(items.length - 1 + 0.3, centerF));
+          layout();
+          updateCaption(false);
+        });
+        var suppressClickUntil = 0;
+        function endDrag() {
+          if (!isDown) return;
+          isDown = false;
+          stage.classList.remove('is-dragging');
+          if (moved > 8) suppressClickUntil = Date.now() + 300;
+          goTo(Math.round(centerF));
+        }
+        stage.addEventListener('pointerup', endDrag);
+        stage.addEventListener('pointercancel', endDrag);
+
+        stage.addEventListener('click', function (e) {
+          if (Date.now() < suppressClickUntil) return;
+          var fig = e.target.closest('.cf-item');
+          if (!fig) return;
+          var idx = cards.indexOf(fig);
+          if (idx < 0) return;
+          if (idx === center) options.onCenterClick(items, idx);
+          else goTo(idx);
+        });
+
+        var rT = null;
+        window.addEventListener('resize', function () {
+          if (rT) clearTimeout(rT);
+          rT = setTimeout(function () { layout(); }, 120);
+        });
+
+        build();
+        return {
+          setItems: function (list) { items = list.slice(); build(); },
+          goTo: goTo
+        };
       }
 
-      var grids = {
-        city: document.getElementById("gridCity"),
-        outdoor: document.getElementById("gridOutdoor"),
-        xiaoxiang: document.getElementById("gridXiaoxiang"),
-        retro: document.getElementById("gridRetro"),
-        duo: document.getElementById("gridDuo"),
-        studio: document.getElementById("gridStudio")
-      };
-      LOOKS.forEach(function (item, i) { grids[item.cat].appendChild(makeCard(item, LOOKS, i)); });
-      var derivedGrid = document.getElementById("derivedGrid");
-      DERIVED.forEach(function (item, i) { derivedGrid.appendChild(makeCard(item, DERIVED, i)); });
+      var looksFlow = createCoverFlow(document.getElementById('looksFlow'), {
+        items: LOOKS,
+        caption: function (item) { return { title: item.t, meta: item.catName || '' }; },
+        onCenterClick: function (list, idx) { openLightbox(list, idx); }
+      });
+      var derivedFlow = createCoverFlow(document.getElementById('derivedFlow'), {
+        items: DERIVED,
+        caption: function (item) { return { title: item.t, meta: '衍生创作' }; },
+        onCenterClick: function (list, idx) { openLightbox(list, idx); }
+      });
 
-      /* 筛选 */
-      var chips = Array.prototype.slice.call(document.querySelectorAll(".chip"));
-      var emptyNote = document.getElementById("emptyNote");
-      var subBlocks = Array.prototype.slice.call(document.querySelectorAll(".sub-block"));
-      var groups = Array.prototype.slice.call(document.querySelectorAll(".group"));
-      function updateCount() {
-        var visible = 0;
-        subBlocks.forEach(function (block) {
-          if (!block.classList.contains("is-hidden")) visible += block.querySelectorAll(".card").length;
-        });
-        emptyNote.classList.toggle("show", visible === 0);
+      /* 筛选：过滤原图精选封面流 */
+      var chips = Array.prototype.slice.call(document.querySelectorAll('.chip'));
+      var emptyNote = document.getElementById('emptyNote');
+      var looksFlowEl = document.getElementById('looksFlow');
+      function filterLooks(f) {
+        var list;
+        if (f === 'all') list = LOOKS;
+        else if (f === 'feature') list = LOOKS.filter(function (it) { return it.cat !== 'studio'; });
+        else if (f === 'studio') list = LOOKS.filter(function (it) { return it.cat === 'studio'; });
+        else list = LOOKS.filter(function (it) { return it.cat === f; });
+        looksFlow.setItems(list);
+        var empty = list.length === 0;
+        looksFlowEl.classList.toggle('is-hidden', empty);
+        emptyNote.classList.toggle('show', empty);
       }
       chips.forEach(function (chip) {
-        chip.addEventListener("click", function () {
-          chips.forEach(function (c) { c.setAttribute("aria-pressed", "false"); });
-          chip.setAttribute("aria-pressed", "true");
-          var f = chip.getAttribute("data-filter");
-          subBlocks.forEach(function (block) {
-            var show = f === "all" || block.getAttribute("data-cat-block") === f || block.getAttribute("data-group") === f;
-            block.classList.toggle("is-hidden", !show);
-          });
-          groups.forEach(function (g) {
-            var anyVisible = Array.prototype.slice.call(g.querySelectorAll(".sub-block")).some(function (b) { return !b.classList.contains("is-hidden"); });
-            g.classList.toggle("is-hidden", !anyVisible);
-          });
-          updateCount();
+        chip.addEventListener('click', function () {
+          chips.forEach(function (c) { c.setAttribute('aria-pressed', 'false'); });
+          chip.setAttribute('aria-pressed', 'true');
+          filterLooks(chip.getAttribute('data-filter'));
         });
       });
-      updateCount();
 
       /* 灯箱 */
       var lightbox = document.getElementById("lightbox");
@@ -506,77 +687,70 @@
       var WORKS = [
         { cover: "images/plo-aw-01.jpg", title: "PLO·CART 2026AW · 秋季陈列指引", meta: "36 页", pages: PLO }
       ];
-      var worksGrid = document.getElementById("worksGrid");
-      var workViewer = document.getElementById("workViewer");
-      var wvImg = document.getElementById("wvImg");
-      var wvTitle = document.getElementById("wvTitle");
-      var wvCount = document.getElementById("wvCount");
-      var workIdx = 0, workPageIdx = 0, workLastFocus = null;
-      function workPages() { return WORKS[workIdx].pages; }
-      WORKS.forEach(function (work, wi) {
-        var fig = document.createElement("figure");
-        fig.className = "work-card";
-        var btn = document.createElement("button");
-        btn.className = "thumb";
-        btn.type = "button";
-        btn.setAttribute("aria-label", "打开完整作品：" + work.title);
-        var img = document.createElement("img");
-        img.src = work.cover; img.alt = work.title; img.decoding = "async";
-        img.loading = wi < 6 ? "eager" : "lazy";
-        btn.appendChild(img);
-        btn.addEventListener("click", function () { openWorkViewer(wi, 0); });
-        var cap = document.createElement("figcaption");
-        var t = document.createElement("div");
-        t.className = "t"; t.textContent = work.title;
-        var m = document.createElement("div");
-        m.className = "m"; m.textContent = work.meta;
-        cap.appendChild(t); cap.appendChild(m);
-        fig.appendChild(btn); fig.appendChild(cap);
-        worksGrid.appendChild(fig);
+      /* 作品（PLO·CART 2026AW）改用封面流呈现：36 页直接在封面流里翻看，点中间的图放大。
+         WORKS 数组保留：加新作品时往 WORKS 里加一条（封面、标题、说明、页面数组）即可。 */
+      var ploFlow = createCoverFlow(document.getElementById('ploFlow'), {
+        items: WORKS[0].pages,
+        caption: function (item) { return { title: item.t, meta: 'PLO·CART 2026AW · 秋季陈列指引' }; },
+        onCenterClick: function (list, idx) { openLightbox(list, idx); }
       });
-      function renderWv() {
-        var pages = workPages();
-        var item = pages[workPageIdx];
-        wvImg.src = item.src; wvImg.alt = item.t;
-        wvTitle.textContent = item.t;
-        wvCount.textContent = (workPageIdx + 1) + " / " + pages.length;
-      }
-      function openWorkViewer(wi, pi) {
-        workIdx = wi; workPageIdx = pi;
-        workLastFocus = document.activeElement;
-        renderWv();
-        workViewer.classList.add("open");
-        document.body.style.overflow = "hidden";
-        document.getElementById("wvClose").focus();
-      }
-      function closeWorkViewer() {
-        workViewer.classList.remove("open");
-        document.body.style.overflow = "";
-        if (workLastFocus) workLastFocus.focus();
-      }
-      function workStep(d) {
-        var pages = workPages();
-        workPageIdx = (workPageIdx + d + pages.length) % pages.length;
-        renderWv();
-      }
-      document.getElementById("wvClose").addEventListener("click", closeWorkViewer);
-      document.getElementById("wvPrev").addEventListener("click", function () { workStep(-1); });
-      document.getElementById("wvNext").addEventListener("click", function () { workStep(1); });
-      workViewer.addEventListener("click", function (e) { if (e.target === workViewer) closeWorkViewer(); });
-      var wvTouchX = null;
-      workViewer.addEventListener("touchstart", function (e) { wvTouchX = e.touches[0].clientX; }, { passive: true });
-      workViewer.addEventListener("touchend", function (e) {
-        if (wvTouchX === null) return;
-        var dx = e.changedTouches[0].clientX - wvTouchX;
-        if (Math.abs(dx) > 40) workStep(dx < 0 ? 1 : -1);
-        wvTouchX = null;
-      }, { passive: true });
-      document.addEventListener("keydown", function (e) {
-        if (!workViewer.classList.contains("open")) return;
-        if (e.key === "Escape") closeWorkViewer();
-        if (e.key === "ArrowLeft") workStep(-1);
-        if (e.key === "ArrowRight") workStep(1);
-      });
+
+      /* ---------- 深色星空背景：星星 + 银河带 ---------- */
+      (function () {
+        var canvas = document.getElementById('skyCanvas');
+        if (!canvas) return;
+        var ctx = canvas.getContext('2d');
+        var stars = [], band = [], W = 0, H = 0;
+        var reduced = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false;
+        function rnd(a, b) { return a + Math.random() * (b - a); }
+        function build() {
+          var dpr = Math.min(window.devicePixelRatio || 1, 2);
+          W = window.innerWidth; H = window.innerHeight;
+          canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+          canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          stars = [];
+          var n = Math.round((W * H) / 6500);
+          for (var i = 0; i < n; i++) {
+            stars.push({ x: Math.random() * W, y: Math.random() * H, r: rnd(0.4, 1.5), a: rnd(0.3, 1), tw: Math.random() < 0.18, sp: rnd(0.4, 1.4), ph: rnd(0, Math.PI * 2), gold: Math.random() < 0.08 });
+          }
+          band = [];
+          var bn = Math.round((W * H) / 4200);
+          for (var j = 0; j < bn; j++) {
+            var t = Math.random();
+            var bx = t * W * 1.15 - W * 0.075;
+            var by = t * H * 0.9 + H * 0.02 + (Math.random() + Math.random() + Math.random() - 1.5) * H * 0.16;
+            band.push({ x: bx, y: by, r: rnd(0.4, 1.6), a: rnd(0.04, 0.22) });
+          }
+        }
+        function draw(now) {
+          ctx.clearRect(0, 0, W, H);
+          var i, s;
+          for (i = 0; i < band.length; i++) {
+            s = band[i];
+            ctx.globalAlpha = s.a;
+            ctx.fillStyle = '#cdd8ff';
+            ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2); ctx.fill();
+          }
+          for (i = 0; i < stars.length; i++) {
+            s = stars[i];
+            var a = s.a;
+            if (s.tw && !reduced) a = s.a * (0.55 + 0.45 * Math.sin(now / 1000 * s.sp + s.ph));
+            ctx.globalAlpha = a;
+            ctx.fillStyle = s.gold ? '#f2d488' : '#ffffff';
+            ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2); ctx.fill();
+          }
+          ctx.globalAlpha = 1;
+          if (!reduced) requestAnimationFrame(draw);
+        }
+        build();
+        if (reduced) draw(0); else requestAnimationFrame(draw);
+        var rT = null;
+        window.addEventListener('resize', function () {
+          if (rT) clearTimeout(rT);
+          rT = setTimeout(function () { build(); if (reduced) draw(0); }, 200);
+        });
+      })();
     </script>
   </body>
 </html>
