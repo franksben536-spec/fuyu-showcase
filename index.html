@@ -41,7 +41,6 @@
           radial-gradient(120% 90% at 78% -10%, rgba(64, 84, 160, .38), transparent 55%),
           radial-gradient(90% 70% at 8% 108%, rgba(88, 60, 140, .28), transparent 60%),
           linear-gradient(180deg, #04060f 0%, #070d20 42%, #0b1230 78%, #070a18 100%);
-        background-attachment: fixed;
         line-height: 1.7;
         letter-spacing: .01em;
         overflow-x: hidden;
@@ -229,10 +228,8 @@
       .sky { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
       .sky canvas { position: absolute; inset: 0; display: block; }
       .milkyway {
-        position: absolute; left: 50%; top: 50%;
-        width: 170vmax; height: 42vmax;
-        transform: translate(-50%, -50%) rotate(-24deg);
-        background: linear-gradient(90deg, transparent 0%, rgba(148, 168, 255, .05) 22%, rgba(196, 208, 255, .13) 50%, rgba(148, 168, 255, .05) 78%, transparent 100%);
+        position: absolute; inset: -25%;
+        background: linear-gradient(115deg, transparent 28%, rgba(148, 168, 255, .06) 42%, rgba(196, 208, 255, .14) 50%, rgba(148, 168, 255, .06) 58%, transparent 72%);
         filter: blur(28px);
         opacity: .8;
       }
@@ -253,7 +250,6 @@
         width: 300px; margin: 0;
         transform-style: preserve-3d;
         transition: transform .55s cubic-bezier(.22, .9, .28, 1), opacity .55s ease, filter .55s ease;
-        will-change: transform, opacity;
       }
       .cf-item .cf-img-wrap {
         position: relative; border-radius: var(--radius); overflow: hidden;
@@ -453,8 +449,8 @@
             var wrap = document.createElement('div');
             wrap.className = 'cf-img-wrap';
             var img = document.createElement('img');
-            img.src = item.src; img.alt = item.alt || item.t; img.decoding = 'async'; img.draggable = false;
-            img.loading = i < 3 ? 'eager' : 'lazy';
+            img.alt = item.alt || item.t; img.decoding = 'async'; img.draggable = false;
+            img.dataset.src = item.src;
             wrap.appendChild(img);
             fig.appendChild(wrap);
             stage.appendChild(fig);
@@ -471,6 +467,21 @@
           var cw = cards.length ? cards[0].offsetWidth : 280;
           var land = root.classList.contains('cf--landscape');
           return Math.max(120, Math.min(cw * (land ? 0.68 : 0.62), stage.clientWidth * 0.44));
+        }
+
+        /* 只加载焦点附近的图片：3D 变换下浏览器会把所有图都当可见、74 张全解码会把手机内置浏览器撑爆。
+           焦点 ±4 张内加载，超出 ±8 张的卸掉 src 释放内存。 */
+        function ensureSrcs() {
+          var c = Math.round(centerF);
+          cards.forEach(function (card, i) {
+            var img = card.querySelector('img');
+            if (!img) return;
+            if (Math.abs(i - c) <= 4) {
+              if (!img.getAttribute('src')) img.src = img.dataset.src;
+            } else if (Math.abs(i - c) > 8) {
+              if (img.getAttribute('src')) img.removeAttribute('src');
+            }
+          });
         }
 
         function layout() {
@@ -491,6 +502,7 @@
             card.style.pointerEvents = ad > 3.5 ? 'none' : '';
             card.classList.toggle('is-center', Math.round(centerF) === i && Math.abs(d) < 0.5);
           });
+          ensureSrcs();
         }
 
         function updateCaption(force) {
@@ -724,6 +736,7 @@
           }
         }
         function draw(now) {
+          if (document.hidden) return;
           ctx.clearRect(0, 0, W, H);
           var i, s;
           for (i = 0; i < band.length; i++) {
@@ -749,6 +762,9 @@
         window.addEventListener('resize', function () {
           if (rT) clearTimeout(rT);
           rT = setTimeout(function () { build(); if (reduced) draw(0); }, 200);
+        });
+        document.addEventListener('visibilitychange', function () {
+          if (!document.hidden && !reduced) requestAnimationFrame(draw);
         });
       })();
     </script>
