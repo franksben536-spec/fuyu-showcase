@@ -318,27 +318,37 @@
         </figure>
       </header>
 
-      <nav class="filters" id="gallery" aria-label="按系列筛选">
-        <button class="chip" data-filter="all" aria-pressed="true">全部</button>
-        <button class="chip" data-filter="feature" aria-pressed="false">大片</button>
-        <button class="chip" data-filter="studio" aria-pressed="false">棚拍</button>
-        <button class="chip" data-filter="city" aria-pressed="false">城市系列</button>
-        <button class="chip" data-filter="outdoor" aria-pressed="false">户外系列</button>
-        <button class="chip" data-filter="xiaoxiang" aria-pressed="false">小香风</button>
-        <button class="chip" data-filter="retro" aria-pressed="false">美式复古</button>
-        <button class="chip" data-filter="duo" aria-pressed="false">情侣双人</button>
-      </nav>
-
-      <section class="block" aria-label="原图图集">
-        <div class="block-head"><h2>原图精选</h2></div>
-        <div class="coverflow cf--portrait" id="looksFlow" tabindex="0" role="region" aria-label="原图精选封面流">
+      <section class="block" aria-label="形象大片">
+        <div class="block-head"><h2>形象大片</h2></div>
+        <div class="coverflow cf--portrait" id="heroFlow" tabindex="0" role="region" aria-label="形象大片封面流">
           <div class="cf-stage">
             <button class="cf-btn cf-prev" type="button" aria-label="上一张">‹</button>
             <button class="cf-btn cf-next" type="button" aria-label="下一张">›</button>
           </div>
           <div class="cf-caption"><div class="cf-title"></div><div class="cf-meta"></div><div class="cf-count"></div></div>
         </div>
-        <p class="empty-note" id="emptyNote">这个系列暂时没有图片。</p>
+      </section>
+
+      <section class="block" aria-label="朋友圈推广">
+        <div class="block-head"><h2>朋友圈推广</h2></div>
+        <div class="coverflow cf--portrait" id="momentsFlow" tabindex="0" role="region" aria-label="朋友圈推广封面流">
+          <div class="cf-stage">
+            <button class="cf-btn cf-prev" type="button" aria-label="上一张">‹</button>
+            <button class="cf-btn cf-next" type="button" aria-label="下一张">›</button>
+          </div>
+          <div class="cf-caption"><div class="cf-title"></div><div class="cf-meta"></div><div class="cf-count"></div></div>
+        </div>
+      </section>
+
+      <section class="block" aria-label="Lookbook">
+        <div class="block-head"><h2>Lookbook</h2></div>
+        <div class="coverflow cf--portrait" id="lookbookFlow" tabindex="0" role="region" aria-label="Lookbook 封面流">
+          <div class="cf-stage">
+            <button class="cf-btn cf-prev" type="button" aria-label="上一张">‹</button>
+            <button class="cf-btn cf-next" type="button" aria-label="下一张">›</button>
+          </div>
+          <div class="cf-caption"><div class="cf-title"></div><div class="cf-meta"></div><div class="cf-count"></div></div>
+        </div>
       </section>
 
       <section class="block" aria-label="作品">
@@ -604,8 +614,22 @@
         };
       }
 
-      var looksFlow = createCoverFlow(document.getElementById('looksFlow'), {
-        items: LOOKS,
+      /* 原图精选拆成三个模块：形象大片（不带价的场景大片 11 张）、朋友圈推广（带价的产品图 11 张）、Lookbook（影棚白底 9 张）。 */
+      var HERO = LOOKS.filter(function (it) { return it.cat !== 'studio' && it.t.indexOf('¥') === -1; });
+      var MOMENTS = LOOKS.filter(function (it) { return it.t.indexOf('¥') !== -1; });
+      var LOOKBOOK = LOOKS.filter(function (it) { return it.cat === 'studio'; });
+      var heroFlow = createCoverFlow(document.getElementById('heroFlow'), {
+        items: HERO,
+        caption: function (item) { return { title: item.t, meta: item.catName || '' }; },
+        onCenterClick: function (list, idx) { openLightbox(list, idx); }
+      });
+      var momentsFlow = createCoverFlow(document.getElementById('momentsFlow'), {
+        items: MOMENTS,
+        caption: function (item) { return { title: item.t, meta: item.catName || '' }; },
+        onCenterClick: function (list, idx) { openLightbox(list, idx); }
+      });
+      var lookbookFlow = createCoverFlow(document.getElementById('lookbookFlow'), {
+        items: LOOKBOOK,
         caption: function (item) { return { title: item.t, meta: item.catName || '' }; },
         onCenterClick: function (list, idx) { openLightbox(list, idx); }
       });
@@ -613,29 +637,6 @@
         items: DERIVED,
         caption: function (item) { return { title: item.t, meta: '衍生创作' }; },
         onCenterClick: function (list, idx) { openLightbox(list, idx); }
-      });
-
-      /* 筛选：过滤原图精选封面流 */
-      var chips = Array.prototype.slice.call(document.querySelectorAll('.chip'));
-      var emptyNote = document.getElementById('emptyNote');
-      var looksFlowEl = document.getElementById('looksFlow');
-      function filterLooks(f) {
-        var list;
-        if (f === 'all') list = LOOKS;
-        else if (f === 'feature') list = LOOKS.filter(function (it) { return it.cat !== 'studio'; });
-        else if (f === 'studio') list = LOOKS.filter(function (it) { return it.cat === 'studio'; });
-        else list = LOOKS.filter(function (it) { return it.cat === f; });
-        looksFlow.setItems(list);
-        var empty = list.length === 0;
-        looksFlowEl.classList.toggle('is-hidden', empty);
-        emptyNote.classList.toggle('show', empty);
-      }
-      chips.forEach(function (chip) {
-        chip.addEventListener('click', function () {
-          chips.forEach(function (c) { c.setAttribute('aria-pressed', 'false'); });
-          chip.setAttribute('aria-pressed', 'true');
-          filterLooks(chip.getAttribute('data-filter'));
-        });
       });
 
       /* 灯箱 */
