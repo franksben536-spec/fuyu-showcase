@@ -614,10 +614,10 @@
         };
       }
 
-      /* 原图精选拆成三个模块：形象大片（不带价的场景大片 11 张）、朋友圈推广（带价的产品图 11 张）、Lookbook（影棚白底 9 张）。 */
-      var HERO = LOOKS.filter(function (it) { return it.cat !== 'studio' && it.t.indexOf('¥') === -1; });
+      /* 原图精选拆成三个模块：形象大片（不带价的场景大片 8 张）、朋友圈推广（带价的产品图 11 张）、Lookbook（影棚白底 12 张，含 3 张白底双人）。 */
+      var HERO = LOOKS.filter(function (it) { return it.cat !== 'studio' && it.cat !== 'duo' && it.t.indexOf('¥') === -1; });
       var MOMENTS = LOOKS.filter(function (it) { return it.t.indexOf('¥') !== -1; });
-      var LOOKBOOK = LOOKS.filter(function (it) { return it.cat === 'studio'; });
+      var LOOKBOOK = LOOKS.filter(function (it) { return it.cat === 'studio' || it.cat === 'duo'; });
       var heroFlow = createCoverFlow(document.getElementById('heroFlow'), {
         items: HERO,
         caption: function (item) { return { title: item.t, meta: item.catName || '' }; },
