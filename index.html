@@ -473,15 +473,15 @@
         }
 
         /* 只加载焦点附近的图片：3D 变换下浏览器会把所有图都当可见、74 张全解码会把手机内置浏览器撑爆。
-           焦点 ±4 张内加载，超出 ±8 张的卸掉 src 释放内存。 */
+           焦点 ±2 张内加载，超出 ±5 张的卸掉 src 释放内存。窗口收得小，翻多了也不会越积越卡。 */
         function ensureSrcs() {
           var c = Math.round(centerF);
           cards.forEach(function (card, i) {
             var img = card._img;
             if (!img) return;
-            if (Math.abs(i - c) <= 4) {
+            if (Math.abs(i - c) <= 2) {
               if (!img.getAttribute('src')) img.src = img.dataset.src;
-            } else if (Math.abs(i - c) > 8) {
+            } else if (Math.abs(i - c) > 5) {
               if (img.getAttribute('src')) img.removeAttribute('src');
             }
           });
@@ -535,6 +535,8 @@
           if (!items.length) return;
           center = Math.max(0, Math.min(items.length - 1, i));
           centerF = center;
+          /* 翻页期间让星空暂停重画，把主线程让给翻图动画。 */
+          window.__cfBusyUntil = Date.now() + 700;
           layout();
           updateCaption(true);
         }
@@ -556,6 +558,7 @@
           moved = Math.max(moved, Math.abs(dx));
           centerF = downCenter - dx / stepVal;
           centerF = Math.max(-0.3, Math.min(items.length - 1 + 0.3, centerF));
+          window.__cfBusyUntil = Date.now() + 700;
           queueLayout();
         }
         var suppressClickUntil = 0;
@@ -571,6 +574,7 @@
         }
         stage.addEventListener('pointerdown', function (e) {
           isDown = true; activePointer = e.pointerId; downX = e.clientX; downCenter = centerF; moved = 0;
+          window.__cfBusyUntil = Date.now() + 700;
           stage.classList.add('is-dragging');
           window.addEventListener('pointermove', onMove);
           window.addEventListener('pointerup', endDrag);
@@ -759,6 +763,8 @@
         var lastStarDraw = 0;
         function draw(now) {
           if (document.hidden) return;
+          /* 翻图时暂停星空重画：把主线程让给翻图，翻完 700ms 内不抢。 */
+          if (Date.now() < (window.__cfBusyUntil || 0)) { if (!reduced) requestAnimationFrame(draw); return; }
           if (!reduced && now - lastStarDraw < 80) { requestAnimationFrame(draw); return; }
           lastStarDraw = now;
           ctx.clearRect(0, 0, W, H);
