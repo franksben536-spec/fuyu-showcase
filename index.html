@@ -243,9 +243,9 @@
       .sky canvas { position: absolute; inset: 0; display: block; }
       .milkyway {
         position: absolute; inset: -25%;
-        background: linear-gradient(115deg, transparent 28%, rgba(148, 168, 255, .06) 42%, rgba(196, 208, 255, .14) 50%, rgba(148, 168, 255, .06) 58%, transparent 72%);
-        filter: blur(16px);
-        opacity: .8;
+        background: linear-gradient(115deg, transparent 18%, rgba(148, 168, 255, .04) 38%, rgba(196, 208, 255, .08) 50%, rgba(148, 168, 255, .04) 62%, transparent 82%);
+        filter: blur(24px);
+        opacity: .6;
       }
       .wrap { position: relative; z-index: 1; }
 
@@ -424,6 +424,17 @@
       <section class="block" aria-label="2026SS 陈列指引 · 夏季补充">
         <div class="block-head"><h2>2026SS 陈列指引 · 夏季补充</h2></div>
         <div class="coverflow cf--landscape" id="ss26Flow" tabindex="0" role="region" aria-label="PLO·CART 2026SS 夏季（补充）陈列指引封面流">
+          <div class="cf-stage">
+            <button class="cf-btn cf-prev" type="button" aria-label="上一页">‹</button>
+            <button class="cf-btn cf-next" type="button" aria-label="下一页">›</button>
+          </div>
+          <div class="cf-caption"><div class="cf-title"></div><div class="cf-meta"></div><div class="cf-count"></div></div>
+        </div>
+      </section>
+
+      <section class="block" aria-label="2026AW 陈列指引 · 秋一波">
+        <div class="block-head"><h2>2026AW 陈列指引 · 秋一波</h2></div>
+        <div class="coverflow cf--landscape" id="aw26aFlow" tabindex="0" role="region" aria-label="PLO·CART 2026AW 秋季陈列指引（秋一波）封面流">
           <div class="cf-stage">
             <button class="cf-btn cf-prev" type="button" aria-label="上一页">‹</button>
             <button class="cf-btn cf-next" type="button" aria-label="下一页">›</button>
@@ -891,6 +902,42 @@
         { src: "images/plo-26ss-21.jpg", t: "模特搭配参考 · 单个模特" },
         { src: "images/plo-26ss-22.jpg", t: "感谢观看" }
       ];
+      /* PLO·CART 2026AW · 秋季陈列指引（秋一波）：33 页 */
+      var AW26A = [
+        { src: "images/plo-26aw1-01.jpg", t: "封面 · 2026AW 秋季陈列指引（秋一波）" },
+        { src: "images/plo-26aw1-02.jpg", t: "柜体挂装陈列规范" },
+        { src: "images/plo-26aw1-03.jpg", t: "柜体陈列标准" },
+        { src: "images/plo-26aw1-04.jpg", t: "2026AW 辅料说明" },
+        { src: "images/plo-26aw1-05.jpg", t: "广告物料使用说明（正店/填铺店）" },
+        { src: "images/plo-26aw1-06.jpg", t: "陈列物料使用说明" },
+        { src: "images/plo-26aw1-07.jpg", t: "26AW 产品系列介绍" },
+        { src: "images/plo-26aw1-08.jpg", t: "MEN" },
+        { src: "images/plo-26aw1-09.jpg", t: "关于 2026AW 货品陈列说明" },
+        { src: "images/plo-26aw1-10.jpg", t: "2026AW 男装趋势" },
+        { src: "images/plo-26aw1-11.jpg", t: "2026AW 男装系列产品介绍" },
+        { src: "images/plo-26aw1-12.jpg", t: "展桌 · 秋一波（美式休闲）" },
+        { src: "images/plo-26aw1-13.jpg", t: "展桌搭配参考" },
+        { src: "images/plo-26aw1-14.jpg", t: "美式休闲 · 男装（复古学院）" },
+        { src: "images/plo-26aw1-15.jpg", t: "美式休闲 · 男装（复古学院）" },
+        { src: "images/plo-26aw1-16.jpg", t: "美式休闲 · 男装（复古学院）" },
+        { src: "images/plo-26aw1-17.jpg", t: "WOMEN" },
+        { src: "images/plo-26aw1-18.jpg", t: "2026AW 女装趋势" },
+        { src: "images/plo-26aw1-19.jpg", t: "2026AW 女装系列介绍" },
+        { src: "images/plo-26aw1-20.jpg", t: "都市生活系列 · 女装（LULU 风）" },
+        { src: "images/plo-26aw1-21.jpg", t: "美式休闲系列 · 女装（费尔岛度假风）" },
+        { src: "images/plo-26aw1-22.jpg", t: "美式休闲系列 · 女装（复古学院风）" },
+        { src: "images/plo-26aw1-23.jpg", t: "都市生活系列 · 女装" },
+        { src: "images/plo-26aw1-24.jpg", t: "美式休闲系列 · 女装（马卡龙针织 · 早秋）" },
+        { src: "images/plo-26aw1-25.jpg", t: "美式休闲系列 · 女装（马卡龙针织+巴恩风 · 深秋）" },
+        { src: "images/plo-26aw1-26.jpg", t: "都市生活系列 · 女装（复古机车）" },
+        { src: "images/plo-26aw1-27.jpg", t: "美式休闲系列 · 女装（复古焦糖+复古学院）" },
+        { src: "images/plo-26aw1-28.jpg", t: "柜体组合形式示例（两仓柜体）" },
+        { src: "images/plo-26aw1-29.jpg", t: "柜体组合形式示例（三仓柜体）" },
+        { src: "images/plo-26aw1-30.jpg", t: "模特搭配参考" },
+        { src: "images/plo-26aw1-31.jpg", t: "模特搭配参考" },
+        { src: "images/plo-26aw1-32.jpg", t: "模特搭配参考 · 替换组合" },
+        { src: "images/plo-26aw1-33.jpg", t: "感谢观看" }
+      ];
       /* 作品网格：一个作品一张封面卡，点进去是完整的作品页。
          加新作品时往 WORKS 里加一条（封面、标题、说明、页面数组）即可。 */
       var WORKS = [
@@ -898,7 +945,8 @@
         { cover: "images/plo-look-01.jpg", title: "PLO·CART 2026AW · 形象搭配 LOOK", meta: "24 页", pages: LOOK },
         { cover: "images/plo-25aw1-01.jpg", title: "PLO·CART 25-AW · 秋季陈列指引（第一波）", meta: "20 页", pages: AW25A },
         { cover: "images/plo-25aw2-01.jpg", title: "PLO·CART 25-AW · 秋冬陈列指引（秋二波+冬一波）", meta: "24 页", pages: AW25B },
-        { cover: "images/plo-26ss-01.jpg", title: "PLO·CART 2026SS · 夏季（补充）陈列指引", meta: "22 页", pages: SS26 }
+        { cover: "images/plo-26ss-01.jpg", title: "PLO·CART 2026SS · 夏季（补充）陈列指引", meta: "22 页", pages: SS26 },
+        { cover: "images/plo-26aw1-01.jpg", title: "PLO·CART 2026AW · 秋季陈列指引（秋一波）", meta: "33 页", pages: AW26A }
       ];
       /* 作品（PLO·CART 2026AW）改用封面流呈现：36 页直接在封面流里翻看，点中间的图放大。
          WORKS 数组保留：加新作品时往 WORKS 里加一条（封面、标题、说明、页面数组）即可。 */
@@ -931,6 +979,13 @@
       var ss26Flow = createCoverFlow(document.getElementById('ss26Flow'), {
         items: WORKS[4].pages,
         caption: function (item) { return { title: item.t, meta: 'PLO·CART 2026SS · 夏季（补充）陈列指引' }; },
+        onCenterClick: function (list, idx) { openLightbox(list, idx); }
+      });
+
+      /* 2026AW 秋一波：同款横版封面流。 */
+      var aw26aFlow = createCoverFlow(document.getElementById('aw26aFlow'), {
+        items: WORKS[5].pages,
+        caption: function (item) { return { title: item.t, meta: 'PLO·CART 2026AW · 秋季陈列指引（秋一波）' }; },
         onCenterClick: function (list, idx) { openLightbox(list, idx); }
       });
 
@@ -983,24 +1038,23 @@
           var g = galaxy.getContext('2d');
           g.setTransform(dpr, 0, 0, dpr, 0, 0);
           var R = Math.min(W, H);
-          /* 1) 星云：几团彩色星云雾 */
+          /* 1) 星云：两团很大很淡的雾，互相重叠铺满整片天，不再分块 */
           var clouds = [
-            { x: W * 0.16, y: H * 0.22, r: R * 0.42, c: '124,86,214' },
-            { x: W * 0.86, y: H * 0.68, r: R * 0.46, c: '58,110,220' },
-            { x: W * 0.78, y: H * 0.12, r: R * 0.34, c: '214,86,160' },
-            { x: W * 0.24, y: H * 0.82, r: R * 0.36, c: '44,170,168' }
+            { x: W * 0.42, y: H * 0.28, r: R * 0.95, c: '124,86,214' },
+            { x: W * 0.62, y: H * 0.72, r: R * 0.95, c: '58,110,220' },
+            { x: W * 0.85, y: H * 0.30, r: R * 0.70, c: '214,86,160' }
           ];
           clouds.forEach(function (n) {
             var grad = g.createRadialGradient(n.x, n.y, 0, n.x, n.y, n.r);
-            grad.addColorStop(0, 'rgba(' + n.c + ',0.20)');
-            grad.addColorStop(0.5, 'rgba(' + n.c + ',0.07)');
+            grad.addColorStop(0, 'rgba(' + n.c + ',0.13)');
+            grad.addColorStop(0.5, 'rgba(' + n.c + ',0.05)');
             grad.addColorStop(1, 'rgba(' + n.c + ',0)');
             g.fillStyle = grad;
             g.fillRect(n.x - n.r, n.y - n.r, n.r * 2, n.r * 2);
           });
-          /* 2) 旋涡星系：3 条旋臂 + 亮核，放在右上 */
-          var cx = W * 0.70, cy = H * 0.30;
-          var coreR = R * 0.16;
+          /* 2) 旋涡星系：3 条旋臂 + 亮核，放大后居中偏上，是整片天的主体 */
+          var cx = W * 0.50, cy = H * 0.34;
+          var coreR = R * 0.22;
           var core = g.createRadialGradient(cx, cy, 0, cx, cy, coreR);
           core.addColorStop(0, 'rgba(255,238,196,0.9)');
           core.addColorStop(0.35, 'rgba(255,208,150,0.32)');
@@ -1008,8 +1062,8 @@
           g.fillStyle = core;
           g.fillRect(cx - coreR, cy - coreR, coreR * 2, coreR * 2);
           var armColors = ['255,255,255', '188,208,255', '255,220,170', '255,190,212'];
-          var maxR = R * 0.42;
-          var nArm = Math.round((W * H) / 1800);
+          var maxR = R * 0.62;
+          var nArm = Math.round((W * H) / 1200);
           for (var i = 0; i < nArm; i++) {
             var arm = i % 3;
             var t = Math.random();
