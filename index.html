@@ -250,13 +250,12 @@
       .wrap { position: relative; z-index: 1; }
 
       /* ---------- 3D 封面流 ---------- */
-      .coverflow { position: relative; margin-top: 8px; outline: none; }
+      .coverflow { position: relative; margin-top: 8px; outline: none; overflow: hidden; }
       .coverflow.is-hidden { display: none; }
       .cf-stage {
         position: relative; height: 560px;
         perspective: 1400px; perspective-origin: 50% 42%;
         touch-action: pan-y; cursor: grab; user-select: none; -webkit-user-select: none;
-        overflow: hidden;
       }
       .cf-stage.is-dragging { cursor: grabbing; }
       .cf-stage.is-dragging .cf-item { transition: none !important; }
