@@ -60,12 +60,28 @@
         font-size: clamp(30px, 4vw, 44px); line-height: 1.2; font-weight: 500;
         letter-spacing: -.02em; margin: 0;
       }
-      .hero-photo { margin: 0; }
-      .hero-photo img {
-        width: 100%; aspect-ratio: 4 / 4.6; object-fit: cover; object-position: top;
+      /* 首图轮播：5 张横图淡入淡出自动轮换，圆点可点切 */
+      .hero-photo { position: relative; margin: 0; aspect-ratio: 16 / 10; }
+      .hero-slide {
+        position: absolute; inset: 0; width: 100%; height: 100%;
+        object-fit: cover; object-position: center;
         border-radius: var(--radius); display: block;
         border: 1px solid rgba(212, 175, 55, .35);
         box-shadow: 0 0 32px rgba(212, 175, 55, .18), 0 24px 48px rgba(0, 0, 0, .5);
+        opacity: 0; transition: opacity 1s ease; pointer-events: none;
+      }
+      .hero-slide.is-active { opacity: 1; pointer-events: auto; }
+      .hero-dots {
+        position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%);
+        display: flex; gap: 8px; z-index: 2; margin: 0;
+      }
+      .hero-dot {
+        width: 8px; height: 8px; border-radius: 50%; border: 0; padding: 0;
+        background: rgba(255, 255, 255, .45); cursor: pointer;
+      }
+      .hero-dot.is-active { background: #F5D67B; }
+      @media (prefers-reduced-motion: reduce) {
+        .hero-slide { transition: none; }
       }
 
       /* ---------- 筛选：简洁文字标签 ---------- */
@@ -212,7 +228,6 @@
       @media (max-width: 760px) {
         .wrap { padding: 0 18px 72px; }
         header.hero { grid-template-columns: 1fr; gap: 28px; padding-top: 44px; }
-        .hero-photo img { aspect-ratio: 4 / 4.2; }
         .grid { grid-template-columns: repeat(2, 1fr); gap: 22px 14px; }
         .grid.derived { grid-template-columns: 1fr; }
         .works-grid { grid-template-columns: 1fr; gap: 24px; }
@@ -313,8 +328,19 @@
         <div>
           <h1>秋冬衣橱<br />造型图集</h1>
         </div>
-        <figure class="hero-photo">
-          <img src="images/img-01-d13970.jpg" alt="模特穿橄榄色麂皮夹克与白色马裤站在马场木栏旁，身旁是一匹棕色马" />
+        <figure class="hero-photo" id="heroSlideshow">
+          <img class="hero-slide is-active" src="images/hero-01.jpg" alt="模特穿棕色麂皮夹克与白色马裤站在马场木栏旁，身旁是一匹棕色马，远处是城堡" />
+          <img class="hero-slide" src="images/hero-02.jpg" alt="模特穿棕色皮夹克与白色围巾、白色长裤站在马场木栏旁，身旁是一匹棕色马，远处是群山" />
+          <img class="hero-slide" src="images/hero-03.jpg" alt="一对男女模特坐在林间草地的野餐毯上，女方穿黄色针织衫，男方穿藏青衬衫，旁边是野餐篮" />
+          <img class="hero-slide" src="images/hero-04.jpg" alt="两位女模特站在海边公路旁的白色敞篷车边，穿条纹 Polo 衫，身后是大海" />
+          <img class="hero-slide" src="images/hero-05.jpg" alt="模特穿芥黄衬衫与白色阔腿裤坐在佛罗伦萨的石砌露台上，身后是圣母百花大教堂" />
+          <div class="hero-dots" role="tablist" aria-label="首图切换">
+            <button class="hero-dot is-active" type="button" aria-label="第 1 张"></button>
+            <button class="hero-dot" type="button" aria-label="第 2 张"></button>
+            <button class="hero-dot" type="button" aria-label="第 3 张"></button>
+            <button class="hero-dot" type="button" aria-label="第 4 张"></button>
+            <button class="hero-dot" type="button" aria-label="第 5 张"></button>
+          </div>
         </figure>
       </header>
 
@@ -907,6 +933,38 @@
         caption: function (item) { return { title: item.t, meta: 'PLO·CART 2026SS · 夏季（补充）陈列指引' }; },
         onCenterClick: function (list, idx) { openLightbox(list, idx); }
       });
+
+      /* 首图轮播：5 张横图每 5 秒淡入淡出切换，点圆点可手动切；切页隐藏时暂停，减动效时不自动播。 */
+      (function () {
+        var box = document.getElementById('heroSlideshow');
+        if (!box) return;
+        var slides = box.querySelectorAll('.hero-slide');
+        var dots = box.querySelectorAll('.hero-dot');
+        if (!slides.length) return;
+        var idx = 0, timer = null;
+        var reduced = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false;
+        function show(n) {
+          idx = (n + slides.length) % slides.length;
+          for (var i = 0; i < slides.length; i++) {
+            slides[i].classList.toggle('is-active', i === idx);
+            if (dots[i]) dots[i].classList.toggle('is-active', i === idx);
+          }
+        }
+        function start() {
+          if (reduced || timer) return;
+          timer = setInterval(function () { show(idx + 1); }, 5000);
+        }
+        function stop() { if (timer) { clearInterval(timer); timer = null; } }
+        for (var d = 0; d < dots.length; d++) {
+          (function (k) {
+            dots[k].addEventListener('click', function () { stop(); show(k); start(); });
+          })(d);
+        }
+        document.addEventListener('visibilitychange', function () {
+          if (document.hidden) stop(); else start();
+        });
+        start();
+      })();
 
       /* ---------- 深色星空背景：旋涡星系 + 星云 + 星星 ---------- */
       (function () {
