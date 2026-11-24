@@ -399,20 +399,9 @@
         </div>
       </section>
 
-      <section class="block" aria-label="25-AW 陈列指引 · 第一波">
-        <div class="block-head"><h2>25-AW 陈列指引 · 第一波</h2></div>
-        <div class="coverflow cf--landscape" id="aw25aFlow" tabindex="0" role="region" aria-label="PLO·CART 25-AW 秋季陈列指引（第一波）封面流">
-          <div class="cf-stage">
-            <button class="cf-btn cf-prev" type="button" aria-label="上一页">‹</button>
-            <button class="cf-btn cf-next" type="button" aria-label="下一页">›</button>
-          </div>
-          <div class="cf-caption"><div class="cf-title"></div><div class="cf-meta"></div><div class="cf-count"></div></div>
-        </div>
-      </section>
-
-      <section class="block" aria-label="25-AW 陈列指引 · 秋二波+冬一波">
-        <div class="block-head"><h2>25-AW 陈列指引 · 秋二波+冬一波</h2></div>
-        <div class="coverflow cf--landscape" id="aw25bFlow" tabindex="0" role="region" aria-label="PLO·CART 25-AW 秋冬陈列指引（秋二波+冬一波）封面流">
+      <section class="block" aria-label="2026AW 陈列指引 · 秋一波">
+        <div class="block-head"><h2>2026AW 陈列指引 · 秋一波</h2></div>
+        <div class="coverflow cf--landscape" id="aw26aFlow" tabindex="0" role="region" aria-label="PLO·CART 2026AW 秋季陈列指引（秋一波）封面流">
           <div class="cf-stage">
             <button class="cf-btn cf-prev" type="button" aria-label="上一页">‹</button>
             <button class="cf-btn cf-next" type="button" aria-label="下一页">›</button>
@@ -432,9 +421,20 @@
         </div>
       </section>
 
-      <section class="block" aria-label="2026AW 陈列指引 · 秋一波">
-        <div class="block-head"><h2>2026AW 陈列指引 · 秋一波</h2></div>
-        <div class="coverflow cf--landscape" id="aw26aFlow" tabindex="0" role="region" aria-label="PLO·CART 2026AW 秋季陈列指引（秋一波）封面流">
+      <section class="block" aria-label="25-AW 陈列指引 · 秋二波+冬一波">
+        <div class="block-head"><h2>25-AW 陈列指引 · 秋二波+冬一波</h2></div>
+        <div class="coverflow cf--landscape" id="aw25bFlow" tabindex="0" role="region" aria-label="PLO·CART 25-AW 秋冬陈列指引（秋二波+冬一波）封面流">
+          <div class="cf-stage">
+            <button class="cf-btn cf-prev" type="button" aria-label="上一页">‹</button>
+            <button class="cf-btn cf-next" type="button" aria-label="下一页">›</button>
+          </div>
+          <div class="cf-caption"><div class="cf-title"></div><div class="cf-meta"></div><div class="cf-count"></div></div>
+        </div>
+      </section>
+
+      <section class="block" aria-label="25-AW 陈列指引 · 第一波">
+        <div class="block-head"><h2>25-AW 陈列指引 · 第一波</h2></div>
+        <div class="coverflow cf--landscape" id="aw25aFlow" tabindex="0" role="region" aria-label="PLO·CART 25-AW 秋季陈列指引（第一波）封面流">
           <div class="cf-stage">
             <button class="cf-btn cf-prev" type="button" aria-label="上一页">‹</button>
             <button class="cf-btn cf-next" type="button" aria-label="下一页">›</button>
@@ -943,10 +943,10 @@
       var WORKS = [
         { cover: "images/plo-aw-01.jpg", title: "PLO·CART 2026AW · 秋季陈列指引", meta: "36 页", pages: PLO },
         { cover: "images/plo-look-01.jpg", title: "PLO·CART 2026AW · 形象搭配 LOOK", meta: "24 页", pages: LOOK },
-        { cover: "images/plo-25aw1-01.jpg", title: "PLO·CART 25-AW · 秋季陈列指引（第一波）", meta: "20 页", pages: AW25A },
-        { cover: "images/plo-25aw2-01.jpg", title: "PLO·CART 25-AW · 秋冬陈列指引（秋二波+冬一波）", meta: "24 页", pages: AW25B },
+        { cover: "images/plo-26aw1-01.jpg", title: "PLO·CART 2026AW · 秋季陈列指引（秋一波）", meta: "33 页", pages: AW26A },
         { cover: "images/plo-26ss-01.jpg", title: "PLO·CART 2026SS · 夏季（补充）陈列指引", meta: "22 页", pages: SS26 },
-        { cover: "images/plo-26aw1-01.jpg", title: "PLO·CART 2026AW · 秋季陈列指引（秋一波）", meta: "33 页", pages: AW26A }
+        { cover: "images/plo-25aw2-01.jpg", title: "PLO·CART 25-AW · 秋冬陈列指引（秋二波+冬一波）", meta: "24 页", pages: AW25B },
+        { cover: "images/plo-25aw1-01.jpg", title: "PLO·CART 25-AW · 秋季陈列指引（第一波）", meta: "20 页", pages: AW25A }
       ];
       /* 作品（PLO·CART 2026AW）改用封面流呈现：36 页直接在封面流里翻看，点中间的图放大。
          WORKS 数组保留：加新作品时往 WORKS 里加一条（封面、标题、说明、页面数组）即可。 */
@@ -965,26 +965,26 @@
 
       /* 25-AW 第一波 / 秋二波+冬一波 / 2026SS 夏季补充：同款横版封面流。 */
       var aw25aFlow = createCoverFlow(document.getElementById('aw25aFlow'), {
-        items: WORKS[2].pages,
+        items: WORKS[5].pages,
         caption: function (item) { return { title: item.t, meta: 'PLO·CART 25-AW · 秋季陈列指引（第一波）' }; },
         onCenterClick: function (list, idx) { openLightbox(list, idx); }
       });
 
       var aw25bFlow = createCoverFlow(document.getElementById('aw25bFlow'), {
-        items: WORKS[3].pages,
+        items: WORKS[4].pages,
         caption: function (item) { return { title: item.t, meta: 'PLO·CART 25-AW · 秋冬陈列指引（秋二波+冬一波）' }; },
         onCenterClick: function (list, idx) { openLightbox(list, idx); }
       });
 
       var ss26Flow = createCoverFlow(document.getElementById('ss26Flow'), {
-        items: WORKS[4].pages,
+        items: WORKS[3].pages,
         caption: function (item) { return { title: item.t, meta: 'PLO·CART 2026SS · 夏季（补充）陈列指引' }; },
         onCenterClick: function (list, idx) { openLightbox(list, idx); }
       });
 
       /* 2026AW 秋一波：同款横版封面流。 */
       var aw26aFlow = createCoverFlow(document.getElementById('aw26aFlow'), {
-        items: WORKS[5].pages,
+        items: WORKS[2].pages,
         caption: function (item) { return { title: item.t, meta: 'PLO·CART 2026AW · 秋季陈列指引（秋一波）' }; },
         onCenterClick: function (list, idx) { openLightbox(list, idx); }
       });
