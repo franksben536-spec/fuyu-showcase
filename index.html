@@ -32,7 +32,7 @@
         --radius: 6px;
       }
       * { box-sizing: border-box; }
-      html { scroll-behavior: smooth; }
+      html { scroll-behavior: smooth; overflow-x: hidden; }
       body {
         margin: 0;
         font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
@@ -256,6 +256,7 @@
         position: relative; height: 560px;
         perspective: 1400px; perspective-origin: 50% 42%;
         touch-action: pan-y; cursor: grab; user-select: none; -webkit-user-select: none;
+        overflow: hidden;
       }
       .cf-stage.is-dragging { cursor: grabbing; }
       .cf-stage.is-dragging .cf-item { transition: none !important; }
