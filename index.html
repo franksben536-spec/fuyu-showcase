@@ -514,6 +514,12 @@
         { src: "images/img-27-navy-striped-seaside.webp", t: "衍生 · 海边条纹针织", catName: "衍生创作", alt: "模特穿藏青白条纹拉链针织衫内搭浅蓝衬衫与白色阔腿裤，戴墨镜站在海边的木栈道上" }
       ];
 
+      /* 封面流吃 480px 小图：images/plo-aw-01.jpg -> images/thumbs/plo-aw-01.jpg；
+         .webp 源统一转 .jpg（小图均为 .jpg）。点开放大仍用原图。 */
+      function thumbSrc(src) {
+        return src.replace(/^images\//, 'images/thumbs/').replace(/\.(jpe?g|webp)$/i, '.jpg');
+      }
+
       /* ---------- 3D 封面流（Cover Flow） ---------- */
       function createCoverFlow(root, options) {
         var stage = root.querySelector('.cf-stage');
@@ -541,7 +547,10 @@
             wrap.className = 'cf-img-wrap';
             var img = document.createElement('img');
             img.alt = item.alt || item.t; img.decoding = 'async'; img.draggable = false;
-            img.dataset.src = item.src;
+            img.dataset.src = thumbSrc(item.src);
+            img.dataset.full = item.src;
+            /* 小图万一缺失就回落到原图，不留空白卡片。 */
+            img.onerror = function () { if (img.getAttribute('src') !== img.dataset.full) img.src = img.dataset.full; };
             fig._img = img;
             wrap.appendChild(img);
             fig.appendChild(wrap);
@@ -565,7 +574,7 @@
         }
 
         /* 只加载焦点附近的图片：3D 变换下浏览器会把所有图都当可见、74 张全解码会把手机内置浏览器撑爆。
-           焦点 ±2 张内加载，超出 ±5 张的卸掉 src 释放内存。窗口收得小，翻多了也不会越积越卡。 */
+           焦点 ±2 张内加载小图，超出 ±3 张的卸掉 src 释放内存。窗口收得小，翻多了也不会越积越卡。 */
         function ensureSrcs() {
           var c = Math.round(centerF);
           cards.forEach(function (card, i) {
@@ -573,7 +582,7 @@
             if (!img) return;
             if (Math.abs(i - c) <= 2) {
               if (!img.getAttribute('src')) img.src = img.dataset.src;
-            } else if (Math.abs(i - c) > 5) {
+            } else if (Math.abs(i - c) > 3) {
               if (img.getAttribute('src')) img.removeAttribute('src');
             }
           });
