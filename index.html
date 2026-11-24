@@ -592,8 +592,8 @@
             card.style.transform = 'translate(-50%,-50%) translateX(' + x.toFixed(1) + 'px) translateZ(' + z.toFixed(0) + 'px) rotateY(' + rot.toFixed(1) + 'deg) scale(' + sc.toFixed(3) + ')';
             card.style.opacity = op.toFixed(2);
             card.style.zIndex = String(100 - Math.round(ad * 10));
-            /* 远处的卡片直接不画：opacity 0 的图层仍会被合成，visibility hidden 才真正省掉绘制。 */
-            card.style.visibility = ad > 3.5 ? 'hidden' : 'visible';
+            /* 远处的卡片直接 display:none：连盒子都不生成，既不撑宽页面也不占合成层；切回来时在边缘几乎透明，看不出闪现。 */
+            card.style.display = ad > 3.5 ? 'none' : '';
             card.style.pointerEvents = ad > 3.5 ? 'none' : '';
             card.classList.toggle('is-center', Math.round(centerF) === i && Math.abs(d) < 0.5);
           });
@@ -1032,7 +1032,7 @@
 
         /* 星系只画一次存到离屏画布：每帧只贴一张图 + 少量闪烁星，不会跟翻图抢主线程。 */
         function buildGalaxy() {
-          var dpr = Math.min(window.devicePixelRatio || 1, 2);
+          var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
           galaxy = document.createElement('canvas');
           galaxy.width = Math.round(W * dpr); galaxy.height = Math.round(H * dpr);
           var g = galaxy.getContext('2d');
@@ -1107,7 +1107,7 @@
         }
 
         function build() {
-          var dpr = Math.min(window.devicePixelRatio || 1, 2);
+          var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
           W = window.innerWidth; H = window.innerHeight;
           canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
           canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
