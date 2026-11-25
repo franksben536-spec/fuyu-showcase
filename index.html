@@ -296,6 +296,24 @@
       .cf-count { font-size: 12px; color: var(--ink-faint); margin-top: 6px; letter-spacing: .18em; }
       /* 横版指引流：标题与副标题都与封面/栏目标题重复，只留页码。 */
       .cf--landscape .cf-title, .cf--landscape .cf-meta { display: none; }
+      /* ---------- 陈列指引选项卡：列表进指引 ---------- */
+      .guide-list { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+      .guide-list.is-hidden, .guide-view.is-hidden { display: none; }
+      .guide-item {
+        display: flex; align-items: baseline; gap: 10px; text-align: left;
+        padding: 16px 18px; border: 1px solid var(--line); border-radius: var(--radius);
+        background: var(--surface); color: var(--ink); font: inherit; cursor: pointer;
+      }
+      .guide-item:hover { border-color: rgba(232, 200, 116, .5); }
+      .guide-item-t { font-weight: 600; font-size: 15px; letter-spacing: -.005em; }
+      .guide-item-m { font-size: 12px; color: var(--ink-faint); letter-spacing: .06em; white-space: nowrap; }
+      .guide-view-head { display: flex; align-items: baseline; gap: 14px; margin: 0 0 24px; }
+      .guide-view-t { font-size: 18px; font-weight: 600; letter-spacing: -.01em; margin: 0; }
+      .guide-back {
+        flex: none; border: 0; background: none; padding: 0;
+        color: var(--ink-faint); font: inherit; font-size: 14px; cursor: pointer;
+      }
+      .guide-back:hover { color: var(--ink); }
       .cf-btn {
         position: absolute; top: 46%; transform: translateY(-50%);
         width: 46px; height: 46px; border-radius: 50%;
@@ -380,69 +398,75 @@
         </div>
       </section>
 
-      <section class="block" aria-label="作品">
-        <div class="block-head"><h2>作品</h2></div>
-        <div class="coverflow cf--landscape" id="ploFlow" tabindex="0" role="region" aria-label="PLO·CART 2026AW 秋季陈列指引封面流">
-          <div class="cf-stage">
-            <button class="cf-btn cf-prev" type="button" aria-label="上一页">‹</button>
-            <button class="cf-btn cf-next" type="button" aria-label="下一页">›</button>
-          </div>
-          <div class="cf-caption"><div class="cf-title"></div><div class="cf-meta"></div><div class="cf-count"></div></div>
+      <section class="block" aria-label="陈列指引" id="guideSection">
+        <div class="block-head"><h2>陈列指引</h2></div>
+        <div class="guide-list" id="guideList">
+          <button class="guide-item" type="button" data-guide="ploFlow"><span class="guide-item-t">作品</span><span class="guide-item-m">36 页</span></button>
+          <button class="guide-item" type="button" data-guide="lookFlow"><span class="guide-item-t">形象搭配 LOOK</span><span class="guide-item-m">24 页</span></button>
+          <button class="guide-item" type="button" data-guide="aw26aFlow"><span class="guide-item-t">2026AW 陈列指引 · 秋一波</span><span class="guide-item-m">33 页</span></button>
+          <button class="guide-item" type="button" data-guide="ss26Flow"><span class="guide-item-t">2026SS 陈列指引 · 夏季补充</span><span class="guide-item-m">22 页</span></button>
+          <button class="guide-item" type="button" data-guide="aw25bFlow"><span class="guide-item-t">25-AW 陈列指引 · 秋二波+冬一波</span><span class="guide-item-m">24 页</span></button>
+          <button class="guide-item" type="button" data-guide="aw25aFlow"><span class="guide-item-t">25-AW 陈列指引 · 第一波</span><span class="guide-item-m">20 页</span></button>
         </div>
-      </section>
-
-      <section class="block" aria-label="形象搭配 LOOK">
-        <div class="block-head"><h2>形象搭配 LOOK</h2></div>
-        <div class="coverflow cf--landscape" id="lookFlow" tabindex="0" role="region" aria-label="PLO·CART 2026AW 形象搭配 LOOK 封面流">
-          <div class="cf-stage">
-            <button class="cf-btn cf-prev" type="button" aria-label="上一页">‹</button>
-            <button class="cf-btn cf-next" type="button" aria-label="下一页">›</button>
+        <div class="guide-view is-hidden" id="guideView-ploFlow">
+          <div class="guide-view-head"><button class="guide-back" type="button" data-guide-back>‹ 陈列指引</button><h3 class="guide-view-t">作品</h3></div>
+          <div class="coverflow cf--landscape" id="ploFlow" tabindex="0" role="region" aria-label="PLO·CART 2026AW 秋季陈列指引封面流">
+            <div class="cf-stage">
+              <button class="cf-btn cf-prev" type="button" aria-label="上一页">‹</button>
+              <button class="cf-btn cf-next" type="button" aria-label="下一页">›</button>
+            </div>
+            <div class="cf-caption"><div class="cf-title"></div><div class="cf-meta"></div><div class="cf-count"></div></div>
           </div>
-          <div class="cf-caption"><div class="cf-title"></div><div class="cf-meta"></div><div class="cf-count"></div></div>
         </div>
-      </section>
-
-      <section class="block" aria-label="2026AW 陈列指引 · 秋一波">
-        <div class="block-head"><h2>2026AW 陈列指引 · 秋一波</h2></div>
-        <div class="coverflow cf--landscape" id="aw26aFlow" tabindex="0" role="region" aria-label="PLO·CART 2026AW 秋季陈列指引（秋一波）封面流">
-          <div class="cf-stage">
-            <button class="cf-btn cf-prev" type="button" aria-label="上一页">‹</button>
-            <button class="cf-btn cf-next" type="button" aria-label="下一页">›</button>
+        <div class="guide-view is-hidden" id="guideView-lookFlow">
+          <div class="guide-view-head"><button class="guide-back" type="button" data-guide-back>‹ 陈列指引</button><h3 class="guide-view-t">形象搭配 LOOK</h3></div>
+          <div class="coverflow cf--landscape" id="lookFlow" tabindex="0" role="region" aria-label="PLO·CART 2026AW 形象搭配 LOOK 封面流">
+            <div class="cf-stage">
+              <button class="cf-btn cf-prev" type="button" aria-label="上一页">‹</button>
+              <button class="cf-btn cf-next" type="button" aria-label="下一页">›</button>
+            </div>
+            <div class="cf-caption"><div class="cf-title"></div><div class="cf-meta"></div><div class="cf-count"></div></div>
           </div>
-          <div class="cf-caption"><div class="cf-title"></div><div class="cf-meta"></div><div class="cf-count"></div></div>
         </div>
-      </section>
-
-      <section class="block" aria-label="2026SS 陈列指引 · 夏季补充">
-        <div class="block-head"><h2>2026SS 陈列指引 · 夏季补充</h2></div>
-        <div class="coverflow cf--landscape" id="ss26Flow" tabindex="0" role="region" aria-label="PLO·CART 2026SS 夏季（补充）陈列指引封面流">
-          <div class="cf-stage">
-            <button class="cf-btn cf-prev" type="button" aria-label="上一页">‹</button>
-            <button class="cf-btn cf-next" type="button" aria-label="下一页">›</button>
+        <div class="guide-view is-hidden" id="guideView-aw26aFlow">
+          <div class="guide-view-head"><button class="guide-back" type="button" data-guide-back>‹ 陈列指引</button><h3 class="guide-view-t">2026AW 陈列指引 · 秋一波</h3></div>
+          <div class="coverflow cf--landscape" id="aw26aFlow" tabindex="0" role="region" aria-label="PLO·CART 2026AW 秋季陈列指引（秋一波）封面流">
+            <div class="cf-stage">
+              <button class="cf-btn cf-prev" type="button" aria-label="上一页">‹</button>
+              <button class="cf-btn cf-next" type="button" aria-label="下一页">›</button>
+            </div>
+            <div class="cf-caption"><div class="cf-title"></div><div class="cf-meta"></div><div class="cf-count"></div></div>
           </div>
-          <div class="cf-caption"><div class="cf-title"></div><div class="cf-meta"></div><div class="cf-count"></div></div>
         </div>
-      </section>
-
-      <section class="block" aria-label="25-AW 陈列指引 · 秋二波+冬一波">
-        <div class="block-head"><h2>25-AW 陈列指引 · 秋二波+冬一波</h2></div>
-        <div class="coverflow cf--landscape" id="aw25bFlow" tabindex="0" role="region" aria-label="PLO·CART 25-AW 秋冬陈列指引（秋二波+冬一波）封面流">
-          <div class="cf-stage">
-            <button class="cf-btn cf-prev" type="button" aria-label="上一页">‹</button>
-            <button class="cf-btn cf-next" type="button" aria-label="下一页">›</button>
+        <div class="guide-view is-hidden" id="guideView-ss26Flow">
+          <div class="guide-view-head"><button class="guide-back" type="button" data-guide-back>‹ 陈列指引</button><h3 class="guide-view-t">2026SS 陈列指引 · 夏季补充</h3></div>
+          <div class="coverflow cf--landscape" id="ss26Flow" tabindex="0" role="region" aria-label="PLO·CART 2026SS 夏季（补充）陈列指引封面流">
+            <div class="cf-stage">
+              <button class="cf-btn cf-prev" type="button" aria-label="上一页">‹</button>
+              <button class="cf-btn cf-next" type="button" aria-label="下一页">›</button>
+            </div>
+            <div class="cf-caption"><div class="cf-title"></div><div class="cf-meta"></div><div class="cf-count"></div></div>
           </div>
-          <div class="cf-caption"><div class="cf-title"></div><div class="cf-meta"></div><div class="cf-count"></div></div>
         </div>
-      </section>
-
-      <section class="block" aria-label="25-AW 陈列指引 · 第一波">
-        <div class="block-head"><h2>25-AW 陈列指引 · 第一波</h2></div>
-        <div class="coverflow cf--landscape" id="aw25aFlow" tabindex="0" role="region" aria-label="PLO·CART 25-AW 秋季陈列指引（第一波）封面流">
-          <div class="cf-stage">
-            <button class="cf-btn cf-prev" type="button" aria-label="上一页">‹</button>
-            <button class="cf-btn cf-next" type="button" aria-label="下一页">›</button>
+        <div class="guide-view is-hidden" id="guideView-aw25bFlow">
+          <div class="guide-view-head"><button class="guide-back" type="button" data-guide-back>‹ 陈列指引</button><h3 class="guide-view-t">25-AW 陈列指引 · 秋二波+冬一波</h3></div>
+          <div class="coverflow cf--landscape" id="aw25bFlow" tabindex="0" role="region" aria-label="PLO·CART 25-AW 秋冬陈列指引（秋二波+冬一波）封面流">
+            <div class="cf-stage">
+              <button class="cf-btn cf-prev" type="button" aria-label="上一页">‹</button>
+              <button class="cf-btn cf-next" type="button" aria-label="下一页">›</button>
+            </div>
+            <div class="cf-caption"><div class="cf-title"></div><div class="cf-meta"></div><div class="cf-count"></div></div>
           </div>
-          <div class="cf-caption"><div class="cf-title"></div><div class="cf-meta"></div><div class="cf-count"></div></div>
+        </div>
+        <div class="guide-view is-hidden" id="guideView-aw25aFlow">
+          <div class="guide-view-head"><button class="guide-back" type="button" data-guide-back>‹ 陈列指引</button><h3 class="guide-view-t">25-AW 陈列指引 · 第一波</h3></div>
+          <div class="coverflow cf--landscape" id="aw25aFlow" tabindex="0" role="region" aria-label="PLO·CART 25-AW 秋季陈列指引（第一波）封面流">
+            <div class="cf-stage">
+              <button class="cf-btn cf-prev" type="button" aria-label="上一页">‹</button>
+              <button class="cf-btn cf-next" type="button" aria-label="下一页">›</button>
+            </div>
+            <div class="cf-caption"><div class="cf-title"></div><div class="cf-meta"></div><div class="cf-count"></div></div>
+          </div>
         </div>
       </section>
 
@@ -703,7 +727,9 @@
         build();
         return {
           setItems: function (list) { items = list.slice(); build(); },
-          goTo: goTo
+          goTo: goTo,
+          /* 选项卡里切出来时重新量宽重排：在 display:none 下建的流，卡片宽量出来是 0。 */
+          refresh: function () { measureStep(); layout(); }
         };
       }
 
@@ -1000,6 +1026,38 @@
         caption: function (item) { return { title: item.t, meta: 'PLO·CART 2026AW · 秋季陈列指引（秋一波）' }; },
         onCenterClick: function (list, idx) { openLightbox(list, idx); }
       });
+
+      /* 陈列指引选项卡：列表 → 点一个指引看它的封面流 → 返回回列表。 */
+      (function () {
+        var section = document.getElementById('guideSection');
+        if (!section) return;
+        var list = document.getElementById('guideList');
+        var flows = {
+          ploFlow: ploFlow, lookFlow: lookFlow, aw26aFlow: aw26aFlow,
+          ss26Flow: ss26Flow, aw25bFlow: aw25bFlow, aw25aFlow: aw25aFlow
+        };
+        function showGuide(id) {
+          list.classList.add('is-hidden');
+          Object.keys(flows).forEach(function (key) {
+            document.getElementById('guideView-' + key).classList.toggle('is-hidden', key !== id);
+          });
+          var flow = flows[id];
+          if (flow && flow.refresh) flow.refresh();
+        }
+        function showList() {
+          list.classList.remove('is-hidden');
+          Object.keys(flows).forEach(function (key) {
+            document.getElementById('guideView-' + key).classList.add('is-hidden');
+          });
+        }
+        list.addEventListener('click', function (e) {
+          var btn = e.target.closest('[data-guide]');
+          if (btn) showGuide(btn.getAttribute('data-guide'));
+        });
+        section.addEventListener('click', function (e) {
+          if (e.target.closest('[data-guide-back]')) showList();
+        });
+      })();
 
       /* 首图轮播：5 张横图每 5 秒淡入淡出切换，点圆点可手动切；切页隐藏时暂停，减动效时不自动播。 */
       (function () {
