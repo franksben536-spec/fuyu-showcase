@@ -510,7 +510,6 @@
         { src: "images/img-34-womens-puffer-479-light.jpg", t: "女款排骨羽绒服 · 浅灰 ¥479", cat: "outdoor", catName: "户外系列", alt: "女模特穿浅灰色排骨羽绒服内搭奶油色高领毛衣与卡其色阔腿裤，站在雪山湖畔的草甸上" },
         { src: "images/img-36-womens-cotton-479-a.jpg", t: "女款棉服 · ¥479", cat: "outdoor", catName: "户外系列", alt: "女模特穿米白色连帽棉服内搭奶油色高领毛衣与米白色阔腿裤，站在草甸上，身旁是一艘木船" },
         { src: "images/img-38-womens-fleece-vest-379-c.jpg", t: "女款羊毛绒马甲 · 木船 ¥379", cat: "outdoor", catName: "户外系列", alt: "女模特穿奶油色羊毛绒马甲内搭米白色高领针织衫与卡其色阔腿裤，坐在草甸上的木船里" },
-        { src: "images/img-40-womens-goose-down-799.jpg", t: "鹅绒羽绒服 · ¥799", cat: "outdoor", catName: "户外系列", alt: "女模特穿橄榄绿色民族风鹅绒羽绒服与米白色针织衫、卡其色阔腿裤，坐在湖畔的藤椅上" },
         { src: "images/img-41-womens-fleece-vest-379-d.jpg", t: "女款羊毛绒马甲 · 藤椅 ¥379", cat: "outdoor", catName: "户外系列", alt: "女模特穿奶油色羊毛绒马甲内搭米白色高领针织衫与卡其色阔腿裤，坐在湖畔的藤椅上" },
         { src: "images/img-37-mens-barn-down-559.jpg", t: "男士（巴恩风）羽绒服 · ¥559", cat: "retro", catName: "美式复古", alt: "男模特穿米白色巴恩风羽绒服内搭浅蓝衬衫与米白色长裤，戴墨镜靠在复古老爷车旁" },
         { src: "images/img-28-mens-vest-299.jpg", t: "男士立领马甲 · ¥299", cat: "outdoor", catName: "户外系列", alt: "男模特穿橄榄绿色立领马甲内搭米色绞花针织毛衣与卡其色长裤，靠在山谷草甸间的岩石上" },
@@ -732,7 +731,7 @@
         };
       }
 
-      /* 原图精选拆成三个模块：形象大片（不带价的场景大片 8 张）、朋友圈推广（带价的产品图 10 张）、Lookbook（影棚白底 12 张，含 3 张白底双人）。 */
+      /* 原图精选拆成三个模块：形象大片（不带价的场景大片 8 张）、朋友圈推广（带价的产品图 9 张）、Lookbook（影棚白底 12 张，含 3 张白底双人）。 */
       var HERO = LOOKS.filter(function (it) { return it.cat !== 'studio' && it.cat !== 'duo' && it.t.indexOf('¥') === -1; });
       var MOMENTS = LOOKS.filter(function (it) { return it.t.indexOf('¥') !== -1; });
       var LOOKBOOK = LOOKS.filter(function (it) { return it.cat === 'studio' || it.cat === 'duo'; });
