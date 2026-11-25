@@ -274,7 +274,7 @@
       }
       .cf--portrait .cf-img-wrap { aspect-ratio: 3 / 4; }
       .cf--landscape .cf-item { width: 440px; }
-      .cf--landscape .cf-img-wrap { aspect-ratio: 4 / 3; }
+      .cf--landscape .cf-img-wrap { aspect-ratio: 16 / 9; }
       .cf-item img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
       .cf--landscape .cf-item img { object-fit: contain; }
       .cf-halo {
@@ -294,6 +294,8 @@
       .cf-title { font-weight: 600; font-size: 15px; letter-spacing: -.005em; color: var(--ink); }
       .cf-meta { font-size: 12px; color: var(--ink-faint); margin-top: 4px; letter-spacing: .06em; }
       .cf-count { font-size: 12px; color: var(--ink-faint); margin-top: 6px; letter-spacing: .18em; }
+      /* 横版指引流：标题与副标题都与封面/栏目标题重复，只留页码。 */
+      .cf--landscape .cf-title, .cf--landscape .cf-meta { display: none; }
       .cf-btn {
         position: absolute; top: 46%; transform: translateY(-50%);
         width: 46px; height: 46px; border-radius: 50%;
