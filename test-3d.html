@@ -83,14 +83,26 @@
   .verdict { margin-top: 26px; font-size: 13px; color: #9aa3b5; line-height: 1.8; text-align: center; }
   @media (max-width: 760px) {
     .cf-stage { height: 420px; perspective: 1000px; }
-    .cf-stage.mode-new { perspective: 700px; }
+    .cf-stage.mode-new, .cf-stage.mode-thick { perspective: 700px; }
     .cf-item { width: min(62vw, 250px); top: 44%; }
     .cf-btn { width: 40px; height: 40px; font-size: 19px; }
     .cf-prev { left: 0; } .cf-next { right: 0; }
     .cf-caption { min-height: 80px; padding-top: 18px; }
   }
   @media (min-width: 761px) {
-    .cf-stage.mode-new { perspective: 900px; }
+    .cf-stage.mode-new, .cf-stage.mode-thick { perspective: 900px; }
+  }
+  /* 加厚透明：卡片左右两条半透明厚边，只有加厚模式才有。 */
+  .cf-stage.mode-thick .cf-item::before,
+  .cf-stage.mode-thick .cf-item::after {
+    content: ""; position: absolute; top: 0; height: 100%; width: 16px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, .42), rgba(190, 200, 220, .16) 55%, rgba(140, 150, 170, .34));
+    border-radius: 4px; pointer-events: none;
+  }
+  .cf-stage.mode-thick .cf-item::before { left: 0; transform-origin: left center; transform: rotateY(90deg); }
+  .cf-stage.mode-thick .cf-item::after { right: 0; transform-origin: right center; transform: rotateY(-90deg); }
+  .cf-stage.mode-thick .cf-item .cf-img-wrap {
+    box-shadow: 0 24px 60px rgba(0, 0, 0, .65), 0 0 0 1px rgba(255, 255, 255, .07);
   }
   @media (prefers-reduced-motion: reduce) {
     .cf-item { transition: none; }
@@ -101,11 +113,12 @@
 <body>
 <div class="wrap">
   <h1>封面流立体感测试</h1>
-  <p class="note">这是测试页，<b>正式站还没改</b>。左右滑、点箭头或点侧边图都能翻图。下面两个按钮可以来回对比：<b>现在的效果</b>就是网站上正在用的，<b>加强立体</b>是按视频里那种感觉调的。看完告诉我哪个更顺眼、翻起来卡不卡。</p>
+  <p class="note">这是测试页，<b>正式站还没改</b>。左右滑、点箭头或点侧边图都能翻图。下面三个按钮可以来回对比：<b>现在的效果</b>就是网站上正在用的，<b>加强立体</b>是按视频里那种感觉调的，<b>加厚透明</b>是每张图加了厚度、边上带透明的。看完告诉我哪个更顺眼、翻起来卡不卡。</p>
 
   <div class="mode-switch">
     <button id="modeOld" type="button">现在的效果</button>
-    <button id="modeNew" type="button" class="is-active">加强立体</button>
+    <button id="modeNew" type="button">加强立体</button>
+    <button id="modeThick" type="button" class="is-active">加厚透明</button>
   </div>
   <p class="params" id="params"></p>
 
@@ -121,7 +134,7 @@
     </div>
   </div>
 
-  <p class="verdict">觉得加强版可以的话，我就按这个参数改正式站；觉得过了、晕了，或者翻起来卡，也直接跟我说。</p>
+  <p class="verdict">觉得哪个版本好就告诉我，我按那个改正式站；觉得过了、晕了，或者翻起来卡，也直接跟我说。</p>
 </div>
 
 <script>
@@ -144,9 +157,11 @@
     old: { label: "现在的效果", stepRatio: 0.62, rotPer: 46, rotMax: 62, zPer: 130, scaleBase: 0.86,
            paramsText: "透视 1400 / 1000px · 每格斜 46°（最大 62°）· 每格后退 130px · 间距 62% 卡宽" },
     new: { label: "加强立体", stepRatio: 0.55, rotPer: 58, rotMax: 72, zPer: 180, scaleBase: 0.82,
-           paramsText: "透视 900 / 700px · 每格斜 58°（最大 72°）· 每格后退 180px · 间距 55% 卡宽" }
+           paramsText: "透视 900 / 700px · 每格斜 58°（最大 72°）· 每格后退 180px · 间距 55% 卡宽" },
+    thick: { label: "加厚透明", stepRatio: 0.55, rotPer: 58, rotMax: 72, zPer: 180, scaleBase: 0.82, fadePer: 0.30,
+           paramsText: "透视 900 / 700px · 每格斜 58°（最大 72°）· 每格后退 180px · 间距 55% 卡宽 · 厚度 16px 半透明边" }
   };
-  var mode = "new";
+  var mode = "thick";
 
   var root = document.getElementById("testFlow");
   var stage = document.getElementById("testStage");
@@ -156,6 +171,7 @@
   var paramsEl = document.getElementById("params");
   var oldBtn = document.getElementById("modeOld");
   var newBtn = document.getElementById("modeNew");
+  var thickBtn = document.getElementById("modeThick");
 
   var center = 0, centerF = 0, lastCap = -1;
   var cards = [];
@@ -223,7 +239,8 @@
       var z = -Math.min(ad, 4) * m.zPer;
       var rot = Math.max(-m.rotMax, Math.min(m.rotMax, d * -m.rotPer));
       var sc = Math.max(0.55, Math.pow(m.scaleBase, ad));
-      var op = ad > 3.5 ? 0 : Math.max(0.12, 1 - ad * 0.24);
+      var fade = m.fadePer || 0.24;
+      var op = ad > 3.5 ? 0 : Math.max(0.12, 1 - ad * fade);
       card.style.transform = "translate(-50%,-50%) translateX(" + x.toFixed(1) + "px) translateZ(" + z.toFixed(0) + "px) rotateY(" + rot.toFixed(1) + "deg) scale(" + sc.toFixed(3) + ")";
       card.style.opacity = op.toFixed(2);
       card.style.zIndex = String(100 - Math.round(ad * 10));
@@ -302,8 +319,10 @@
     if (mode === next) return;
     mode = next;
     stage.classList.toggle("mode-new", mode === "new");
+    stage.classList.toggle("mode-thick", mode === "thick");
     oldBtn.classList.toggle("is-active", mode === "old");
     newBtn.classList.toggle("is-active", mode === "new");
+    thickBtn.classList.toggle("is-active", mode === "thick");
     paramsEl.textContent = MODES[mode].paramsText;
     measureStep();
     layout();
@@ -312,11 +331,12 @@
 
   oldBtn.addEventListener("click", function () { setMode("old"); });
   newBtn.addEventListener("click", function () { setMode("new"); });
+  thickBtn.addEventListener("click", function () { setMode("thick"); });
 
   window.addEventListener("resize", function () { measureStep(); layout(); });
 
-  stage.classList.add("mode-new");
-  paramsEl.textContent = MODES.new.paramsText;
+  stage.classList.add("mode-thick");
+  paramsEl.textContent = MODES.thick.paramsText;
   measureStep();
   layout();
   updateCaption(true);
