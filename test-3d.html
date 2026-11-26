@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>封面流立体感测试</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; overflow-x: hidden; }
+  body {
+    background: #05070f radial-gradient(ellipse 90% 60% at 50% -10%, #16203d 0%, #05070f 60%);
+    color: #f2ede3; font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    min-height: 100vh;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 28px 16px 48px; }
+  h1 { font-size: 20px; margin: 0 0 6px; letter-spacing: .01em; }
+  .note { font-size: 13px; color: #9aa3b5; line-height: 1.7; margin: 0 0 18px; }
+  .note b { color: #e8c874; font-weight: 600; }
+
+  /* 旧版 / 加强版切换 */
+  .mode-switch { display: flex; gap: 8px; margin: 0 0 6px; }
+  .mode-switch button {
+    flex: 1; padding: 12px 0; border-radius: 12px; cursor: pointer;
+    border: 1px solid rgba(232, 200, 116, .35); background: rgba(255, 255, 255, .04);
+    color: #cfd4de; font: inherit; font-size: 15px;
+  }
+  .mode-switch button.is-active {
+    background: rgba(212, 175, 55, .22); border-color: rgba(232, 200, 116, .8); color: #f5d67b;
+  }
+  .params { font-size: 12px; color: #8b93a5; text-align: center; margin: 0 0 10px; letter-spacing: .02em; }
+
+  /* ---------- 3D 封面流（与正式站同一套算法，只把参数换成两档） ---------- */
+  .coverflow { position: relative; margin-top: 8px; outline: none; overflow: hidden; }
+  .cf-stage {
+    position: relative; height: 520px;
+    perspective: 1400px; perspective-origin: 50% 42%;
+    touch-action: pan-y; cursor: grab; user-select: none; -webkit-user-select: none;
+  }
+  .cf-stage.is-dragging { cursor: grabbing; }
+  .cf-stage.is-dragging .cf-item { transition: none !important; }
+  .cf-item {
+    position: absolute; left: 50%; top: 46%;
+    width: 300px; margin: 0;
+    transform-style: preserve-3d;
+    transition: transform .55s cubic-bezier(.22, .9, .28, 1), opacity .55s ease, filter .55s ease;
+  }
+  .cf-item .cf-img-wrap {
+    position: relative; border-radius: 14px; overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, .1);
+    background: #0d1322;
+    box-shadow: 0 18px 44px rgba(0, 0, 0, .55);
+    aspect-ratio: 3 / 4;
+  }
+  .cf-item img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+  .cf-halo {
+    position: absolute; inset: -22%;
+    background: radial-gradient(ellipse at center, rgba(245, 214, 123, .5) 0%, rgba(212, 175, 55, .28) 42%, rgba(212, 175, 55, .08) 62%, transparent 72%);
+    filter: blur(22px);
+    opacity: 0; transition: opacity .6s ease;
+    pointer-events: none; z-index: -1;
+  }
+  .cf-item.is-center .cf-halo { opacity: 1; animation: halo-breathe 4.5s ease-in-out infinite alternate; }
+  @keyframes halo-breathe { from { opacity: .75; } to { opacity: 1; } }
+  .cf-item.is-center .cf-img-wrap {
+    border-color: rgba(232, 200, 116, .65);
+    box-shadow: 0 0 26px rgba(232, 200, 116, .42), 0 0 110px rgba(212, 175, 55, .3), 0 30px 70px rgba(0, 0, 0, .6);
+  }
+  .cf-caption { text-align: center; padding: 22px 16px 0; min-height: 86px; }
+  .cf-title { font-weight: 600; font-size: 15px; color: #f2ede3; }
+  .cf-meta { font-size: 12px; color: #8b93a5; margin-top: 4px; letter-spacing: .06em; }
+  .cf-count { font-size: 12px; color: #8b93a5; margin-top: 6px; letter-spacing: .18em; }
+  .cf-btn {
+    position: absolute; top: 46%; transform: translateY(-50%);
+    width: 46px; height: 46px; border-radius: 50%;
+    border: 1px solid rgba(232, 200, 116, .4); background: rgba(5, 7, 15, .55);
+    color: #e8c874; font-size: 22px; line-height: 1; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    backdrop-filter: blur(6px); z-index: 200;
+  }
+  .cf-btn:active { transform: translateY(-50%) scale(.94); }
+  .cf-prev { left: 6px; }
+  .cf-next { right: 6px; }
+  .verdict { margin-top: 26px; font-size: 13px; color: #9aa3b5; line-height: 1.8; text-align: center; }
+  @media (max-width: 760px) {
+    .cf-stage { height: 420px; perspective: 1000px; }
+    .cf-stage.mode-new { perspective: 700px; }
+    .cf-item { width: min(62vw, 250px); top: 44%; }
+    .cf-btn { width: 40px; height: 40px; font-size: 19px; }
+    .cf-prev { left: 0; } .cf-next { right: 0; }
+    .cf-caption { min-height: 80px; padding-top: 18px; }
+  }
+  @media (min-width: 761px) {
+    .cf-stage.mode-new { perspective: 900px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cf-item { transition: none; }
+    .cf-item.is-center .cf-halo { animation: none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>封面流立体感测试</h1>
+  <p class="note">这是测试页，<b>正式站还没改</b>。左右滑、点箭头或点侧边图都能翻图。下面两个按钮可以来回对比：<b>现在的效果</b>就是网站上正在用的，<b>加强立体</b>是按视频里那种感觉调的。看完告诉我哪个更顺眼、翻起来卡不卡。</p>
+
+  <div class="mode-switch">
+    <button id="modeOld" type="button">现在的效果</button>
+    <button id="modeNew" type="button" class="is-active">加强立体</button>
+  </div>
+  <p class="params" id="params"></p>
+
+  <div class="coverflow" id="testFlow" tabindex="0" role="region" aria-label="封面流立体感测试">
+    <div class="cf-stage" id="testStage">
+      <button class="cf-btn cf-prev" id="prevBtn" type="button" aria-label="上一张">‹</button>
+      <button class="cf-btn cf-next" id="nextBtn" type="button" aria-label="下一张">›</button>
+    </div>
+    <div class="cf-caption">
+      <div class="cf-title" id="capTitle"></div>
+      <div class="cf-meta" id="capMeta"></div>
+      <div class="cf-count" id="capCount"></div>
+    </div>
+  </div>
+
+  <p class="verdict">觉得加强版可以的话，我就按这个参数改正式站；觉得过了、晕了，或者翻起来卡，也直接跟我说。</p>
+</div>
+
+<script>
+(function () {
+  var ITEMS = [
+    { src: "images/img-01-d13970.jpg", t: "马场骑士风" },
+    { src: "images/img-02-9fe1f6.jpg", t: "雪山滑雪服 · 明黄" },
+    { src: "images/img-03-3b29db.jpg", t: "城堡前的皮草背心" },
+    { src: "images/img-04-9f252a.jpg", t: "湖畔露台 · 麂皮夹克" },
+    { src: "images/img-05-5dbffd.jpg", t: "菱格针织 · 雪山露台" },
+    { src: "images/img-06-ace96a.jpg", t: "菱格针织 · 城市街景" },
+    { src: "images/img-07-437036.jpg", t: "米白粗花呢 · 巴黎街角" },
+    { src: "images/img-08-931599.jpg", t: "牛仔背心 · 西部公路" },
+    { src: "images/img-09-fc7e66.jpg", t: "费尔岛针织背心" },
+    { src: "images/img-10-148b7c.jpg", t: "海军条纹拉链针织" }
+  ];
+
+  /* 两档参数：OLD = 正式站现在用的；NEW = 加强立体。 */
+  var MODES = {
+    old: { label: "现在的效果", stepRatio: 0.62, rotPer: 46, rotMax: 62, zPer: 130, scaleBase: 0.86,
+           paramsText: "透视 1400 / 1000px · 每格斜 46°（最大 62°）· 每格后退 130px · 间距 62% 卡宽" },
+    new: { label: "加强立体", stepRatio: 0.55, rotPer: 58, rotMax: 72, zPer: 180, scaleBase: 0.82,
+           paramsText: "透视 900 / 700px · 每格斜 58°（最大 72°）· 每格后退 180px · 间距 55% 卡宽" }
+  };
+  var mode = "new";
+
+  var root = document.getElementById("testFlow");
+  var stage = document.getElementById("testStage");
+  var titleEl = document.getElementById("capTitle");
+  var metaEl = document.getElementById("capMeta");
+  var countEl = document.getElementById("capCount");
+  var paramsEl = document.getElementById("params");
+  var oldBtn = document.getElementById("modeOld");
+  var newBtn = document.getElementById("modeNew");
+
+  var center = 0, centerF = 0, lastCap = -1;
+  var cards = [];
+  var stepVal = 180;
+  var downX = 0, downCenter = 0, moved = 0, activePointer = null, isDown = false;
+  var layoutQueued = false, suppressClickUntil = 0;
+
+  function thumbSrc(src) {
+    return src.replace(/^images\//, "images/thumbs/").replace(/\.(jpe?g|webp)$/i, ".jpg");
+  }
+
+  ITEMS.forEach(function (item, i) {
+    var fig = document.createElement("figure");
+    fig.className = "cf-item";
+    fig.setAttribute("role", "button");
+    fig.setAttribute("aria-label", item.t);
+    var halo = document.createElement("div");
+    halo.className = "cf-halo";
+    fig.appendChild(halo);
+    var wrap = document.createElement("div");
+    wrap.className = "cf-img-wrap";
+    var img = document.createElement("img");
+    img.alt = item.t; img.decoding = "async"; img.draggable = false;
+    img.dataset.src = thumbSrc(item.src);
+    img.dataset.full = item.src;
+    img.onerror = function () { if (img.getAttribute("src") !== img.dataset.full) img.src = img.dataset.full; };
+    fig._img = img;
+    wrap.appendChild(img);
+    fig.appendChild(wrap);
+    fig.addEventListener("click", function () {
+      if (Date.now() < suppressClickUntil) return;
+      goTo(i);
+    });
+    stage.appendChild(fig);
+    cards.push(fig);
+  });
+
+  function measureStep() {
+    var cw = cards.length ? cards[0].offsetWidth : 280;
+    stepVal = Math.max(120, Math.min(cw * MODES[mode].stepRatio, stage.clientWidth * 0.44));
+  }
+
+  /* 只加载焦点附近的图片，远处的卸掉 src：和正式站一样的手机防护。 */
+  function ensureSrcs() {
+    var c = Math.round(centerF);
+    cards.forEach(function (card, i) {
+      var img = card._img;
+      if (!img) return;
+      if (Math.abs(i - c) <= 2) {
+        if (!img.getAttribute("src")) img.src = img.dataset.src;
+      } else if (Math.abs(i - c) > 3) {
+        if (img.getAttribute("src")) img.removeAttribute("src");
+      }
+    });
+  }
+
+  function layout() {
+    if (!cards.length) return;
+    var m = MODES[mode];
+    var s = stepVal;
+    cards.forEach(function (card, i) {
+      var d = i - centerF;
+      var ad = Math.abs(d);
+      var x = d * s;
+      var z = -Math.min(ad, 4) * m.zPer;
+      var rot = Math.max(-m.rotMax, Math.min(m.rotMax, d * -m.rotPer));
+      var sc = Math.max(0.55, Math.pow(m.scaleBase, ad));
+      var op = ad > 3.5 ? 0 : Math.max(0.12, 1 - ad * 0.24);
+      card.style.transform = "translate(-50%,-50%) translateX(" + x.toFixed(1) + "px) translateZ(" + z.toFixed(0) + "px) rotateY(" + rot.toFixed(1) + "deg) scale(" + sc.toFixed(3) + ")";
+      card.style.opacity = op.toFixed(2);
+      card.style.zIndex = String(100 - Math.round(ad * 10));
+      card.style.display = ad > 3.5 ? "none" : "";
+      card.style.pointerEvents = ad > 3.5 ? "none" : "";
+      card.classList.toggle("is-center", Math.round(centerF) === i && Math.abs(d) < 0.5);
+    });
+    ensureSrcs();
+  }
+
+  function queueLayout() {
+    if (layoutQueued) return;
+    layoutQueued = true;
+    requestAnimationFrame(function () {
+      layoutQueued = false;
+      layout();
+      updateCaption(false);
+    });
+  }
+
+  function updateCaption(force) {
+    var idx = Math.round(centerF);
+    if (!ITEMS.length || (idx === lastCap && !force)) return;
+    lastCap = idx;
+    titleEl.textContent = ITEMS[idx].t;
+    metaEl.textContent = MODES[mode].label;
+    countEl.textContent = (idx + 1) + " / " + ITEMS.length;
+  }
+
+  function goTo(i) {
+    center = Math.max(0, Math.min(ITEMS.length - 1, i));
+    centerF = center;
+    layout();
+    updateCaption(true);
+  }
+  function stepBy(d) { goTo(center + d); }
+
+  document.getElementById("prevBtn").addEventListener("click", function () { stepBy(-1); });
+  document.getElementById("nextBtn").addEventListener("click", function () { stepBy(1); });
+
+  root.addEventListener("keydown", function (e) {
+    if (e.key === "ArrowLeft") { e.preventDefault(); stepBy(-1); }
+    if (e.key === "ArrowRight") { e.preventDefault(); stepBy(1); }
+  });
+
+  stage.addEventListener("pointerdown", function (e) {
+    isDown = true; activePointer = e.pointerId;
+    downX = e.clientX; downCenter = centerF; moved = 0;
+    stage.classList.add("is-dragging");
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", endDrag);
+    window.addEventListener("pointercancel", endDrag);
+  });
+
+  function onMove(e) {
+    if (!isDown || e.pointerId !== activePointer) return;
+    var dx = e.clientX - downX;
+    moved = Math.max(moved, Math.abs(dx));
+    centerF = downCenter - dx / stepVal;
+    centerF = Math.max(-0.3, Math.min(ITEMS.length - 1 + 0.3, centerF));
+    queueLayout();
+  }
+
+  function endDrag() {
+    if (!isDown) return;
+    isDown = false;
+    stage.classList.remove("is-dragging");
+    window.removeEventListener("pointermove", onMove);
+    window.removeEventListener("pointerup", endDrag);
+    window.removeEventListener("pointercancel", endDrag);
+    if (moved > 8) suppressClickUntil = Date.now() + 300;
+    goTo(Math.round(centerF));
+  }
+
+  function setMode(next) {
+    if (mode === next) return;
+    mode = next;
+    stage.classList.toggle("mode-new", mode === "new");
+    oldBtn.classList.toggle("is-active", mode === "old");
+    newBtn.classList.toggle("is-active", mode === "new");
+    paramsEl.textContent = MODES[mode].paramsText;
+    measureStep();
+    layout();
+    updateCaption(true);
+  }
+
+  oldBtn.addEventListener("click", function () { setMode("old"); });
+  newBtn.addEventListener("click", function () { setMode("new"); });
+
+  window.addEventListener("resize", function () { measureStep(); layout(); });
+
+  stage.classList.add("mode-new");
+  paramsEl.textContent = MODES.new.paramsText;
+  measureStep();
+  layout();
+  updateCaption(true);
+})();
+</script>
+</body>
+</html>
