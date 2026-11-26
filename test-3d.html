@@ -104,6 +104,15 @@
   .cf-stage.mode-thick .cf-item .cf-img-wrap {
     box-shadow: 0 24px 60px rgba(0, 0, 0, .65), 0 0 0 1px rgba(255, 255, 255, .07);
   }
+  /* 底层垫板：每张图底下垫一块半透明的板子，往右、下错开，正对着的中间卡片也能看到一圈厚度。 */
+  .cf-item .cf-slab { display: none; }
+  .cf-stage.mode-thick .cf-item .cf-slab {
+    display: block; position: absolute; inset: 0; border-radius: 14px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, .30), rgba(190, 200, 220, .12));
+    border: 1px solid rgba(255, 255, 255, .18);
+    transform: translateZ(-16px) translate(12px, 12px);
+    pointer-events: none;
+  }
   @media (prefers-reduced-motion: reduce) {
     .cf-item { transition: none; }
     .cf-item.is-center .cf-halo { animation: none; }
@@ -113,7 +122,7 @@
 <body>
 <div class="wrap">
   <h1>封面流立体感测试</h1>
-  <p class="note">这是测试页，<b>正式站还没改</b>。左右滑、点箭头或点侧边图都能翻图。下面三个按钮可以来回对比：<b>现在的效果</b>就是网站上正在用的，<b>加强立体</b>是按视频里那种感觉调的，<b>加厚透明</b>是每张图加了厚度、边上带透明的。看完告诉我哪个更顺眼、翻起来卡不卡。</p>
+  <p class="note">这是测试页，<b>正式站还没改</b>。左右滑、点箭头或点侧边图都能翻图。下面三个按钮可以来回对比：<b>现在的效果</b>就是网站上正在用的，<b>加强立体</b>是按视频里那种感觉调的，<b>加厚透明</b>是每张图加了厚度、边上带透明，中间那张也能看到一圈厚度。看完告诉我哪个更顺眼、翻起来卡不卡。</p>
 
   <div class="mode-switch">
     <button id="modeOld" type="button">现在的效果</button>
@@ -159,7 +168,7 @@
     new: { label: "加强立体", stepRatio: 0.55, rotPer: 58, rotMax: 72, zPer: 180, scaleBase: 0.82,
            paramsText: "透视 900 / 700px · 每格斜 58°（最大 72°）· 每格后退 180px · 间距 55% 卡宽" },
     thick: { label: "加厚透明", stepRatio: 0.55, rotPer: 58, rotMax: 72, zPer: 180, scaleBase: 0.82, fadePer: 0.30,
-           paramsText: "透视 900 / 700px · 每格斜 58°（最大 72°）· 每格后退 180px · 间距 55% 卡宽 · 厚度 16px 半透明边" }
+           paramsText: "透视 900 / 700px · 每格斜 58°（最大 72°）· 每格后退 180px · 间距 55% 卡宽 · 16px 半透明厚边 + 底层垫板" }
   };
   var mode = "thick";
 
@@ -191,6 +200,9 @@
     var halo = document.createElement("div");
     halo.className = "cf-halo";
     fig.appendChild(halo);
+    var slab = document.createElement("div");
+    slab.className = "cf-slab";
+    fig.appendChild(slab);
     var wrap = document.createElement("div");
     wrap.className = "cf-img-wrap";
     var img = document.createElement("img");
